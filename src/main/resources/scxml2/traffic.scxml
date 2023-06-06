@@ -1,0 +1,54 @@
+<scxml initial="Aalborg" name="0" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=561.34 h=513  -->
+    <datamodel>
+        <data expr="0" id="T"></data>
+        <data expr="0" id="retryTrainCount"></data>
+    </datamodel>
+    <state id="Aalborg"><!--   node-size-and-position x=368 y=43 w=75 h=75  -->
+        <onexit>
+            <assign expr="0" location="T"></assign>
+        </onexit>
+        <transition cond="0 &lt;= T and T &lt;= 2" event="car" target="Car"></transition>
+        <transition cond="0 &lt;= T and T &lt;= 2" event="bike"
+                    target="Bike"><!--   edge-path [Bike]  x=440.5 y=205.5  --></transition>
+        <transition cond="0 &lt;= T and T &lt;= 2" event="train" target="Train"></transition>
+    </state>
+    <state id="Bike"><!--   node-size-and-position x=440 y=293 w=75 h=75  -->
+        <transition cond="42 &lt;= T and T &lt;= 45" event="bike_end" target="Sydney"></transition>
+    </state>
+    <state id="Car"><!--   node-size-and-position x=170 y=168 w=75 h=75  -->
+        <transition cond="T == 0" event="car_easy" target="Easy"></transition>
+        <transition cond="T == 0" event="car_heavy" target="Heavy"></transition>
+    </state>
+    <state id="GoBack"><!--   node-size-and-position x=421 y=418 w=75 h=75  -->
+        <transition cond="T == 0" event="back_back"
+                    target="Aalborg"><!--   edge-path [Aalborg]  x=545.5 y=330.5 x=474.5 y=205.5  --></transition>
+    </state>
+    <state id="Wait"><!--   node-size-and-position x=335 y=293 w=75 h=75  -->
+        <onexit>
+            <assign expr="0" location="T"></assign>
+            <assign expr="retryTrainCount + 1" location="retryTrainCount"></assign>
+        </onexit>
+        <transition cond="0 &lt;= T and T &lt;= 2" event="train_wait_back" target="GoBack"></transition>
+        <transition cond="0 &lt;= T and T &lt;= 2" event="train_wait_train"
+                    target="Train"><!--   edge-path [Train]  x=363.5 y=268  --></transition>
+    </state>
+    <state id="Easy"><!--   node-size-and-position x=20 y=293 w=75 h=75  -->
+        <transition cond="T == 20" event="car_easy_end" target="Sydney"></transition>
+    </state>
+    <state id="Heavy"><!--   node-size-and-position x=125 y=293 w=75 h=75  -->
+        <transition cond="T == 140" event="car_heavy_end" target="Sydney"></transition>
+    </state>
+    <state id="Train"><!--   node-size-and-position x=336 y=168 w=75 h=75  -->
+        <onexit>
+            <assign expr="0" location="T"></assign>
+        </onexit>
+        <transition cond="4 &lt;= T and T &lt;= 6" event="train_go" target="Go"></transition>
+        <transition cond="4 &lt;= T and T &lt;= 6" event="train_wait"
+                    target="Wait"><!--   edge-path [Wait]  x=383.5 y=268  --></transition>
+    </state>
+    <state id="Go"><!--   node-size-and-position x=230 y=293 w=75 h=75  -->
+        <transition cond="T == 35" event="train_go_end" target="Sydney"></transition>
+    </state>
+    <final id="Sydney"><!--   node-size-and-position x=177 y=418 w=75 h=75  --></final>
+</scxml>

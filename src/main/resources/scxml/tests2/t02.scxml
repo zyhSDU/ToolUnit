@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<scxml initial="Airplane_Engines" name="Scxml" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
+	<parallel id="Airplane_Engines">
+		<state id="Engine_1" initial="Engine_1_Off">
+			<state id="Engine_1_Off">
+				<transition event="Start.1" target="Engine_1_On"><!--   edge-path [Engine_1_On]  x=83 y=142.5  --></transition>
+			</state>
+			<state id="Engine_1_On">
+				<transition event="Shutdown.1" target="Engine_1_Off"><!--   edge-path [Engine_1_Off]  x=63 y=142.5  --></transition>
+			</state>
+		</state>
+		<state id="Engine_2" initial="Engine_2_Off">
+			<state id="Engine_2_Off">
+				<transition event="Start.2" target="Engine_2_On"><!--   edge-path [Engine_2_On]  x=83 y=142.5  --></transition>
+			</state>
+			<state id="Engine_2_On">
+				<transition event="Shutdown.2" target="Engine_2_Off"><!--   edge-path [Engine_2_Off]  x=63 y=142.5  --></transition>
+			</state>
+		</state>
+	</parallel>
+</scxml>

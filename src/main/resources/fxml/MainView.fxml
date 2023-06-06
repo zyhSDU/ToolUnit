@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainView">
+    <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+             AnchorPane.topAnchor="0.0">
+        <Tab fx:id="mathTab" text="mathView">
+            <fx:include fx:id="mathView" source="tab/MathView.fxml"/>
+        </Tab>
+        <Tab fx:id="logTab" text="logView">
+            <fx:include fx:id="logView" source="tab/LogView.fxml"/>
+        </Tab>
+        <Tab fx:id="stringTab" text="stringView">
+            <fx:include fx:id="stringView" source="tab/StringView.fxml"/>
+        </Tab>
+        <Tab fx:id="fileUtilTab" text="fileUtilView">
+            <fx:include fx:id="fileUtilView" source="tab/FileUtilView.fxml"/>
+        </Tab>
+        <Tab text="Untitled Tab 2">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+        </Tab>
+    </TabPane>
+</AnchorPane>

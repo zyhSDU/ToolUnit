@@ -1,0 +1,37 @@
+<scxml version="1.0" xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=452.39 h=514  -->
+    <datamodel>
+        <data expr="0" id="time"></data>
+        <data expr="0" id="globalTime"></data>
+    </datamodel>
+    <parallel id="p"><!--   node-size-and-position x=20 y=43 w=412.39 h=451  -->
+        <state id="t" initial="reset"><!--   node-size-and-position x=20 y=43 w=162.78 h=388  -->
+            <state id="reset"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+                <transition event="start" target="running"><!--   edge-path [running]  x=61 y=142.5  --></transition>
+            </state>
+            <state id="running"><!--   node-size-and-position x=20 y=168 w=75 h=75  -->
+                <transition event="time">
+                    <assign expr="time + 1" location="time"></assign>
+                </transition>
+                <transition event="stop" target="stopped"><!--   edge-path [stopped]  x=73 y=268  --></transition>
+                <transition event="reset" target="reset">
+                    <assign expr="0" location="time"></assign>
+                    <!--   edge-path [reset]  x=41 y=142.5  -->
+                </transition>
+            </state>
+            <state id="stopped"><!--   node-size-and-position x=20 y=293 w=75 h=75  -->
+                <transition event="start" target="running"><!--   edge-path [running]  x=53 y=268  --></transition>
+                <transition event="reset" target="reset">
+                    <assign expr="0" location="time"></assign>
+                    <!--   edge-path [reset]  x=125.5 y=205.5  -->
+                </transition>
+            </state>
+        </state>
+        <state id="g" initial="gg"><!--   node-size-and-position x=242.39 y=43 w=150 h=138  -->
+            <state id="gg"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+                <transition event="time">
+                    <assign expr="globalTime + 1" location="globalTime"></assign>
+                </transition>
+            </state>
+        </state>
+    </parallel>
+</scxml>

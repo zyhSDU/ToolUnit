@@ -1,0 +1,13 @@
+<scxml initial="new_node28" name="atm" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=370 h=639  -->
+    <datamodel>
+    </datamodel>
+    <state id="new_node28" initial="n1"><!--   node-size-and-position x=90 y=69 w=75 h=75  -->
+        <transition target="new_node30" event="t1"></transition>
+        <state id="n1" initial="n2">
+            <final id="n2">
+            </final>
+        </state>
+    </state>
+    <final id="new_node30"><!--   node-size-and-position x=96 y=310 w=75 h=75  --></final>
+</scxml>

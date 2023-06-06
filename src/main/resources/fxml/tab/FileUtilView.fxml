@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane
+        prefHeight="800.0" prefWidth="600.0"
+        xmlns="http://javafx.com/javafx/10.0.2-internal"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="view.tab.FileUtilView"
+>
+    <SplitPane dividerPositions="0.4, 0.7" prefHeight="600.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <Button fx:id="button_selectFile" mnemonicParsing="false" text="选择文件"/>
+                <TextField fx:id="textField_filePath"/>
+                <TreeTableView fx:id="treeTableView_fileTree" prefHeight="600.0" prefWidth="276.0">
+                    <columns>
+                        <TreeTableColumn prefWidth="400.0" text="文件名"/>
+                        <TreeTableColumn prefWidth="100.0" text="是否是文件夹"/>
+                    </columns>
+                </TreeTableView>
+            </VBox>
+        </AnchorPane>
+        <AnchorPane prefHeight="200.0" prefWidth="400.0">
+            <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <Label fx:id="label_fileName" text="Label"/>
+                <TextArea fx:id="textArea_fileContent" prefHeight="500.0" prefWidth="200.0">
+                    <contextMenu>
+                        <ContextMenu></ContextMenu>
+                    </contextMenu>
+                </TextArea>
+                <ImageView fx:id="imageView_fileContent" fitHeight="800.0" fitWidth="400.0"
+                           pickOnBounds="true" preserveRatio="true"/>
+            </VBox>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <HBox spacing="10">
+                    <CheckBox fx:id="checkBox_fileName" text="文件名" selected="true"/>
+                    <CheckBox fx:id="checkBox_fileContent" text="文件内容"/>
+                </HBox>
+                <TextField fx:id="textField_replaceFrom"/>
+                <Label text="替换为"/>
+                <TextField fx:id="textField_replaceTo"/>
+                <Button fx:id="button_replace" mnemonicParsing="false" text="确认替换"/>
+                <Label text="log打印："/>
+                <TextArea fx:id="textArea_log" prefHeight="1000.0" prefWidth="276.0"/>
+            </VBox>
+        </AnchorPane>
+    </SplitPane>
+</AnchorPane>

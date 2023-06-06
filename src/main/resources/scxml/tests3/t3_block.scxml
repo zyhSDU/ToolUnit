@@ -1,0 +1,30 @@
+<scxml initial="00" name="0" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=155 h=451  -->
+    <datamodel>
+        <data id="t1" expr="0" />
+        <data id="t2" expr="0" />
+    </datamodel>
+    <state id="00" initial="000"><!--   node-size-and-position x=20 y=43 w=115 h=263  -->
+        <onentry>
+            <log expr="log:hello-s00"/>
+        </onentry>
+        <transition event="e2" target="01"></transition>
+        <state id="000"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+            <onentry>
+                <log expr="log:hello-s000"/>
+            </onentry>
+            <transition event="e1" target="001">
+            </transition>
+        </state>
+        <final id="001"><!--   node-size-and-position x=20 y=168 w=75 h=75  -->
+            <onentry>
+                <log expr="log:hello-s001"/>
+            </onentry>
+        </final>
+    </state>
+    <final id="01"><!--   node-size-and-position x=40 y=356 w=75 h=75  -->
+        <onentry>
+            <log expr="log:hello-s01"/>
+        </onentry>
+    </final>
+</scxml>

@@ -1,0 +1,413 @@
+package helper.base
+
+import helper.base.ConstraintHelper.CompareOperator.Companion.aCOODLHM
+import helper.base.ConstraintHelper.CompositeConstraint.Expand.toCompositeConstraint
+import helper.base.ConstraintHelper.Expand.StringListExpand.toVar0Double
+import helper.base.ConstraintHelper.Expand.StringListExpand.toVar0String
+import helper.base.ConstraintHelper.JoinOperator.Companion.andOp
+
+object ConstraintHelper {
+    class CompareOperator(
+        val name: String,
+        val meetFun: (Double, Double) -> Boolean,
+    ) {
+        override fun toString(): String {
+            return name
+        }
+
+        companion object {
+            val eOp = CompareOperator("=") { v1, v2 -> v1 == v2 }
+            val lOp = CompareOperator("<") { v1, v2 -> v1 < v2 }
+            val gOp = CompareOperator(">") { v1, v2 -> v1 > v2 }
+            val leOp = CompareOperator("<=") { v1, v2 -> v1 <= v2 }
+            val geOp = CompareOperator(">=") { v1, v2 -> v1 >= v2 }
+
+            //theCompareOperatorOppositeDirectionStringLHM
+            @Suppress("SpellCheckingInspection")
+            val aCOODLHM = LinkedHashMap<CompareOperator, String>().also {
+                it[eOp] = eOp.name
+                it[lOp] = gOp.name
+                it[gOp] = lOp.name
+                it[leOp] = geOp.name
+                it[geOp] = leOp.name
+            }
+        }
+    }
+
+    class JoinOperator(
+        val name: String,
+        val meetFun: (
+            CompositeConstraint,
+            CompositeConstraint,
+            LinkedHashMap<String, Double>
+        ) -> Boolean
+    ) {
+        companion object {
+            val andOp = JoinOperator("and") { c1, c2, vars ->
+                c1.meet(vars) && c2.meet(vars)
+            }
+            val orOp = JoinOperator("or") { c1, c2, vars ->
+                c1.meet(vars) || c2.meet(vars)
+            }
+        }
+    }
+
+    //0or1
+    interface N0N1Constraint {
+        fun meet(
+            vars: LinkedHashMap<String, Double>?
+        ): Boolean
+    }
+
+    //1or2
+    //其中var相同
+    interface N1N2Constraint
+
+    class N0Constraint(
+        val boolean: Boolean,
+    ) : N0N1Constraint {
+        override fun meet(vars: LinkedHashMap<String, Double>?): Boolean {
+            return boolean
+        }
+    }
+
+    class N1Constraint(
+        val vs: ArrayList<String>,
+        val c: CompareOperator,
+        val d: Double,
+    ) : N0N1Constraint, N1N2Constraint {
+        override fun meet(
+            vars: LinkedHashMap<String, Double>?
+        ): Boolean {
+            if (vars == null) throw IllegalArgumentException()
+            return c.meetFun(
+                vs.toVar0Double(vars),
+                d,
+            )
+        }
+
+        override fun toString(): String {
+            val sb = StringBuilder()
+            sb.append(vs.toVar0String())
+            sb.append(this.c)
+            sb.append(this.d)
+            return sb.toString()
+        }
+
+        companion object {
+            fun getV1N1Constraint(
+                v1: String,
+                c: CompareOperator,
+                d: Double,
+            ): N1Constraint {
+                return N1Constraint(
+                    arrayListOf(v1),
+                    c,
+                    d,
+                )
+            }
+
+            fun getV2N1Constraint(
+                v1: String,
+                v2: String,
+                c: CompareOperator,
+                d: Double,
+            ): N1Constraint {
+                return N1Constraint(
+                    arrayListOf(v1, v2),
+                    c,
+                    d,
+                )
+            }
+
+            fun getXN1Constraint(
+                c: CompareOperator,
+                d: Double,
+            ): N1Constraint {
+                return getV1N1Constraint(
+                    "x",
+                    c,
+                    d,
+                )
+            }
+
+            fun getYN1Constraint(
+                c: CompareOperator,
+                d: Double,
+            ): N1Constraint {
+                return getV1N1Constraint(
+                    "y",
+                    c,
+                    d,
+                )
+            }
+
+            fun getXYN1Constraint(
+                c: CompareOperator,
+                d: Double,
+            ): N1Constraint {
+                return getV2N1Constraint(
+                    "x",
+                    "y",
+                    c,
+                    d,
+                )
+            }
+        }
+    }
+
+    //0,1,2,...
+    open class CompositeConstraint(
+        val cc0: N0N1Constraint? = null,
+        val cc1: CompositeConstraint? = null,
+        val op: JoinOperator? = null,
+        val cc2: CompositeConstraint? = null,
+    ) {
+        fun meet(vars: LinkedHashMap<String, Double>?): Boolean {
+            return if (cc0 != null) {
+                cc0.meet(vars)
+            } else {
+                if (cc1 == null) throw IllegalArgumentException()
+                if (op == null) {
+                    cc1.meet(vars)
+                } else {
+                    if (cc2 == null) throw IllegalArgumentException()
+                    op.meetFun(cc1, cc2, vars!!)
+                }
+            }
+        }
+
+        override fun toString(): String {
+            val sb = StringBuilder()
+            if (cc0 != null) {
+                sb.append(cc0.toString())
+            } else {
+                if (cc1 != null) {
+                    sb.append("(${cc1})")
+                    if (op == null) throw IllegalArgumentException()
+                    sb.append(" ${op.name} ")
+                }
+                sb.append(cc2.toString())
+            }
+            return sb.toString()
+        }
+
+        companion object {
+            fun getCompositeConstraint(
+                cc1: CompositeConstraint? = null,
+                op: JoinOperator? = null,
+                cc2: CompositeConstraint? = null,
+            ) = CompositeConstraint(
+                null,
+                cc1,
+                op,
+                cc2,
+            )
+        }
+
+        object Expand {
+            fun N0Constraint.toCompositeConstraint(): CompositeConstraint {
+                return CompositeConstraint(this)
+            }
+
+            fun N1Constraint.toCompositeConstraint(): CompositeConstraint {
+                return CompositeConstraint(this)
+            }
+        }
+    }
+
+    //这只是一种类型
+    //其中var相同
+    class N2Constraint(
+        val vs: ArrayList<String>,
+        val c1: CompareOperator,
+        val d1: Double,
+        val c2: CompareOperator,
+        val d2: Double,
+    ) : CompositeConstraint(
+        null,
+        N1Constraint(vs, c1, d1).toCompositeConstraint(),
+        andOp,
+        N1Constraint(vs, c2, d2).toCompositeConstraint(),
+    ), N1N2Constraint {
+        override fun toString(): String {
+            val sb = StringBuilder()
+            sb.append(d1)
+            sb.append(aCOODLHM[c1])
+            sb.append(vs.toVar0String())
+            sb.append(c2)
+            sb.append(d2)
+            return sb.toString()
+        }
+
+        companion object {
+            fun getV1N2Constraint(
+                v1: String,
+                c1: CompareOperator,
+                d1: Double,
+                c2: CompareOperator,
+                d2: Double,
+            ): N2Constraint {
+                return N2Constraint(
+                    arrayListOf(v1),
+                    c1,
+                    d1,
+                    c2,
+                    d2,
+                )
+            }
+
+            fun getV2N2Constraint(
+                v1: String,
+                v2: String,
+                c1: CompareOperator,
+                d1: Double,
+                c2: CompareOperator,
+                d2: Double,
+            ): N2Constraint {
+                return N2Constraint(
+                    arrayListOf(v1, v2),
+                    c1,
+                    d1,
+                    c2,
+                    d2,
+                )
+            }
+
+            fun getXN2Constraint(
+                c1: CompareOperator,
+                d1: Double,
+                c2: CompareOperator,
+                d2: Double,
+            ): N2Constraint {
+                return getV1N2Constraint(
+                    "x",
+                    c1,
+                    d1,
+                    c2,
+                    d2,
+                )
+            }
+        }
+    }
+
+    object N1N2ConstraintHelper {
+        fun getV1Constraint(
+            v1: String,
+            c: CompareOperator,
+            d: Double,
+        ): N1Constraint {
+            return N1Constraint.getV1N1Constraint(v1, c, d)
+        }
+
+        fun getV1Constraint(
+            v1: String,
+            c1: CompareOperator,
+            d1: Double,
+            c2: CompareOperator,
+            d2: Double,
+        ): N2Constraint {
+            return N2Constraint.getV1N2Constraint(v1, c1, d1, c2, d2)
+        }
+
+        fun getV2Constraint(
+            v1: String,
+            v2: String,
+            c: CompareOperator,
+            d: Double,
+        ): N1Constraint {
+            return N1Constraint.getV2N1Constraint(v1, v2, c, d)
+        }
+
+        fun getV2Constraint(
+            v1: String,
+            v2: String,
+            c1: CompareOperator,
+            d1: Double,
+            c2: CompareOperator,
+            d2: Double,
+        ): N2Constraint {
+            return N2Constraint.getV2N2Constraint(v1, v2, c1, d1, c2, d2)
+        }
+
+        fun getXConstraint(
+            c: CompareOperator,
+            d: Double,
+        ): N1Constraint {
+            return getV1Constraint("x", c, d)
+        }
+
+        fun getXConstraint(
+            c1: CompareOperator,
+            d1: Double,
+            c2: CompareOperator,
+            d2: Double,
+        ): N2Constraint {
+            return getV1Constraint("x", c1, d1, c2, d2)
+        }
+
+        fun getYConstraint(
+            c: CompareOperator,
+            d: Double,
+        ): N1Constraint {
+            return getV1Constraint("y", c, d)
+        }
+
+        fun getYConstraint(
+            c1: CompareOperator,
+            d1: Double,
+            c2: CompareOperator,
+            d2: Double,
+        ): N2Constraint {
+            return getV1Constraint("y", c1, d1, c2, d2)
+        }
+
+        fun getXYConstraint(
+            c: CompareOperator,
+            d: Double,
+        ): N1Constraint {
+            return getV2Constraint("x", "y", c, d)
+        }
+
+        fun getXYConstraint(
+            c1: CompareOperator,
+            d1: Double,
+            c2: CompareOperator,
+            d2: Double,
+        ): N2Constraint {
+            return getV2Constraint("x", "y", c1, d1, c2, d2)
+        }
+    }
+
+    object Expand {
+        object StringListExpand {
+            fun ArrayList<String>.toVar0String(): String {
+                val sb = StringBuilder()
+                this.withIndex().map { (i, k) ->
+                    if (i != 0) {
+                        sb.append("-")
+                    }
+                    sb.append(k)
+                }
+                return sb.toString()
+            }
+
+            fun ArrayList<String>.toVar0Double(
+                vars: LinkedHashMap<String, Double>,
+            ): Double {
+                if (this.size == 0) throw IllegalArgumentException()
+                var totalD = 0.0
+                this.withIndex().map { (i, k) ->
+                    if (!vars.containsKey(k)) throw IllegalArgumentException()
+                    val d = vars[k]!!
+                    if (i == 0) {
+                        totalD += d
+                    } else {
+                        totalD -= d
+                    }
+                }
+                return totalD
+            }
+        }
+    }
+}

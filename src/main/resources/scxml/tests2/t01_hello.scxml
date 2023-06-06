@@ -1,0 +1,8 @@
+<scxml initial="Final" name="Scxml" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=115 h=138  -->
+    <final id="Final"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+        <onentry>
+            <log expr="&#039;Hello, world!&#039;" label="INFO"></log>
+        </onentry>
+    </final>
+</scxml>

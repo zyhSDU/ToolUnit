@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane
+        prefHeight="600.0" prefWidth="600.0"
+        xmlns="http://javafx.com/javafx/10.0.2-internal"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="view.tab.LogView"
+>
+    <BorderPane
+            prefHeight="600.0" prefWidth="200.0"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+    >
+        <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10" BorderPane.alignment="CENTER">
+                <BorderPane.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </BorderPane.margin>
+                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="1000.0" prefWidth="600.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                        <VBox prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                              AnchorPane.topAnchor="0.0">
+                            <Text text="输入框"/>
+                            <TextArea fx:id="textArea_in" prefHeight="1000.0" wrapText="true"/>
+                        </VBox>
+                    </AnchorPane>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                        <VBox prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                              AnchorPane.topAnchor="0.0">
+                            <Text text="输出框"/>
+                            <TextArea fx:id="textArea_show" prefHeight="1000.0" wrapText="true"/>
+                        </VBox>
+                    </AnchorPane>
+                </SplitPane>
+            </VBox>
+        </center>
+        <right>
+            <VBox fx:id="vBox_buttons" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                <VBox.margin>
+                    <Insets/>
+                </VBox.margin>
+                <Text text="--------------------------------"/>
+                <CheckBox fx:id="checkBox_clearTextAreaBeforeOutput" text="输出前清空输出框（未实现）"/>
+                <CheckBox fx:id="checkBox_supportContinuousOperation" text="支持连续操作"/>
+                <Text text="上一次使用"/>
+                <Button fx:id="button_lastAction" text="上一次使用"/>
+                <Text text="--------------------------------"/>
+                <FlowPane hgap="10" vgap="10">
+                    <Button fx:id="button_send" text="send"/>
+                    <Button fx:id="button_javafxId" text="javafx id"/>
+                    <Button fx:id="button_removeEmptyLine" text="去除空行"/>
+                    <Button fx:id="button_emergeLines" text="合并行"/>
+                    <Button fx:id="button_emergeLines_and_splitByDot" text="合并行后按点分隔"/>
+                    <Button fx:id="button_emergeLines_and_splitByReferences" text="合并行后按参考文献分隔"/>
+                    <Button fx:id="button_removeEmpty" text="去除空格"/>
+                    <Button fx:id="button_toChina" text="转换为中文标点"/>
+                    <Button fx:id="button_changeSpaceToBar" text="换空格为横杠"/>
+                    <Button fx:id="button_toSmall" text="全部小写"/>
+                    <Button fx:id="button_trim" text="trim"/>
+                </FlowPane>
+            </VBox>
+        </right>
+    </BorderPane>
+</AnchorPane>

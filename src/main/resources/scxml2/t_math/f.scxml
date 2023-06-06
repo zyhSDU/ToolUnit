@@ -1,0 +1,21 @@
+<scxml initial="p" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=560 h=201  -->
+    <datamodel>
+        <data expr="0" id="countD1"></data>
+        <data expr="0" id="countD2"></data>
+        <data expr="0" id="dt1"></data>
+        <data expr="0" id="dt2"></data>
+    </datamodel>
+    <parallel id="p"><!--   node-size-and-position x=20 y=43 w=520 h=138  -->
+        <parallel id="pm">
+            <state id="m_1"><!--   node-size-and-position x=20 y=43 w=75 h=75  --></state>
+            <state id="m_2"><!--   node-size-and-position x=155 y=43 w=75 h=75  --></state>
+        </parallel>
+        <parallel id="pd">
+            <state id="d1_1"></state>
+            <state id="d1_2"></state>
+            <state id="d2_1"></state>
+            <state id="d2_2"></state>
+        </parallel>
+    </parallel>
+</scxml>

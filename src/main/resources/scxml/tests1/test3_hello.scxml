@@ -1,0 +1,15 @@
+<scxml initial="hello" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=115 h=263  -->
+    <datamodel>
+    </datamodel>
+    <state id="hello"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+        <onentry>
+            <log expr="&#039;hello&#039;"/>
+        </onentry>
+        <onexit>
+            <log expr="&#039;exit hello state end&#039;"/>
+        </onexit>
+        <transition event="hello" target="end"/>
+    </state>
+    <final id="end"><!--   node-size-and-position x=20 y=168 w=75 h=75  --></final>
+</scxml>

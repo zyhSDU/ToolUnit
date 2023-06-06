@@ -1,0 +1,24 @@
+<scxml initial="p" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=505.75 h=514  -->
+    <datamodel>
+    </datamodel>
+    <parallel id="p"><!--   node-size-and-position x=20 y=43 w=465.75 h=451  -->
+        <state id="axis"><!--   node-size-and-position x=289.25 y=43 w=156.5 h=388  -->
+            <state id="idle"><!--   node-size-and-position x=54 y=293 w=75 h=75  -->
+                <transition event="move0"
+                            target="move0"><!--   edge-path [move0]  x=84 y=205.5 pointx=0 pointy=0 offsetx=12 offsety=0  --></transition>
+                <transition event="move1" target="move1"><!--   edge-path [move1]  x=70.82 y=270.52  --></transition>
+            </state>
+            <state id="move0"><!--   node-size-and-position x=54 y=43 w=75 h=75  -->
+                <transition event="move1" target="move1"><!--   edge-path [move1]  x=78.18 y=145.52  --></transition>
+                <transition event="idle" target="idle"><!--   edge-path [idle]  x=104 y=205.5  --></transition>
+            </state>
+            <state id="move1"><!--   node-size-and-position x=20 y=168 w=75 h=75  -->
+                <transition event="move0" target="move0"><!--   edge-path [move0]  x=58.82 y=140.48  --></transition>
+                <transition event="idle" target="idle"><!--   edge-path [idle]  x=90.18 y=265.48  --></transition>
+            </state>
+        </state>
+        <state id="switch_0"><!--   node-size-and-position x=155 y=43 w=75 h=75  --></state>
+        <state id="switch_1"><!--   node-size-and-position x=20 y=43 w=75 h=75  --></state>
+    </parallel>
+</scxml>

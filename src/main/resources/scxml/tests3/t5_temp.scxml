@@ -1,0 +1,15 @@
+<scxml initial="enterPassword" version="1.0" xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=220 h=263  -->
+ <datamodel>
+  <data expr="0" id="counter"></data>
+ </datamodel>
+ <state id="enterPassword"><!--   node-size-and-position x=65.5 y=43 w=90 h=75  -->
+  <onentry>
+   <assign expr="counter+1" location="counter"></assign>
+  </onentry>
+  <transition target="loggedIn"></transition>
+  <transition></transition>
+  <transition target="lockedOut"></transition>
+ </state>
+ <final id="loggedIn"><!--   node-size-and-position x=125 y=168 w=75 h=75  --></final>
+ <final id="lockedOut"><!--   node-size-and-position x=20 y=168 w=75 h=75  --></final>
+</scxml>

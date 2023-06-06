@@ -1,0 +1,24 @@
+<scxml initial="choose" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=198 h=642.62  -->
+    <datamodel>
+    </datamodel>
+    <state id="a1start"><!--   node-size-and-position x=20 y=169.16 w=75 h=75  -->
+        <transition event="a1end" target="a1end"></transition>
+    </state>
+    <state id="a2start"><!--   node-size-and-position x=50 y=421.47 w=75 h=75  -->
+        <transition event="a2end" target="a2end"></transition>
+    </state>
+    <state id="a1end"><!--   node-size-and-position x=35 y=295.31 w=75 h=75  -->
+        <transition event="a2start" target="a2start"></transition>
+        <transition event="end" target="choose"><!--   edge-path [choose]  x=125.5 y=207.23  --></transition>
+    </state>
+    <state id="a2end"><!--   node-size-and-position x=84 y=547.62 w=75 h=75  -->
+        <transition event="end"
+                    target="choose"><!--   edge-path [choose]  x=155.5 y=459.55 x=170.5 y=333.39 x=185.5 y=207.23  --></transition>
+    </state>
+    <state id="choose"><!--   node-size-and-position x=103 y=43 w=75 h=75  -->
+        <transition event="a1start" target="a1start"></transition>
+        <transition event="a2start"
+                    target="a2start"><!--   edge-path [a2start]  x=155.5 y=207.23 x=140.5 y=333.39  --></transition>
+    </state>
+</scxml>

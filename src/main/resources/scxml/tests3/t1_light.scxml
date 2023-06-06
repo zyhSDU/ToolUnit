@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml initial="RedLight" version="1.0" xmlns="http://www.w3.org/2005/07/scxml">
+    <state id="RedLight">
+        <onentry>
+            <send event="turnGreen"/>
+            <log expr="'Traffic light turned red'"/>
+        </onentry>
+        <transition event="turnGreen" target="GreenLight"/>
+    </state>
+    <state id="GreenLight">
+        <onentry>
+            <send event="turnYellow"/>
+            <log expr="'Traffic light turned green'"/>
+        </onentry>
+        <transition event="turnYellow" target="YellowLight"/>
+    </state>
+    <state id="YellowLight">
+        <onentry>
+            <send event="turnRed"/>
+            <log expr="'Traffic light turned yellow'"/>
+        </onentry>
+        <transition event="turnRed" target="RedLight"/>
+    </state>
+</scxml>

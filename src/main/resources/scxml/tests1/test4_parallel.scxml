@@ -1,0 +1,48 @@
+<scxml initial="p" name="atm" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=551 h=639  -->
+    <datamodel>
+    </datamodel>
+    <parallel id="p"><!--   node-size-and-position x=20 y=43 w=511 h=451  -->
+        <transition event="done.state.p" target="s3"></transition>
+        <state id="S1" initial="S11"><!--   node-size-and-position x=20 y=43 w=115 h=388  -->
+            <state id="S11"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+                <transition event="e4" target="S12"></transition>
+            </state>
+            <state id="S12"><!--   node-size-and-position x=20 y=168 w=75 h=75  -->
+                <transition event="e1" target="S1Final"></transition>
+            </state>
+            <final id="S1Final"><!--   node-size-and-position x=20 y=293 w=75 h=75  --></final>
+        </state>
+        <state id="S2" initial="S21"><!--   node-size-and-position x=195 y=43 w=115 h=388  -->
+            <state id="S21"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+                <transition event="e1" target="S22"></transition>
+            </state>
+            <state id="S22"><!--   node-size-and-position x=20 y=168 w=75 h=75  -->
+                <transition event="e2" target="S2Final"></transition>
+            </state>
+            <final id="S2Final"><!--   node-size-and-position x=20 y=293 w=75 h=75  --></final>
+        </state>
+        <state id="S" initial="s1"><!--   node-size-and-position x=370 y=43 w=121 h=138  -->
+            <state id="s1" initial="s11"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+                <onentry>
+                    <log expr="&#039;entering S1&#039;"></log>
+                </onentry>
+                <onexit>
+                    <log expr="&#039;leaving s1&#039;"></log>
+                </onexit>
+                <transition event="e" target="s11">
+                    <log expr="&#039;executing transition&#039;"></log>
+                </transition>
+                <state id="s11"><!--   node-size-and-position x=-0.5 y=0 w=75 h=75  -->
+                    <onentry>
+                        <log expr="&#039;entering s11&#039;"></log>
+                    </onentry>
+                    <onexit>
+                        <log expr="&#039;leaving s11&#039;"></log>
+                    </onexit>
+                </state>
+            </state>
+        </state>
+    </parallel>
+    <final id="s3"><!--   node-size-and-position x=238 y=544 w=75 h=75  --></final>
+</scxml>

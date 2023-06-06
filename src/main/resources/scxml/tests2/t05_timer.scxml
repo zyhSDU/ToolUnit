@@ -1,0 +1,26 @@
+<scxml initial="Off" name="ScxmlTimeGenerator" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=202.5 h=326  -->
+    <datamodel>
+        <data expr="0" id="tm_ELAPSED"></data>
+    </datamodel>
+    <state id="Off"><!--   node-size-and-position x=63.75 y=43 w=75 h=75  -->
+        <transition event="Start" target="Generator"><!--   edge-path [Generator]  x=111.25 y=143  --></transition>
+    </state>
+    <state id="Generator" initial="StateShape1"><!--   node-size-and-position x=20 y=168 w=162.5 h=138  -->
+        <onentry>
+            <assign expr="os.clock()" location="tm_ELAPSED"></assign>
+        </onentry>
+        <onexit>
+            <cancel sendid="ID_TIMER"></cancel>
+        </onexit>
+        <transition event="Stop" target="Off"><!--   edge-path [Off]  x=91.25 y=143  --></transition>
+        <state id="StateShape1"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+            <onentry>
+                <log expr="&#039;string.format(&#039;Elapsed:%.2fs&#039;, os.clock() - tm_ELAPSED)&#039;"
+                     label="INFO"></log>
+                <send delay="1000ms" event="Do.Timer" id="ID_TIMER"></send>
+            </onentry>
+            <transition event="Do.Timer" target="StateShape1"></transition>
+        </state>
+    </state>
+</scxml>

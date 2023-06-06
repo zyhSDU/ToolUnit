@@ -1,0 +1,28 @@
+<scxml initial="a1" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=1713 h=953  -->
+    <datamodel>
+        <data expr="0" id="countD1"></data>
+        <data expr="0" id="dt1"></data>
+    </datamodel>
+    <state id="a1"><!--   node-size-and-position x=264 y=208 w=75 h=75  -->
+        <onentry>
+            <assign expr="0" location="dt1"></assign>
+        </onentry>
+        <transition event="a2" target="a2"></transition>
+    </state>
+    <state id="a2"><!--   node-size-and-position x=485 y=235 w=75 h=75  -->
+        <onentry>
+            <assign expr="0" location="dt1"></assign>
+        </onentry>
+        <transition cond="2 &lt;= dt1" event="a3" target="a3"></transition>
+    </state>
+    <state id="a3"><!--   node-size-and-position x=754 y=236 w=75 h=75  -->
+        <onentry>
+            <assign expr="0" location="dt1"></assign>
+        </onentry>
+        <transition cond="4 &lt;= dt1" event="a1" target="a1"></transition>
+        <onexit>
+            <assign expr="countD1 + 1" location="countD1"></assign>
+        </onexit>
+    </state>
+</scxml>

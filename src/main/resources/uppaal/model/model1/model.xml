@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN'
+        'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+    <template>
+        <name>Simple</name>
+        <declaration>clock x;</declaration>
+        <location id="id0" x="0" y="0">
+            <name x="-10" y="-30">Start</name>
+        </location>
+        <location id="id1" x="150" y="0">
+            <name x="140" y="-30">Done</name>
+        </location>
+        <init ref="id0"/>
+        <transition>
+            <source ref="id0"/>
+            <target ref="id1"/>
+            <label kind="guard" x="-30" y="-20">x &gt;= 5</label>
+            <label kind="assignment" x="-30" y="20">x = 0</label>
+        </transition>
+    </template>
+    <system>system Simple;</system>
+    <queries>
+        <query>
+            <formula></formula>
+            <comment></comment>
+        </query>
+    </queries>
+</nta>

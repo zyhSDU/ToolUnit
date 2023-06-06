@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0"
+       initial="reset">
+
+    <state id="reset">
+        <onentry>
+            <script>
+                stopWatchEntity.reset()
+            </script>
+        </onentry>
+        <transition event="watch.start" target="running" />
+    </state>
+
+    <state id="running">
+        <onentry>
+            <script>
+                stopWatchEntity.run()
+            </script>
+        </onentry>
+        <transition event="watch.stop" target="stopped" />
+    </state>
+
+    <state id="stopped">
+        <onentry>
+            <script>
+                stopWatchEntity.stop()
+            </script>
+        </onentry>
+        <transition event="watch.start" target="running" >
+
+        </transition>
+        <transition event="watch.reset" target="reset" />
+    </state>
+
+</scxml>
