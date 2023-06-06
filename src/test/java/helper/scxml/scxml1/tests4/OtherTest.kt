@@ -1,6 +1,6 @@
 package helper.scxml.scxml1.tests4
 
-import helper.scxml.Scxml1Helper
+import helper.scxml.scxml1.Scxml1Helper
 
 internal class OtherTest {
     class SwitchMachine : Scxml1Helper.StateMachine(

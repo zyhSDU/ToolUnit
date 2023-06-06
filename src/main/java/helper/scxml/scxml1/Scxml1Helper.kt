@@ -1,4 +1,4 @@
-package helper.scxml
+package helper.scxml.scxml1
 
 import helper.base.MathHelper
 import helper.base.PrintHelper.StringTo.toPrintln
@@ -12,16 +12,17 @@ import helper.block.BlockHelper.Expand.ToAssignBlock.toAssignBlock
 import helper.block.BlockHelper.Expand.ToBlock.toBlock
 import helper.block.BlockHelper.Expand.ToBlock.toLineBlock
 import helper.block.ScxmlBlockHelper
-import helper.scxml.Scxml1Helper.DataExpand.exprAddOne
-import helper.scxml.Scxml1Helper.DataExpand.setExprZero
-import helper.scxml.Scxml1Helper.LHMExpand.addState
-import helper.scxml.Scxml1Helper.SCXMLExpand.toBlockState
-import helper.scxml.Scxml1Helper.SCXMLExpand.touchTransitionTarget
-import helper.scxml.Scxml1Helper.ToBlockClass.toBlockDataModel
-import helper.scxml.Scxml1Helper.ToBlockClass.toBlockState
-import helper.scxml.Scxml1Helper.ToSelfBlock.toSelfBlock
-import helper.scxml.Scxml1Helper.TransitionTargetExpand.touchFromRootToThis
-import helper.scxml.Scxml1Helper.TransitionTargetExpand.touchTransitionTarget
+import helper.scxml.IDataExpandHelper
+import helper.scxml.scxml1.Scxml1Helper.DataExpand.exprAddOne
+import helper.scxml.scxml1.Scxml1Helper.DataExpand.setExprZero
+import helper.scxml.scxml1.Scxml1Helper.LHMExpand.addState
+import helper.scxml.scxml1.Scxml1Helper.SCXMLExpand.toBlockState
+import helper.scxml.scxml1.Scxml1Helper.SCXMLExpand.touchTransitionTarget
+import helper.scxml.scxml1.Scxml1Helper.ToBlockClass.toBlockDataModel
+import helper.scxml.scxml1.Scxml1Helper.ToBlockClass.toBlockState
+import helper.scxml.scxml1.Scxml1Helper.ToSelfBlock.toSelfBlock
+import helper.scxml.scxml1.Scxml1Helper.TransitionTargetExpand.touchFromRootToThis
+import helper.scxml.scxml1.Scxml1Helper.TransitionTargetExpand.touchTransitionTarget
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
 import helper.scxml.strategy.ScxmlOneStrategyHelper.SNode
@@ -278,7 +279,7 @@ object Scxml1Helper {
         ResourceHelper.getResource(
             string,
         ),
-    ), Scxml0Helper.IDataExpand {
+    ), IDataExpandHelper.IDataExpand {
         val globalTime: Data = Data().also {
             it.id = globalTimeId
             it.expr = "0"

@@ -2,7 +2,7 @@ package helper.scxml
 
 import org.apache.commons.scxml.model.Data
 
-object Scxml0Helper {
+object IDataExpandHelper {
     interface IDataExpand {
         fun touchData(
             dataId: String,
@@ -40,12 +40,7 @@ object Scxml0Helper {
     }
 
     object Expand {
-        fun ScxmlVarHelper.ClockConstraint.ifMeet1(
-            IDataExpand: IDataExpand,
-        ): Boolean {
-            return ifMeet(IDataExpand.getData(varId) as Data)
-        }
-
+        //不要再使用
         fun ScxmlVarHelper.ClockConstraint.ifMeet2(
             IDataExpand: IDataExpand,
         ): Boolean {

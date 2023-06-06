@@ -107,26 +107,40 @@ object ScxmlVarHelper {
         varId,
         intRange,
     ) {
-        constructor(varId: String, intRange: Int) : this(varId, intRange..intRange)
+        constructor(
+            varId: String,
+            intRange: Int,
+        ) : this(
+            varId,
+            intRange..intRange,
+        )
 
-        fun ifMeet(data: Int): Boolean {
+        fun ifMeet(
+            data: Int,
+        ): Boolean {
             return data in intRange
         }
 
-        fun ifMeet(data: String): Boolean {
+        fun ifMeet(
+            data: String,
+        ): Boolean {
             return this.ifMeet(data.toInt())
         }
 
-        fun ifMeet(data: Data): Boolean {
-            return ifMeet(data.expr)
-        }
-
-        fun ifMeet(data: org.apache.commons.scxml2.model.Data): Boolean {
+        fun ifMeet(
+            data: Data,
+        ): Boolean {
             return ifMeet(data.expr)
         }
 
         fun ifMeet(
-            lhm: LinkedHashMap<String, org.apache.commons.scxml2.model.Data>
+            data: org.apache.commons.scxml2.model.Data,
+        ): Boolean {
+            return ifMeet(data.expr)
+        }
+
+        fun ifMeet(
+            lhm: LinkedHashMap<String, org.apache.commons.scxml2.model.Data>,
         ): Boolean {
             return ifMeet(lhm[varId]!!)
         }

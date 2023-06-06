@@ -1,17 +1,17 @@
 package helper
 
 import helper.base.PrintHelper.StringTo.toPrintln
-import helper.scxml.Scxml1Helper.DataExpand.exprAddOne
-import helper.scxml.Scxml1Helper.DataExpand.exprEqualsInt
-import helper.scxml.Scxml1Helper.DataExpand.getIntExpr
-import helper.scxml.Scxml1Helper.TransitionTargetExpand.touchFromRootToThis
+import helper.scxml.scxml1.Scxml1Helper.DataExpand.exprAddOne
+import helper.scxml.scxml1.Scxml1Helper.DataExpand.exprEqualsInt
+import helper.scxml.scxml1.Scxml1Helper.DataExpand.getIntExpr
+import helper.scxml.scxml1.Scxml1Helper.TransitionTargetExpand.touchFromRootToThis
 import helper.scxml.strategy.ScxmlOneStrategyHelper.SNode
 import helper.block.BlockHelper.Expand.BlockListTo.joinToBlock
 import helper.block.BlockHelper.Expand.BlockTo.toLineBlock
 import helper.block.LatexBlockHelper.LatexBlockFactory.Companion.toMathFormulaBlock
 import helper.block.LatexBlockHelper.LatexBlockFactory.Companion.toUnderSetArrowBlock
 import helper.block.ScxmlBlockHelper
-import helper.scxml.Scxml1Helper
+import helper.scxml.scxml1.Scxml1Helper
 import org.apache.commons.scxml.model.TransitionTarget
 
 object ScxmlHelperTestRun {

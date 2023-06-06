@@ -2,8 +2,7 @@ package helper.scxml.scxml2
 
 import helper.XMLCreateHelper
 import helper.base.ResourceHelper
-import helper.scxml.Scxml0Helper
-import helper.scxml.ScxmlVarHelper
+import helper.scxml.IDataExpandHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.Expand.DataExpand.setExprAddOne
 import helper.scxml.scxml2.Expand.DataExpand.setExprToZero
@@ -112,7 +111,7 @@ object Scxml2Helper {
 
     class MyDataList(
         val dataLHM: LinkedHashMap<String, Data> = LinkedHashMap(),
-    ) : Scxml0Helper.IDataExpand {
+    ) : IDataExpandHelper.IDataExpand {
         override fun touchData(
             dataId: String,
             init: (Any) -> Unit,

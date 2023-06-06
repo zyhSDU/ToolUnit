@@ -1,6 +1,6 @@
 package helper.scxml.scxml1.tests1
 
-import helper.scxml.Scxml1Helper
+import helper.scxml.scxml1.Scxml1Helper
 import org.apache.commons.scxml.model.State
 import org.apache.commons.scxml.model.Transition
 import org.junit.Test

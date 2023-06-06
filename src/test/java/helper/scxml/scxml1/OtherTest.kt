@@ -1,10 +1,10 @@
 package helper.scxml.scxml1
 
 import helper.base.PrintHelper.StringTo.toPrintln
-import helper.scxml.Scxml1Helper.GetTestObject.getTestState
-import helper.scxml.Scxml1Helper.GetTestObject.getTestStatus
-import helper.scxml.Scxml1Helper.GetTestObject.getTestTransition
-import helper.scxml.Scxml1Helper.ToSelfBlock.toSelfBlock
+import helper.scxml.scxml1.Scxml1Helper.GetTestObject.getTestState
+import helper.scxml.scxml1.Scxml1Helper.GetTestObject.getTestStatus
+import helper.scxml.scxml1.Scxml1Helper.GetTestObject.getTestTransition
+import helper.scxml.scxml1.Scxml1Helper.ToSelfBlock.toSelfBlock
 import helper.scxml.strategy.ScxmlOneStrategyHelper.SNode
 import helper.scxml.ScxmlVarHelper.IntConstraint.ToIntConstraint.toIntConstraint
 import org.junit.Test

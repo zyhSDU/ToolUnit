@@ -3,13 +3,13 @@ package helper.scxml.strategy
 import helper.DebugHelper.Debugger
 import helper.base.LHMHelper.LHMExpand.toLinkedHashMap
 import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
-import helper.scxml.Scxml0Helper.Expand.ifMeet2
+import helper.scxml.IDataExpandHelper.Expand.ifMeet2
 import helper.block.BlockHelper
 import helper.block.BlockHelper.Expand.BlockTo.toLineBlock
 import helper.block.BlockHelper.Expand.LHMExpand.toBlock
 import helper.block.BlockHelper.Expand.ToBlock.toBlock
-import helper.scxml.Scxml0Helper
-import helper.scxml.Scxml1Helper
+import helper.scxml.IDataExpandHelper
+import helper.scxml.scxml1.Scxml1Helper
 
 object ScxmlOneStrategyHelper {
     //StrategyNodeKeyType
@@ -314,7 +314,7 @@ object ScxmlOneStrategyHelper {
     //找叶子结点
     fun getStrategyLeafNode(
         envStrategyNode: SNode,
-        IDataExpand: Scxml0Helper.IDataExpand,
+        IDataExpand: IDataExpandHelper.IDataExpand,
         //用于过滤状态结点
         filterStateFun: (HashSet<String>) -> Boolean,
         debugger: Debugger= Debugger(0)

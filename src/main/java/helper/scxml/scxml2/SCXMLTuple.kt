@@ -11,7 +11,7 @@ import helper.block.BlockHelper.Expand.BlockTo.toBracketBlock1
 import helper.block.BlockHelper.Expand.ToBlock.toBlock
 import helper.block.ScxmlBlockHelper
 import helper.block.ScxmlBlockHelper.ScxmlBlockFactory.BlockState
-import helper.scxml.Scxml1Helper.LHMExpand.addState
+import helper.scxml.scxml1.Scxml1Helper.LHMExpand.addState
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
 import helper.scxml.scxml2.Expand.EnterableStateExpand.toStateTreeNode
@@ -49,6 +49,7 @@ class SCXMLTuple(
     val initialStateList = ArrayList<String>()
     val finalStateList = ArrayList<String>()
     val renStateList = ArrayList<String>()
+    val stateClockListLHM = LinkedHashMap<String, ArrayList<String>>()
 
     val dataSCXML = DataSCXML(scxml)
 

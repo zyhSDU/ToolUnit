@@ -8,7 +8,7 @@ import helper.base.LHMHelper
 import helper.base.RegexHelper.match
 import helper.base.RegexHelper.matchPrefix
 import helper.block.ScxmlBlockHelper
-import helper.scxml.Scxml0Helper.IDataExpand
+import helper.scxml.IDataExpandHelper.IDataExpand
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.Expand.ExecutableExpand.doExecutable
 import helper.scxml.scxml2.Expand.ToStr.TCLHMExpand.toStr

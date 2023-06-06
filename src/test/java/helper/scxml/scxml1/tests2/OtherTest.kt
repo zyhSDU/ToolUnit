@@ -1,6 +1,6 @@
 package helper.scxml.scxml1.tests2
 
-import helper.scxml.Scxml1Helper
+import helper.scxml.scxml1.Scxml1Helper
 import org.junit.Test
 
 internal class OtherTest {

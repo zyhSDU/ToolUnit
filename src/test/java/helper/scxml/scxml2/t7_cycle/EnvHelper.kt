@@ -1,7 +1,7 @@
 package helper.scxml.scxml2.t7_cycle
 
+import helper.DebugHelper
 import helper.DebugHelper.DebuggerList
-import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.MathHelper
 import helper.base.RandomHelper
@@ -14,6 +14,7 @@ import helper.scxml.scxml2.Scxml2Helper
 import helper.scxml.scxml2.StrategyTripleHelper
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import org.apache.commons.scxml2.model.Data
+import helper.scxml.scxml2.IDataExpandHelper.Expand.ifMeet
 
 object EnvHelper {
     class Env(
@@ -28,6 +29,7 @@ object EnvHelper {
         override val scxmlTuple = Scxml2Helper.getSCXMLTuple("scxml2/t7_cycle/cycle.scxml").also {
             it.initialStateList.add("s0")
             it.finalStateList.add("s1")
+            it.stateClockListLHM["s0"] = arrayListOf("x")
         }
 
         val dataX: Data
@@ -55,7 +57,7 @@ object EnvHelper {
             }.map { stateId ->
                 if (isInFinalState()) return@map
                 envStateConstraintLHM[stateId]!!.let {
-                    if (!it.ifMeet(dataXInt)) return@map
+                    if (!it.ifMeet(dataSCXML)) return@map
                     val booleanInProbability = RandomHelper.getBooleanInProbability(it.maxV - dataXInt + 1)
                     if (!booleanInProbability) return@map
                 }
@@ -146,7 +148,7 @@ object EnvHelper {
         }
 
         fun taskRun(
-            debuggerList: DebuggerList = getDebuggerList(0),
+            debuggerList: DebuggerList = DebugHelper.getDebuggerList(0),
         ) {
             fun debugPlnStatus() {
                 debuggerList.pln(

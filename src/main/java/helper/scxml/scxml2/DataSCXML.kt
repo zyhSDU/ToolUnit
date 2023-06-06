@@ -1,19 +1,19 @@
 package helper.scxml.scxml2
 
-import helper.scxml.Scxml0Helper.IDataExpand
-import helper.scxml.Scxml1Helper
 import helper.scxml.scxml2.Expand.DataExpand.setExprAddOne
 import helper.scxml.scxml2.Expand.DataExpand.setExprToZero
 import helper.scxml.scxml2.Expand.SCXMLExpand.toStr
 import org.apache.commons.scxml2.model.Data
 import org.apache.commons.scxml2.model.SCXML
 
-class DataSCXML(val scxml: SCXML) : IDataExpand {
+class DataSCXML(
+    val scxml: SCXML,
+) : IDataExpandHelper.IDataExpand {
     val globalTimeData: Data = if (this.containsData(Res.globalTimeId)) {
         this.getData(Res.globalTimeId)!!
     } else {
         Data().also {
-            it.id = Scxml1Helper.globalTimeId
+            it.id = Res.globalTimeId
             it.expr = "0"
             this.scxml.datamodel.addData(it)
         }
