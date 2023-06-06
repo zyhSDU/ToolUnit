@@ -23,7 +23,7 @@ object EnvHelper {
         envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
         envEventLHM: A3LHM<String, String, Double>,
         getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector,
-    ) : EnvHelper.Env(
+    ) : EnvHelper.T1BaseEnv(
         envStateConstraintLHM,
         envEventLHM,
         getIRenEventSelectorFun,
@@ -137,7 +137,7 @@ object EnvHelper {
                 if (Res.renEventList.contains(event)) {
                     rlTransition.event = event
                 }
-                rlTransition.nextRLState.machineState = activeStatesString
+                rlTransition.nextRLState.machineState = scxmlTuple.activeStatesString
                 //有状态离开才有retryTrainCount更新
                 rlTransition.nextRLState.retryTimes = dataRetryTrainCountInt
                 if (isInFinalState()) {

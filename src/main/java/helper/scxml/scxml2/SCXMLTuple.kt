@@ -49,7 +49,10 @@ class SCXMLTuple(
     val initialStateList = ArrayList<String>()
     val finalStateList = ArrayList<String>()
     val renStateList = ArrayList<String>()
-    val stateClockListLHM = LinkedHashMap<String, ArrayList<String>>()
+
+    //以后是否考虑扩展为，在某状态停留时，资源的增长速率
+    //状态，资源，增长量
+    val stateNeedAddOneClockListLHM = LinkedHashMap<String, ArrayList<String>>()
 
     val dataSCXML = DataSCXML(scxml)
 
@@ -135,6 +138,11 @@ class SCXMLTuple(
     val activeStates: List<EnterableState>
         get() {
             return this.executor.status.activeStates.filterNotNull()
+        }
+
+    val activeStateIds: List<String>
+        get() {
+            return this.activeStates.map { it.id }
         }
 
     val activeStatesString: String

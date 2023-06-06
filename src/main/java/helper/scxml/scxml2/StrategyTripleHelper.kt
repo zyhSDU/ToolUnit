@@ -42,4 +42,17 @@ object StrategyTripleHelper {
             return getIRenEventSelectorFun(scxmlTuple).getRenEvent(stateId)
         }
     }
+
+    open class Type2StrategyTriple(
+        val envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
+        val envEventLHM: A3LHM<String, String, Double>,
+        val getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector,
+    ) {
+        open fun getRenEvent(
+            scxmlTuple: SCXMLTuple,
+            stateId: String,
+        ): String? {
+            return getIRenEventSelectorFun(scxmlTuple).getRenEvent(stateId)
+        }
+    }
 }
