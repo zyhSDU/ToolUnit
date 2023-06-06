@@ -1,6 +1,7 @@
 package helper.scxml.scxml2
 
 import helper.DebugHelper
+import helper.DebugHelper.DebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.MathHelper
@@ -107,6 +108,7 @@ object EnvHelper {
         open val ifDone: Boolean
             get() {
                 if (isInFinalState()) return true
+                if (ifMachineTimeMax) return true
                 return false
             }
     }
@@ -119,9 +121,9 @@ object EnvHelper {
         envStateConstraintLHM,
         envEventLHM,
         getIRenEventSelectorFun,
-    ){
+    ) {
         fun getEvent(
-            debuggerList: DebugHelper.DebuggerList,
+            debuggerList: DebuggerList,
         ): String? {
             scxmlTuple.activeStates.map {
                 it.id
@@ -153,7 +155,7 @@ object EnvHelper {
 
         //如果有event就fire出去
         fun strategyFireEvent(
-            debuggerList: DebugHelper.DebuggerList,
+            debuggerList: DebuggerList,
         ): String? {
             debuggerList.startPln("getEvent")
             val event: String? = getEvent(
@@ -176,7 +178,7 @@ object EnvHelper {
         }
 
         fun step(
-            debuggerList: DebugHelper.DebuggerList,
+            debuggerList: DebuggerList,
         ) {
             if (ifDone) return
 
@@ -202,7 +204,7 @@ object EnvHelper {
         }
 
         fun stepToNeedRen(
-            debuggerList: DebugHelper.DebuggerList,
+            debuggerList: DebuggerList,
         ) {
             if (ifDone) return
             debuggerList.startPln("stepToNeedRen")
@@ -228,7 +230,7 @@ object EnvHelper {
         }
 
         fun taskRun(
-            debuggerList: DebugHelper.DebuggerList = DebugHelper.getDebuggerList(0),
+            debuggerList: DebuggerList = DebugHelper.getDebuggerList(0),
         ) {
             fun debugPlnStatus() {
                 debuggerList.pln(

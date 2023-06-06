@@ -35,13 +35,6 @@ object EnvHelper {
             get() {
                 return dataX.exprToInt()
             }
-
-        override val ifDone: Boolean
-            get() {
-                if (super.ifDone) return true
-                if (ifMachineTimeMax) return true
-                return false
-            }
     }
 
     fun getEnvObj1(): Env {
