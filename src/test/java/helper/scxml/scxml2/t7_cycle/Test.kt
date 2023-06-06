@@ -1,6 +1,5 @@
 package helper.scxml.scxml2.t7_cycle
 
-import helper.DebugHelper.Debugger
 import helper.DebugHelper.getDebuggerList
 import org.junit.Test
 
@@ -14,13 +13,15 @@ internal class Test {
 
     @Test
     fun t1t2() {
-        val env = EnvHelper.getEnvObj1()
-        env.taskRun(
-            debuggerList = getDebuggerList(
-                Debugger(1),
-                Debugger(0),
-            ),
+        val debuggerList = getDebuggerList(
+            0,
+            1,
         )
-        //taskRun只到时钟89？
+        val env = EnvHelper.getEnvObj1()
+        repeat(10) {
+            debuggerList.pln("${"-".repeat(10)}repeat${it}", arrayListOf(0, 1))
+            env.reset()
+            env.taskRun(debuggerList)
+        }
     }
 }

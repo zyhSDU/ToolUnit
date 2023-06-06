@@ -111,6 +111,18 @@ object DebugHelper {
     fun getDebuggerList(
         vararg debugger: Debugger,
     ): DebuggerList {
-        return DebuggerList(debugger.toArrayList())
+        return DebuggerList(
+            debugger.toArrayList()
+        )
+    }
+
+    fun getDebuggerList(
+        vararg ifDebug: Int,
+    ): DebuggerList {
+        return DebuggerList(
+            ifDebug.map {
+                Debugger(it)
+            }.toArrayList()
+        )
     }
 }

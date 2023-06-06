@@ -1,6 +1,5 @@
 package helper.scxml.scxml2.t7_cycle
 
-import helper.DebugHelper.Debugger
 import helper.DebugHelper.DebuggerList
 import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
@@ -54,7 +53,7 @@ object EnvHelper {
             executor.status.activeStates.map {
                 it.id
             }.map { stateId ->
-                if (isInFinalState())return@map
+                if (isInFinalState()) return@map
                 envStateConstraintLHM[stateId]!!.let {
                     if (!it.ifMeet(dataXInt)) return@map
                     val booleanInProbability = RandomHelper.getBooleanInProbability(it.maxV - dataXInt + 1)
@@ -147,7 +146,7 @@ object EnvHelper {
         }
 
         fun taskRun(
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             fun debugPlnStatus() {
                 debuggerList.pln(
@@ -166,7 +165,6 @@ object EnvHelper {
                 stepToNeedRen(
                     debuggerList,
                 )
-
             }
             debugPlnStatus()
         }
