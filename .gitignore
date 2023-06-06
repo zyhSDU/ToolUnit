@@ -1,0 +1,12 @@
+target
+.idea
+target/classes
+out
+/log/
+/.idea/
+/uppaalModels/
+/lib/
+/lib/javafx/
+/lib/math/
+/document/
+/ToolUnit.iml
