@@ -7,11 +7,11 @@ object ResourceHelper {
     fun getResource(
         string: String,
     ): URL {
-//        println("getResource():${string}")
+        println("getResource():${string}")
         val resource = ResourceHelper::class.java.classLoader.getResource(
             string,
         )
-//        println("res:${resource}")
+        println("res:${resource}")
         return resource
     }
 

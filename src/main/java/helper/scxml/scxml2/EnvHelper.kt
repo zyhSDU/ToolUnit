@@ -2,6 +2,7 @@ package helper.scxml.scxml2
 
 import helper.DebugHelper
 import helper.DebugHelper.DebuggerList
+import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.MathHelper
@@ -230,7 +231,7 @@ object EnvHelper {
         }
 
         fun taskRun(
-            debuggerList: DebuggerList = DebugHelper.getDebuggerList(0),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             fun debugPlnStatus() {
                 debuggerList.pln(
@@ -243,7 +244,6 @@ object EnvHelper {
             executor.go()
 
             debugPlnStatus()
-
             while (true) {
                 if (ifDone) break
                 stepToNeedRen(

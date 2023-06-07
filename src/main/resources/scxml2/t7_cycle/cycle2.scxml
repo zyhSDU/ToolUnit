@@ -1,0 +1,11 @@
+<scxml initial="s0" version="1.0"
+       xmlns="http://www.w3.org/2005/07/scxml"><!--   node-size-and-position x=0 y=0 w=138 h=263  -->
+    <datamodel>
+        <data expr="0" id="x"></data>
+        <data expr="0" id="c"></data>
+    </datamodel>
+    <state id="s0"><!--   node-size-and-position x=20 y=43 w=75 h=75  -->
+        <transition cond="0 &lt;= x and x &lt;= 100" event="s0s1" target="s1"></transition>
+    </state>
+    <final id="s1"><!--   node-size-and-position x=20 y=168 w=75 h=75  --></final>
+</scxml>
