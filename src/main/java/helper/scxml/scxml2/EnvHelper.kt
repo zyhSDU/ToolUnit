@@ -4,11 +4,13 @@ import helper.DebugHelper
 import helper.DebugHelper.DebuggerList
 import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
+import helper.base.LHMHelper.LHMExpand.add
 import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.MathHelper
 import helper.base.RandomHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.Expand.DataExpand.exprToInt
+import helper.scxml.scxml2.Expand.DataExpand.setExprAddIncrement
 import helper.scxml.scxml2.Expand.DataExpand.setExprAddOne
 import helper.scxml.scxml2.Expand.SCXMLExecutorExpand.isInState
 import helper.scxml.scxml2.Expand.ToStr.toStr
@@ -114,6 +116,8 @@ object EnvHelper {
             }
     }
 
+    class RunResult : LinkedHashMap<String, String>()
+
     abstract class T2BaseEnv(
         envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
         envEventLHM: A3LHM<String, String, Double>,
@@ -134,7 +138,7 @@ object EnvHelper {
                     if (!it.ifMeet(dataSCXML)) return@map
                     //dataXInt，这里不通用啊！！
                     //val dataInt=dataXInt
-                    val dataInt = dataSCXML.getDataInt(scxmlTuple.stateNeedAddOneClockListLHM[stateId]!![0])!!
+                    val dataInt = dataSCXML.getDataInt(scxmlTuple.stateNeedConsiderClockListLHM[stateId]!![0])!!
                     val booleanInProbability = RandomHelper.getBooleanInProbability(
                         it.maxV - dataInt + 1
                     )
@@ -194,8 +198,8 @@ object EnvHelper {
             }
             debuggerList.pln("addTime")
             scxmlTuple.activeStateIds.map { stateId ->
-                scxmlTuple.stateNeedAddOneClockListLHM[stateId]?.map {
-                    dataSCXML.getData(it)?.setExprAddOne()
+                scxmlTuple.stateDataIncrementLHM[stateId]?.map { (dataKey, increment) ->
+                    dataSCXML.getData(dataKey)?.setExprAddIncrement(increment.toInt())
                 }
             }
             dataGlobalTime.setExprAddOne()
@@ -232,7 +236,8 @@ object EnvHelper {
 
         fun taskRun(
             debuggerList: DebuggerList = getDebuggerList(0),
-        ) {
+        ): RunResult {
+            val runResult = RunResult()
             fun debugPlnStatus() {
                 debuggerList.pln(
                     statusString,
@@ -251,6 +256,10 @@ object EnvHelper {
                 )
             }
             debugPlnStatus()
+            scxmlTuple.dataSCXML.scxml.datamodel.data.map {
+                runResult.add(it.id, it.expr)
+            }
+            return runResult
         }
     }
 }

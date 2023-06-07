@@ -29,7 +29,8 @@ internal class Cycle1Test {
             override val scxmlTuple = Scxml2Helper.getSCXMLTuple("scxml2/t7_cycle/cycle1.scxml").also {
                 it.initialStateList.add("s0")
                 it.finalStateList.add("s1")
-                it.stateNeedAddOneClockListLHM["s0"] = arrayListOf("x")
+                it.stateNeedConsiderClockListLHM["s0"] = arrayListOf("x")
+                it.stateDataIncrementLHM.add("s0", "x", 1.0)
             }
 
             fun taskRun2(
@@ -114,16 +115,9 @@ internal class Cycle1Test {
         )
         val rrs = ArrayList<RunResult>()
         val env = EnvHelper.getEnvObj1()
-        repeat(1000) {
-            debuggerList.pln(
-                "${"-".repeat(10)}repeat${it}",
-                arrayListOf(
-                    0,
-                    1,
-                )
-            )
+        repeat(100000) {
             env.reset()
-            val rr: RunResult = env.taskRun2(
+            val rr = env.taskRun2(
                 debuggerList
             )
             rrs.add(rr)
@@ -131,8 +125,6 @@ internal class Cycle1Test {
         val sorted = rrs.map {
             it.endTime
         }.sorted()
-        sorted.joinToString(",").toPrintln()
-        println("cal:\n")
         val lhm = LinkedHashMap<Int, Int>()
         sorted.map {
             if (!lhm.containsKey(it)) {

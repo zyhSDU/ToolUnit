@@ -17,9 +17,7 @@ object StrategyTripleHelper {
     ) : IRenEventSelector {
         override fun getRenEvent(stateId: String): String? {
             this.renEventLHM[stateId]?.let {
-                MathHelper.getRandomString(it)
-            }?.let {
-                return it
+                return MathHelper.getRandomString(it)
             }
             return null
         }

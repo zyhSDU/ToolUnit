@@ -1,5 +1,8 @@
 package helper.base
 
+import helper.base.LHMHelper.LHMExpand.add
+import java.lang.IllegalArgumentException
+
 object LHMHelper {
     object LHMExpand {
         fun Array<out Pair<String, Double>>.toLinkedHashMap(): LinkedHashMap<String, Double> {
@@ -23,6 +26,17 @@ object LHMHelper {
             }
             return sb.toString()
         }
+
+        // 确定了，不能重复add
+        // 想修改的话，用原始的lhm[k]=v
+        fun <A1, A2> LinkedHashMap<A1, A2>.add(
+            a1: A1,
+            a2: A2,
+        ) {
+            if (!this.containsKey(a1)) {
+                this[a1] = a2
+            }
+        }
     }
 
     open class A3LHM<A1, A2, A3> : LinkedHashMap<A1, LinkedHashMap<A2, A3>>() {
@@ -34,9 +48,7 @@ object LHMHelper {
             if (!this.containsKey(a1)) {
                 this[a1] = LinkedHashMap()
             }
-            if (!this[a1]!!.containsKey(a2)) {
-                this[a1]!![a2] = a3
-            }
+            this[a1]!!.add(a2, a3)
         }
 
         open fun touch(

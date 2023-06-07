@@ -50,9 +50,8 @@ class SCXMLTuple(
     val finalStateList = ArrayList<String>()
     val renStateList = ArrayList<String>()
 
-    //以后是否考虑扩展为，在某状态停留时，资源的增长速率
-    //状态，资源，增长量
-    val stateNeedAddOneClockListLHM = LinkedHashMap<String, ArrayList<String>>()
+    val stateNeedConsiderClockListLHM = LinkedHashMap<String, ArrayList<String>>()
+    val stateDataIncrementLHM = A3LHM<String, String, Double>()
 
     val dataSCXML = DataSCXML(scxml)
 
@@ -93,15 +92,14 @@ class SCXMLTuple(
         dataSCXML.scxml.touchTransition { tt, t ->
             if (!touchedTransitionSet.contains(t)) {
                 touchedTransitionSet.add(t)
-                StateTransitionEventUnit(
+                val ste = StateTransitionEventUnit(
                     stateId = tt.id,
                     transition = t,
                     cond = t.cond.toClockConstraint(),
                     event = t.event,
-                ).let { ste ->
-                    it.add(ste.event, tt.id, ArrayList())
-                    it[ste.event]!![tt.id]!!.add(ste)
-                }
+                )
+                it.add(ste.event, tt.id, ArrayList())
+                it[ste.event]!![tt.id]!!.add(ste)
             }
         }
     }
@@ -229,7 +227,7 @@ class SCXMLTuple(
         event: String,
         doOnEntryFun: (TransitionTarget) -> Unit = {},
         countClockValueFun: (SCXMLTuple, String) -> Unit = { _, _ -> },
-        debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+        debuggerList: DebuggerList = getDebuggerList(0),
     ) {
         debuggerList.pln(
             getStatusString(),

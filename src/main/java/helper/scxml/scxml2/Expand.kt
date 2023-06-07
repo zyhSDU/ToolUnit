@@ -58,8 +58,14 @@ object Expand {
             return this.expr.toInt()
         }
 
+        fun Data.setExprAddIncrement(
+            increment: Int,
+        ) {
+            this.expr = "${this.exprToInt() + increment}"
+        }
+
         fun Data.setExprAddOne() {
-            this.expr = "${this.exprToInt() + 1}"
+            this.setExprAddIncrement(1)
         }
 
         fun Data.setExprToZero() {
