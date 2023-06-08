@@ -15,7 +15,8 @@ import org.junit.Test
 internal class Cycle1Test {
     object EnvHelper {
         class Env(
-            override val strategyTuple: StrategyTripleHelper.Type2StrategyTuple
+            override val strategyTuple: StrategyTripleHelper.Type2StrategyTuple,
+            private val machineTimeMax: Int,
         ) : T3BaseEnv() {
             override val scxmlTuple = Scxml2Helper.getSCXMLTuple("scxml2/t7_cycle/cycle1.scxml").also {
                 it.initialStateList.add("s0")
@@ -34,11 +35,17 @@ internal class Cycle1Test {
                     add("s3", "c", 2.0)
                 }
             }
+
+            override val ifMachineTimeMax: Boolean
+                get() {
+                    return dataGlobalTimeInt >= machineTimeMax
+                }
         }
 
         fun getEnvObj1(): Env {
             return Env(
-                StrategyTripleHelper.Type2StrategyTuple(
+                machineTimeMax = Int.MAX_VALUE,
+                strategyTuple = StrategyTripleHelper.Type2StrategyTuple(
                     getIEnvEventSelectorFun = { scxmlTuple ->
                         object : StrategyTripleHelper.IEnvEventSelector {
                             override fun getEvent(stateId: String): String? {
@@ -105,7 +112,7 @@ internal class Cycle1Test {
                             }
                         }
                     },
-                )
+                ),
             )
         }
     }
