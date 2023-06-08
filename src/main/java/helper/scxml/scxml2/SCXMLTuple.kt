@@ -5,15 +5,16 @@ import helper.DebugHelper.DebuggerList
 import helper.DebugHelper.getDebuggerList
 import helper.base.ConstraintHelper
 import helper.base.LHMHelper.A3LHM
+import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper
 import helper.base.PrintHelper.StringTo.toPrintln
 import helper.block.BlockHelper.Expand.BlockTo.toBracketBlock1
 import helper.block.BlockHelper.Expand.ToBlock.toBlock
 import helper.block.ScxmlBlockHelper
 import helper.block.ScxmlBlockHelper.ScxmlBlockFactory.BlockState
-import helper.scxml.scxml1.Scxml1Helper.LHMExpand.addState
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
+import helper.scxml.scxml1.Scxml1Helper.LHMExpand.addState
 import helper.scxml.scxml2.Expand.EnterableStateExpand.toStateTreeNode
 import helper.scxml.scxml2.Expand.ExecutableExpand.doExecutable
 import helper.scxml.scxml2.Expand.LHMExpand.addState
@@ -514,6 +515,15 @@ class SCXMLTuple(
                 debugger,
             )
         }
+    }
+
+    fun toData(
+        lhm: LinkedHashMap<String, String> = LinkedHashMap(),
+    ): LinkedHashMap<String, String> {
+        this.dataSCXML.scxml.datamodel.data.map {
+            lhm.add(it.id, it.expr)
+        }
+        return lhm
     }
 }
 

@@ -112,23 +112,28 @@ object EnvHelper {
             }
     }
 
-    data class RunResult(
-        val stateList: ArrayList<String> = ArrayList(),
-        val dataLHM: LinkedHashMap<String, String> = LinkedHashMap()
+    data class LocationActionClockUnit(
+        val location: String,
+        val action: String,
+        val data: LinkedHashMap<String, String> = LinkedHashMap()
     ) {
-        companion object {
-            fun get(scxmlTuple: SCXMLTuple): RunResult {
-                val result = RunResult()
-                scxmlTuple.activeStates.map {
-                    it.id
-                }.map {
-                    result.stateList.add(it)
-                }
-                scxmlTuple.dataSCXML.scxml.datamodel.data.map {
-                    result.dataLHM.add(it.id, it.expr)
-                }
-                return result
+        fun toStr(): String {
+            return "(${location},${action},${data})"
+        }
+    }
+
+    data class RunResult(
+        val us: ArrayList<LocationActionClockUnit> = ArrayList(),
+        val endStateList: ArrayList<String> = ArrayList(),
+        val endData: LinkedHashMap<String, String> = LinkedHashMap(),
+    ) {
+        fun updateWhenRunEnd(scxmlTuple: SCXMLTuple) {
+            scxmlTuple.activeStates.map {
+                it.id
+            }.map {
+                this.endStateList.add(it)
             }
+            scxmlTuple.toData(this.endData)
         }
     }
 
@@ -233,7 +238,7 @@ object EnvHelper {
             }
 
         fun getEvent(
-            debuggerList: DebuggerList,
+            debuggerList: DebuggerList = getDebuggerList(0),
         ): String? {
             scxmlTuple.activeStates.map {
                 it.id
@@ -251,7 +256,8 @@ object EnvHelper {
 
         //如果有event就fire出去
         fun strategyFireEvent(
-            debuggerList: DebuggerList,
+            countClockValueFun: (SCXMLTuple, String) -> Unit = { _, _ -> },
+            debuggerList: DebuggerList = getDebuggerList(0),
         ): String? {
             debuggerList.startPln("getEvent")
             val event: String? = getEvent(
@@ -262,10 +268,12 @@ object EnvHelper {
                 //fire出去了
                 scxmlTuple.fireEvent(
                     event = event,
+                    countClockValueFun = countClockValueFun,
                     debuggerList = debuggerList,
                 )
                 if (!ifOnRenState) {
                     strategyFireEvent(
+                        countClockValueFun = countClockValueFun,
                         debuggerList = debuggerList,
                     )
                 }
@@ -274,13 +282,15 @@ object EnvHelper {
         }
 
         fun step(
-            debuggerList: DebuggerList,
+            countClockValueFun: (SCXMLTuple, String) -> Unit = { _, _ -> },
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             if (ifDone) return
 
             debuggerList.startPln("strategyFireEvent")
 
             val event: String? = strategyFireEvent(
+                countClockValueFun = countClockValueFun,
                 debuggerList = debuggerList,
             )
             debuggerList.endPln()
@@ -300,7 +310,8 @@ object EnvHelper {
         }
 
         fun stepToNeedRen(
-            debuggerList: DebuggerList,
+            countClockValueFun: (SCXMLTuple, String) -> Unit = { _, _ -> },
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             if (ifDone) return
             debuggerList.startPln("stepToNeedRen")
@@ -315,7 +326,8 @@ object EnvHelper {
                 }
                 debuggerList.startPln("step")
                 step(
-                    debuggerList,
+                    countClockValueFun = countClockValueFun,
+                    debuggerList = debuggerList,
                 )
                 debuggerList.endPln()
                 if (!hasStepOne) {
@@ -326,6 +338,8 @@ object EnvHelper {
         }
 
         fun taskRun(
+            runResult: RunResult = RunResult(),
+            countClockValueFun: (SCXMLTuple, String) -> Unit = { _, _ -> },
             debuggerList: DebuggerList = getDebuggerList(0),
         ): RunResult {
             fun debugPlnStatus() {
@@ -342,11 +356,13 @@ object EnvHelper {
             while (true) {
                 if (ifDone) break
                 stepToNeedRen(
-                    debuggerList,
+                    countClockValueFun = countClockValueFun,
+                    debuggerList = debuggerList,
                 )
             }
             debugPlnStatus()
-            return RunResult.get(scxmlTuple)
+            runResult.updateWhenRunEnd(scxmlTuple)
+            return runResult
         }
     }
 }

@@ -225,7 +225,7 @@ object EnvHelper {
         }
 
         fun taskRun(
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             val rlTransition = RLTransition()
 

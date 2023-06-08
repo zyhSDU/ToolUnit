@@ -6,7 +6,6 @@ import helper.scxml.scxml2.Expand.ToStr.toStr
 //t2不对
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.getBaseEnvEventLHM
 import helper.scxml.scxml2.t5_traffic_train.EnvHelper.Env
-import helper.scxml.scxml2.t5_traffic_train.Test.Expand.toStr
 import org.junit.Test
 
 internal class Test {
@@ -30,7 +29,6 @@ internal class Test {
             StrategyTripleHelper.stateRenEventSelector1
         }
     )
-
 
     @Test
     fun t1t1() {

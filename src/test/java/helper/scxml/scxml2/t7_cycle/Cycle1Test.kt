@@ -3,6 +3,8 @@ package helper.scxml.scxml2.t7_cycle
 import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper
+import helper.scxml.scxml2.EnvHelper
+import helper.scxml.scxml2.EnvHelper.LocationActionClockUnit
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv.Companion.ifCanNextWhenOneClock
@@ -204,7 +206,7 @@ internal class Cycle1Test {
             1,
         )
         val env = EnvHelper.getEnvObj1()
-        repeat(1) {
+        repeat(100) {
             debuggerList.pln(
                 "${"-".repeat(10)}repeat${it}",
                 arrayListOf(
@@ -213,7 +215,23 @@ internal class Cycle1Test {
                 )
             )
             env.reset()
-            val runResult = env.taskRun(debuggerList)
+            val runResult = RunResult()
+            env.taskRun(
+                runResult = runResult,
+                countClockValueFun = { scxmlTuple, event ->
+                    val state = scxmlTuple.activeStatesString
+                    if (env.scxmlTuple.renStateList.contains(state)) {
+                        runResult.us.add(
+                            LocationActionClockUnit(
+                                state,
+                                event,
+                                scxmlTuple.toData(),
+                            )
+                        )
+                    }
+                },
+                debuggerList = debuggerList,
+            )
             println(runResult)
         }
     }
@@ -229,13 +247,13 @@ internal class Cycle1Test {
         repeat(100) {
             env.reset()
             env.taskRun(
-                debuggerList
+                debuggerList = debuggerList
             ).let {
                 rrs.add(it)
             }
         }
         val sorted = rrs.sortedBy {
-            it.dataLHM[Res.globalTimeId]!!.toInt()
+            it.endData[Res.globalTimeId]!!.toInt()
         }
         sorted.map {
             println(it)
@@ -253,13 +271,13 @@ internal class Cycle1Test {
         repeat(100000) {
             env.reset()
             env.taskRun(
-                debuggerList
+                debuggerList = debuggerList,
             ).let {
                 rrs.add(it)
             }
         }
         rrs.map {
-            it.dataLHM[Res.globalTimeId]!!.toInt()
+            it.endData[Res.globalTimeId]!!.toInt()
         }.average().let {
             println(it)
         }
@@ -278,13 +296,13 @@ internal class Cycle1Test {
             println(it)
             env.reset()
             env.taskRun(
-                debuggerList
+                debuggerList = debuggerList,
             ).let {
                 rrs.add(it)
             }
         }
         rrs.map {
-            it.dataLHM["c"]!!.toInt()
+            it.endData["c"]!!.toInt()
         }.average().let {
             println(it)
         }

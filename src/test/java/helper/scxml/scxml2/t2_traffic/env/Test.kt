@@ -78,13 +78,13 @@ internal class Test {
     fun taskRun1(
         rrs: ArrayList<RunResult> = ArrayList(),
     ) {
-        val rr = RunResult()
+        val runResult = RunResult()
         val trafficEnv = getTrafficEnvObj2()
         val leftTime = trafficEnv.taskRun(
-            countClockValueFun = { scxmlTuple: SCXMLTuple, event: String ->
+            countClockValueFun = { scxmlTuple, event ->
                 val state = scxmlTuple.activeStatesString
                 if (Res.renStateList.contains(state)) {
-                    rr.us.add(
+                    runResult.us.add(
                         LocationActionClockUnit(
                             state,
                             event,
@@ -99,8 +99,8 @@ internal class Test {
                 Debugger(0),
             ),
         )
-        rr.leftTime = leftTime
-        rrs.add(rr)
+        runResult.leftTime = leftTime
+        rrs.add(runResult)
     }
 
     @Test

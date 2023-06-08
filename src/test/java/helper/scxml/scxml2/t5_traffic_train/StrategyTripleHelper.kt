@@ -16,7 +16,7 @@ object StrategyTripleHelper {
         it["Wait"] = ClockConstraint("T", 1)//
     }
 
-    private fun getBaseEnvEventLHM() =  A3LHM<String, String, Double>().also {
+    private fun getBaseEnvEventLHM() = A3LHM<String, String, Double>().also {
         it["Go"] = linkedMapOf("train_go_end" to 1.0)
     }
 
