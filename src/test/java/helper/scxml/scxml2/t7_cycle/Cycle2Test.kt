@@ -1,12 +1,13 @@
 package helper.scxml.scxml2.t7_cycle
 
 import helper.DebugHelper.getDebuggerList
-import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper
-import helper.scxml.ScxmlVarHelper.ClockConstraint
-import helper.scxml.scxml2.SCXMLTuple
+import helper.base.RandomHelper
+import helper.scxml.scxml2.EnvHelper.RunResult
+import helper.scxml.scxml2.EnvHelper.T3BaseEnv
 import helper.scxml.scxml2.Scxml2Helper
+import helper.scxml.scxml2.StrategyTripleHelper
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t2_traffic.Res
 import org.junit.Test
@@ -14,16 +15,12 @@ import org.junit.Test
 internal class Cycle2Test {
     object EnvHelper {
         class Env(
-            envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
-            envEventLHM: A3LHM<String, String, Double>,
-            getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector,
-        ) : helper.scxml.scxml2.EnvHelper.T2BaseEnv(
-            envStateConstraintLHM,
-            envEventLHM,
-            getIRenEventSelectorFun,
+            override val strategyTuple: StrategyTripleHelper.Type2StrategyTuple
+        ) : T3BaseEnv(
         ) {
             override val scxmlTuple = Scxml2Helper.getSCXMLTuple("scxml2/t7_cycle/cycle2.scxml").also {
                 it.initialStateList.add("s0")
+                it.renStateList.add("s1")
                 it.finalStateList.add("s4")
                 arrayListOf("s0", "s1", "s2", "s3").map { stateId ->
                     it.stateNeedConsiderClockListLHM.add(stateId, arrayListOf("x"))
@@ -36,67 +33,96 @@ internal class Cycle2Test {
                 it.stateDataIncrementLHM.add("s2", "c", 3.0)
                 it.stateDataIncrementLHM.add("s3", "c", 2.0)
             }
+        }
 
-            private val machineTimeMax = 240
-
-            override val ifMachineTimeMax: Boolean
-                get() {
-                    return dataGlobalTimeInt >= machineTimeMax
+        fun ifCanNextWhenOneClock(
+            dataInt: Int,
+            range: IntRange,
+        ): Boolean {
+            var ifCanNext = true
+            if (dataInt !in range) {
+                ifCanNext = false
+            } else {
+                val booleanInProbability = RandomHelper.getBooleanInProbability(
+                    range.last - dataInt + 1
+                )
+                if (!booleanInProbability) {
+                    ifCanNext = false
                 }
+            }
+            return ifCanNext
         }
 
         fun getEnvObj1(): Env {
             return Env(
-                envStateConstraintLHM = LinkedHashMap<String, ClockConstraint>().also {
-                    it["s0"] = ClockConstraint("x", 0..100)
-                    it["s1"] = ClockConstraint("x", 0..100)
-                    it["s2"] = ClockConstraint("x", 60..120)
-                    it["s3"] = ClockConstraint("x", 20..140)
-                },
-                envEventLHM = A3LHM<String, String, Double>().also {
-                    it["s0"] = linkedMapOf("s0s1" to 1.0)
-                    it["s2"] = linkedMapOf("s2s4" to 1.0)
-                    it["s3"] = linkedMapOf("s3s4" to 1.0)
-                },
-                getIRenEventSelectorFun = { scxmlTuple ->
-                    object : IRenEventSelector {
-                        override fun getRenEvent(stateId: String): String? {
-                            if (stateId == "s1") {
-                                val dataInt = scxmlTuple.dataSCXML.getDataInt("x")!!
-                                when (dataInt) {
-                                    100 -> {
-                                        linkedMapOf(
-                                            "s1s2" to 1.0,
-                                            "s1s3" to 1.0,
-                                            "s1s4t1" to 1.0,
-                                            "s1s4t2" to 1.0,
-                                        ).let {
+                StrategyTripleHelper.Type2StrategyTuple(
+                    getIEnvEventSelectorFun = { scxmlTuple ->
+                        object : StrategyTripleHelper.IEnvEventSelector {
+                            override fun getEvent(stateId: String): String? {
+                                val dataXInt: Int = scxmlTuple.dataSCXML.getDataInt("x")!!
+                                when (stateId) {
+                                    "s0" -> {
+                                        if (!ifCanNextWhenOneClock(dataXInt, 0..100)) return null
+                                        linkedMapOf("s0s1" to 1.0).let {
                                             return MathHelper.getRandomString(it)
                                         }
                                     }
-                                    in 90 until 100 -> {
-                                        linkedMapOf(
-                                            "s1s2" to 1.0,
-                                            "s1s3" to 1.0,
-                                            "s1s4t2" to 1.0,
-                                        ).let {
+                                    "s1" -> {
+                                        if (!ifCanNextWhenOneClock(dataXInt, 90 until 100)) return null
+                                        linkedMapOf("s1s4t2" to 1.0).let {
                                             return MathHelper.getRandomString(it)
                                         }
                                     }
-                                    in 0 until 90 -> {
-                                        linkedMapOf(
-                                            "s1s2" to 1.0,
-                                            "s1s3" to 1.0,
-                                        ).let {
+                                    "s2" -> {
+                                        if (!ifCanNextWhenOneClock(dataXInt, 60..120)) return null
+                                        linkedMapOf("s2s4" to 1.0).let {
+                                            return MathHelper.getRandomString(it)
+                                        }
+                                    }
+                                    "s3" -> {
+                                        if (!ifCanNextWhenOneClock(dataXInt, 20..140)) return null
+                                        linkedMapOf("s3s4" to 1.0).let {
                                             return MathHelper.getRandomString(it)
                                         }
                                     }
                                 }
+                                return null
                             }
-                            return null
                         }
-                    }
-                }
+                    },
+                    getIRenEventSelectorFun = { scxmlTuple ->
+                        object : IRenEventSelector {
+                            override fun getEvent(stateId: String): String? {
+                                val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
+                                when (stateId) {
+                                    "s1" -> {
+                                        when (dataXInt) {
+                                            100 -> {
+                                                linkedMapOf(
+                                                    "s1s2" to 1.0,
+                                                    "s1s3" to 1.0,
+                                                    "s1s4t1" to 1.0,
+                                                ).let {
+                                                    return MathHelper.getRandomString(it)
+                                                }
+                                            }
+                                            else -> {
+                                                if (!ifCanNextWhenOneClock(dataXInt, 0..100)) return null
+                                                linkedMapOf(
+                                                    "s1s2" to 1.0,
+                                                    "s1s3" to 1.0,
+                                                ).let {
+                                                    return MathHelper.getRandomString(it)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                return null
+                            }
+                        }
+                    },
+                )
             )
         }
     }
@@ -135,7 +161,7 @@ internal class Cycle2Test {
             0,
             0,
         )
-        val rrs = ArrayList<helper.scxml.scxml2.EnvHelper.RunResult>()
+        val rrs = ArrayList<RunResult>()
         val env = EnvHelper.getEnvObj1()
         repeat(100) {
             env.reset()
@@ -145,7 +171,7 @@ internal class Cycle2Test {
             rrs.add(rr)
         }
         val sorted = rrs.sortedBy {
-            it[Res.globalTimeId]!!.toInt()
+            it.dataLHM[Res.globalTimeId]!!.toInt()
         }
         sorted.map {
             println(it)

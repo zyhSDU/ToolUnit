@@ -8,6 +8,7 @@ import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.Scxml2Helper
 import helper.scxml.scxml2.StrategyTripleHelper
+import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.Cycle1Test.EnvHelper.RunResult
 import org.junit.Test
 
@@ -20,7 +21,7 @@ internal class Cycle1Test {
         class Env(
             envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
             envEventLHM: A3LHM<String, String, Double>,
-            getIRenEventSelectorFun: (SCXMLTuple) -> StrategyTripleHelper.IRenEventSelector,
+            getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector,
         ) : helper.scxml.scxml2.EnvHelper.T2BaseEnv(
             envStateConstraintLHM,
             envEventLHM,

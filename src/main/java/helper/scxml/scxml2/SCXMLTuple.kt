@@ -55,6 +55,11 @@ class SCXMLTuple(
 
     val dataSCXML = DataSCXML(scxml)
 
+    fun reset() {
+        executor.reset()
+        dataSCXML.reset()
+    }
+
     val idTransitionTargetLHM = LinkedHashMap<String, TransitionTarget>().also {
         dataSCXML.scxml.touchTransitionTarget { _, tt ->
             it.addState(tt)
@@ -197,7 +202,7 @@ class SCXMLTuple(
     fun doExecutable(
         event: String,
         doOnEntry: (TransitionTarget) -> Unit = {},
-        debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+        debuggerList: DebuggerList = getDebuggerList(0),
     ) {
         debuggerList.startPln("doExecutable")
         debuggerList.pln("event=$event")

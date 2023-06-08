@@ -107,7 +107,7 @@ object FunStrategyHelper {
                     return it
                 }
             }
-            renEventSelector.getRenEvent(stateId)?.let { event ->
+            renEventSelector.getEvent(stateId)?.let { event ->
                 if (Res.renStateList.contains(stateId)) {
                     firedStateIdEventList.add(
                         SIISUnit(

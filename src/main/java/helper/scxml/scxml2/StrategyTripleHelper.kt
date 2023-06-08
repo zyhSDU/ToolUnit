@@ -5,17 +5,25 @@ import helper.base.MathHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 
 object StrategyTripleHelper {
-    //人为事件选择器接口
-    interface IRenEventSelector {
-        fun getRenEvent(stateId: String): String?
+    interface IEventSelector {
+        fun getEvent(stateId: String): String?
+        fun toStr(): String {
+            return "IEventSelector"
+        }
     }
+
+    //环境事件选择器接口
+    interface IEnvEventSelector : IEventSelector
+
+    //人为事件选择器接口
+    interface IRenEventSelector : IEventSelector
 
     //只和状态相关
     //人为事件选择器
     class StateRenEventSelector(
         val renEventLHM: A3LHM<String, String, Double> = A3LHM(),
     ) : IRenEventSelector {
-        override fun getRenEvent(stateId: String): String? {
+        override fun getEvent(stateId: String): String? {
             this.renEventLHM[stateId]?.let {
                 return MathHelper.getRandomString(it)
             }
@@ -28,7 +36,7 @@ object StrategyTripleHelper {
     //环境策略
     //人策略
     //子类后面扩展的，都要考虑会不会变
-    open class StrategyTriple(
+    open class StrategyTuple(
         val envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
         val envEventLHM: A3LHM<String, String, Double>,
         val getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector,
@@ -37,20 +45,31 @@ object StrategyTripleHelper {
             scxmlTuple: SCXMLTuple,
             stateId: String,
         ): String? {
-            return getIRenEventSelectorFun(scxmlTuple).getRenEvent(stateId)
+            return getIRenEventSelectorFun(scxmlTuple).getEvent(stateId)
         }
     }
 
-    open class Type2StrategyTriple(
-        val envStateConstraintLHM: LinkedHashMap<String, ClockConstraint>,
-        val envEventLHM: A3LHM<String, String, Double>,
-        val getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector,
-    ) {
+    interface IStrategyTuple {
+        val getIEnvEventSelectorFun: (SCXMLTuple) -> IEnvEventSelector
+        val getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector
+    }
+
+    open class Type2StrategyTuple(
+        override val getIEnvEventSelectorFun: (SCXMLTuple) -> IEnvEventSelector,
+        override val getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector
+    ) : IStrategyTuple {
+        open fun getEnvEvent(
+            scxmlTuple: SCXMLTuple,
+            stateId: String,
+        ): String? {
+            return getIEnvEventSelectorFun(scxmlTuple).getEvent(stateId)
+        }
+
         open fun getRenEvent(
             scxmlTuple: SCXMLTuple,
             stateId: String,
         ): String? {
-            return getIRenEventSelectorFun(scxmlTuple).getRenEvent(stateId)
+            return getIRenEventSelectorFun(scxmlTuple).getEvent(stateId)
         }
     }
 }

@@ -100,7 +100,7 @@ object StrategyTripleHelper {
         private val scxmlTuple: SCXMLTuple,
         private val a4LHM: StrIntStrIntLHM,
     ) : IRenEventSelector {
-        override fun getRenEvent(
+        override fun getEvent(
             stateId: String,
         ): String? {
             a4LHM[stateId]?.let {
@@ -110,7 +110,7 @@ object StrategyTripleHelper {
             }
             //实在找不到，则出动随机
             println("cannot getRenEvent_learned,than getRenEvent_random")
-            return stateRenEventSelector1.getRenEvent(stateId)
+            return stateRenEventSelector1.getEvent(stateId)
         }
 
         object Expand {
