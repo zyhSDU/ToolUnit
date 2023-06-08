@@ -164,6 +164,7 @@ internal class Cycle1Test {
                                     "s1" -> {
                                         val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
                                         val dataGInt = scxmlTuple.dataSCXML.getDataInt(Res.globalTimeId)!!
+                                        //这里改为上次进入时间比较合适
                                         val enterS1Time = dataGInt - dataXInt
                                         when {
                                             enterS1Time > 90 -> {
@@ -273,7 +274,8 @@ internal class Cycle1Test {
         )
         val rrs = ArrayList<RunResult>()
         val env = EnvHelper.getEnvObj3()
-        repeat(100000) {
+        repeat(1000000) {
+            println(it)
             env.reset()
             env.taskRun(
                 debuggerList
@@ -286,6 +288,7 @@ internal class Cycle1Test {
         }.average().let {
             println(it)
         }
-        //204
+        //理论204
+        //实际203.223718
     }
 }
