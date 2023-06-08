@@ -6,6 +6,7 @@ import helper.base.MathHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv.Companion.ifCanNextWhenOneClock
+import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.Scxml2Helper
 import helper.scxml.scxml2.StrategyTripleHelper
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
@@ -42,44 +43,48 @@ internal class Cycle1Test {
                 }
         }
 
+        fun getIEnvEventSelectorFunObj1(): (SCXMLTuple) -> StrategyTripleHelper.IEnvEventSelector {
+            return { scxmlTuple ->
+                object : StrategyTripleHelper.IEnvEventSelector {
+                    override fun getEvent(stateId: String): String? {
+                        val dataXInt: Int = scxmlTuple.dataSCXML.getDataInt("x")!!
+                        when (stateId) {
+                            "s0" -> {
+                                if (!ifCanNextWhenOneClock(dataXInt, 0..100)) return null
+                                linkedMapOf("s0s1" to 1.0).let {
+                                    return MathHelper.getRandomString(it)
+                                }
+                            }
+                            "s1" -> {
+                                if (!ifCanNextWhenOneClock(dataXInt, 90 until 100)) return null
+                                linkedMapOf("s1s4t2" to 1.0).let {
+                                    return MathHelper.getRandomString(it)
+                                }
+                            }
+                            "s2" -> {
+                                if (!ifCanNextWhenOneClock(dataXInt, 60..120)) return null
+                                linkedMapOf("s2s4" to 1.0).let {
+                                    return MathHelper.getRandomString(it)
+                                }
+                            }
+                            "s3" -> {
+                                if (!ifCanNextWhenOneClock(dataXInt, 20..140)) return null
+                                linkedMapOf("s3s4" to 1.0).let {
+                                    return MathHelper.getRandomString(it)
+                                }
+                            }
+                        }
+                        return null
+                    }
+                }
+            }
+        }
+
         fun getEnvObj1(): Env {
             return Env(
                 machineTimeMax = Int.MAX_VALUE,
                 strategyTuple = StrategyTripleHelper.Type2StrategyTuple(
-                    getIEnvEventSelectorFun = { scxmlTuple ->
-                        object : StrategyTripleHelper.IEnvEventSelector {
-                            override fun getEvent(stateId: String): String? {
-                                val dataXInt: Int = scxmlTuple.dataSCXML.getDataInt("x")!!
-                                when (stateId) {
-                                    "s0" -> {
-                                        if (!ifCanNextWhenOneClock(dataXInt, 0..100)) return null
-                                        linkedMapOf("s0s1" to 1.0).let {
-                                            return MathHelper.getRandomString(it)
-                                        }
-                                    }
-                                    "s1" -> {
-                                        if (!ifCanNextWhenOneClock(dataXInt, 90 until 100)) return null
-                                        linkedMapOf("s1s4t2" to 1.0).let {
-                                            return MathHelper.getRandomString(it)
-                                        }
-                                    }
-                                    "s2" -> {
-                                        if (!ifCanNextWhenOneClock(dataXInt, 60..120)) return null
-                                        linkedMapOf("s2s4" to 1.0).let {
-                                            return MathHelper.getRandomString(it)
-                                        }
-                                    }
-                                    "s3" -> {
-                                        if (!ifCanNextWhenOneClock(dataXInt, 20..140)) return null
-                                        linkedMapOf("s3s4" to 1.0).let {
-                                            return MathHelper.getRandomString(it)
-                                        }
-                                    }
-                                }
-                                return null
-                            }
-                        }
-                    },
+                    getIEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
                     getIRenEventSelectorFun = { scxmlTuple ->
                         object : IRenEventSelector {
                             override fun getEvent(stateId: String): String? {
@@ -101,6 +106,36 @@ internal class Cycle1Test {
                                                 linkedMapOf(
                                                     "s1s2" to 1.0,
                                                     "s1s3" to 1.0,
+                                                ).let {
+                                                    return MathHelper.getRandomString(it)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                return null
+                            }
+                        }
+                    },
+                ),
+            )
+        }
+
+        fun getEnvObj2(): Env {
+            return Env(
+                machineTimeMax = 210,
+                strategyTuple = StrategyTripleHelper.Type2StrategyTuple(
+                    getIEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                    getIRenEventSelectorFun = { scxmlTuple ->
+                        object : IRenEventSelector {
+                            override fun getEvent(stateId: String): String? {
+                                val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
+                                when (stateId) {
+                                    "s1" -> {
+                                        when (dataXInt) {
+                                            100 -> {
+                                                linkedMapOf(
+                                                    "s1s4t1" to 1.0,
                                                 ).let {
                                                     return MathHelper.getRandomString(it)
                                                 }
@@ -155,15 +190,39 @@ internal class Cycle1Test {
         val env = EnvHelper.getEnvObj1()
         repeat(100) {
             env.reset()
-            val rr = env.taskRun(
+            env.taskRun(
                 debuggerList
-            )
-            rrs.add(rr)
+            ).let {
+                rrs.add(it)
+            }
         }
         val sorted = rrs.sortedBy {
             it.dataLHM[Res.globalTimeId]!!.toInt()
         }
         sorted.map {
+            println(it)
+        }
+    }
+
+    @Test
+    fun t2t1() {
+        val debuggerList = getDebuggerList(
+            0,
+            0,
+        )
+        val rrs = ArrayList<RunResult>()
+        val env = EnvHelper.getEnvObj2()
+        repeat(100000) {
+            env.reset()
+            env.taskRun(
+                debuggerList
+            ).let {
+                rrs.add(it)
+            }
+        }
+        rrs.map {
+            it.dataLHM[Res.globalTimeId]!!.toInt()
+        }.average().let {
             println(it)
         }
     }
