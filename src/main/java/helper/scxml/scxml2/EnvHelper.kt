@@ -134,6 +134,7 @@ object EnvHelper {
 
     abstract class T3BaseEnv {
         companion object {
+            //为了均匀
             fun ifCanNextWhenOneClock(
                 dataInt: Int,
                 range: IntRange,

@@ -102,6 +102,7 @@ internal class Cycle1Test {
                                                 }
                                             }
                                             else -> {
+                                                //为了均匀
                                                 if (!ifCanNextWhenOneClock(dataXInt, 0..100)) return null
                                                 linkedMapOf(
                                                     "s1s2" to 1.0,
@@ -139,6 +140,42 @@ internal class Cycle1Test {
                                                 ).let {
                                                     return MathHelper.getRandomString(it)
                                                 }
+                                            }
+                                        }
+                                    }
+                                }
+                                return null
+                            }
+                        }
+                    },
+                ),
+            )
+        }
+
+        fun getEnvObj3(): Env {
+            return Env(
+                machineTimeMax = 210,
+                strategyTuple = StrategyTripleHelper.Type2StrategyTuple(
+                    getIEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                    getIRenEventSelectorFun = { scxmlTuple ->
+                        object : IRenEventSelector {
+                            override fun getEvent(stateId: String): String? {
+                                when (stateId) {
+                                    "s1" -> {
+                                        val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
+                                        val dataGInt = scxmlTuple.dataSCXML.getDataInt(Res.globalTimeId)!!
+                                        val enterS1Time = dataGInt - dataXInt
+                                        when {
+                                            enterS1Time > 90 -> {
+                                                if (dataXInt == 100) {
+                                                    return "s1s4t1"
+                                                }
+                                            }
+                                            enterS1Time > 70 && enterS1Time <= 90 -> {
+                                                return "s1s2"
+                                            }
+                                            enterS1Time <= 70 -> {
+                                                return "s1s3"
                                             }
                                         }
                                     }
@@ -225,5 +262,30 @@ internal class Cycle1Test {
         }.average().let {
             println(it)
         }
+        //145
+    }
+
+    @Test
+    fun t3t1() {
+        val debuggerList = getDebuggerList(
+            0,
+            0,
+        )
+        val rrs = ArrayList<RunResult>()
+        val env = EnvHelper.getEnvObj3()
+        repeat(100000) {
+            env.reset()
+            env.taskRun(
+                debuggerList
+            ).let {
+                rrs.add(it)
+            }
+        }
+        rrs.map {
+            it.dataLHM["c"]!!.toInt()
+        }.average().let {
+            println(it)
+        }
+        //204
     }
 }
