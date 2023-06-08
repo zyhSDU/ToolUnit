@@ -5,7 +5,6 @@ import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.LHMHelper.LHMExpand.toStr
-import helper.base.MathHelper
 import helper.base.RandomHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.Expand.DataExpand.exprToInt
@@ -13,8 +12,6 @@ import helper.scxml.scxml2.Expand.DataExpand.setExprAddIncrement
 import helper.scxml.scxml2.Expand.DataExpand.setExprAddOne
 import helper.scxml.scxml2.Expand.SCXMLExecutorExpand.isInState
 import helper.scxml.scxml2.Expand.ToStr.toStr
-import helper.scxml.scxml2.IDataExpandHelper.Expand.ifMeet
-import helper.scxml.scxml2.StrategyTripleHelper.IEnvEventSelector
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.StrategyTripleHelper.StateRenEventSelector
 import helper.scxml.scxml2.StrategyTripleHelper.StrategyTuple
@@ -136,6 +133,26 @@ object EnvHelper {
     }
 
     abstract class T3BaseEnv {
+        companion object {
+            fun ifCanNextWhenOneClock(
+                dataInt: Int,
+                range: IntRange,
+            ): Boolean {
+                var ifCanNext = true
+                if (dataInt !in range) {
+                    ifCanNext = false
+                } else {
+                    val booleanInProbability = RandomHelper.getBooleanInProbability(
+                        range.last - dataInt + 1
+                    )
+                    if (!booleanInProbability) {
+                        ifCanNext = false
+                    }
+                }
+                return ifCanNext
+            }
+        }
+
         abstract val strategyTuple: Type2StrategyTuple
         abstract val scxmlTuple: SCXMLTuple
 

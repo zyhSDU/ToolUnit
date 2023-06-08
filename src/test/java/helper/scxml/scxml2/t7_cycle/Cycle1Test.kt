@@ -3,9 +3,9 @@ package helper.scxml.scxml2.t7_cycle
 import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper
-import helper.base.RandomHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv
+import helper.scxml.scxml2.EnvHelper.T3BaseEnv.Companion.ifCanNextWhenOneClock
 import helper.scxml.scxml2.Scxml2Helper
 import helper.scxml.scxml2.StrategyTripleHelper
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
@@ -16,8 +16,7 @@ internal class Cycle1Test {
     object EnvHelper {
         class Env(
             override val strategyTuple: StrategyTripleHelper.Type2StrategyTuple
-        ) : T3BaseEnv(
-        ) {
+        ) : T3BaseEnv() {
             override val scxmlTuple = Scxml2Helper.getSCXMLTuple("scxml2/t7_cycle/cycle1.scxml").also {
                 it.initialStateList.add("s0")
                 it.renStateList.add("s1")
@@ -28,29 +27,13 @@ internal class Cycle1Test {
                 arrayListOf("s0", "s1", "s2", "s3").map { stateId ->
                     it.stateDataIncrementLHM.add(stateId, "x", 1.0)
                 }
-                it.stateDataIncrementLHM.add("s0", "x", 1.0)
-                it.stateDataIncrementLHM.add("s1", "c", 4.0)
-                it.stateDataIncrementLHM.add("s2", "c", 3.0)
-                it.stateDataIncrementLHM.add("s3", "c", 2.0)
-            }
-        }
-
-        fun ifCanNextWhenOneClock(
-            dataInt: Int,
-            range: IntRange,
-        ): Boolean {
-            var ifCanNext = true
-            if (dataInt !in range) {
-                ifCanNext = false
-            } else {
-                val booleanInProbability = RandomHelper.getBooleanInProbability(
-                    range.last - dataInt + 1
-                )
-                if (!booleanInProbability) {
-                    ifCanNext = false
+                it.stateDataIncrementLHM.run {
+                    add("s0", "x", 1.0)
+                    add("s1", "c", 4.0)
+                    add("s2", "c", 3.0)
+                    add("s3", "c", 2.0)
                 }
             }
-            return ifCanNext
         }
 
         fun getEnvObj1(): Env {
