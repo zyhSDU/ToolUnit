@@ -3,7 +3,6 @@ package helper.scxml.scxml2
 import helper.DebugHelper.DebuggerList
 import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
-import helper.base.LHMHelper.LHMExpand.add
 import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.RandomHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
@@ -363,6 +362,28 @@ object EnvHelper {
             debugPlnStatus()
             runResult.updateWhenRunEnd(scxmlTuple)
             return runResult
+        }
+
+        fun taskRun2(
+            runResult: RunResult = RunResult(),
+            debuggerList: DebuggerList = getDebuggerList(0),
+        ): RunResult {
+            return this.taskRun(
+                runResult = runResult,
+                countClockValueFun = { scxmlTuple, event ->
+                    val state = scxmlTuple.activeStatesString
+                    if (this.scxmlTuple.renStateList.contains(state)) {
+                        runResult.us.add(
+                            LocationActionClockUnit(
+                                state,
+                                event,
+                                scxmlTuple.toData(),
+                            )
+                        )
+                    }
+                },
+                debuggerList = debuggerList,
+            )
         }
     }
 }

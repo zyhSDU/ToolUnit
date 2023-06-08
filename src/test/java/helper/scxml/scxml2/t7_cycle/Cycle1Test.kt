@@ -3,8 +3,6 @@ package helper.scxml.scxml2.t7_cycle
 import helper.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper
-import helper.scxml.scxml2.EnvHelper
-import helper.scxml.scxml2.EnvHelper.LocationActionClockUnit
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv.Companion.ifCanNextWhenOneClock
@@ -216,20 +214,8 @@ internal class Cycle1Test {
             )
             env.reset()
             val runResult = RunResult()
-            env.taskRun(
+            env.taskRun2(
                 runResult = runResult,
-                countClockValueFun = { scxmlTuple, event ->
-                    val state = scxmlTuple.activeStatesString
-                    if (env.scxmlTuple.renStateList.contains(state)) {
-                        runResult.us.add(
-                            LocationActionClockUnit(
-                                state,
-                                event,
-                                scxmlTuple.toData(),
-                            )
-                        )
-                    }
-                },
                 debuggerList = debuggerList,
             )
             println(runResult)
@@ -308,5 +294,10 @@ internal class Cycle1Test {
         }
         //理论204
         //实际203.223718
+    }
+
+    @Test
+    fun t4t1() {
+
     }
 }

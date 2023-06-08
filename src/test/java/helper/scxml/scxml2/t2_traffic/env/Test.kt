@@ -3,6 +3,7 @@ package helper.scxml.scxml2.t2_traffic.env
 import helper.DebugHelper.Debugger
 import helper.DebugHelper.getDebuggerList
 import helper.base.PrintHelper.StringTo.toPrintln
+import helper.scxml.scxml2.LearningHelper
 import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t2_traffic.Res
@@ -112,15 +113,7 @@ internal class Test {
 
     @Test
     fun t1t2() {
-        val maxRuns = 0
-        val maxGood = 0
-
-        val maxBest = 0
-
-        val evalRuns = 0
-        val maxNoBetter = 0
-        val maxIterations = 0
-        val maxResets = 10
+        val obj1 = LearningHelper.HyperParameterUnit.getObj1()
 
         val rrs: ArrayList<RunResult> = ArrayList()
 
