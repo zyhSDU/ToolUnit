@@ -6,7 +6,7 @@ internal class HeapHelperTest {
     @Test
     fun t1() {
         // 创建一个空的 PriorityQueue
-        val maxHeap = HeapHelper.getMaxHeap()
+        val maxHeap = HeapHelper.getIntMaxHeap()
 
         // 添加元素到最大堆中
         maxHeap.add(3)

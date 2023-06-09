@@ -3,7 +3,7 @@ package helper.base
 import java.util.*
 
 object HeapHelper {
-    fun getMaxHeap(): PriorityQueue<Int> {
+    fun getIntMaxHeap(): PriorityQueue<Int> {
         return PriorityQueue<Int>(Collections.reverseOrder())
     }
 }
