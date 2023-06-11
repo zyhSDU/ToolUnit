@@ -1,7 +1,7 @@
 package helper.scxml.scxml2.t2_traffic
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.DebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.DebuggerList
 import helper.base.FileHelper.toFile
 import helper.base.ProgressBarHelper
 import helper.base.RegexHelper.match

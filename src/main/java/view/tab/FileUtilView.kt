@@ -12,8 +12,8 @@ import javafx.scene.input.MouseButton
 import javafx.stage.DirectoryChooser
 import javafx.stage.Stage
 import model.FileType
-import helper.LogHelper
-import helper.LogHelper.toTrace
+import helper.base.LogHelper
+import helper.base.LogHelper.toTrace
 import helper.MessageHelper
 import helper.base.TimeHelper
 import view.TabConnect

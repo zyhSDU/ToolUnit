@@ -1,8 +1,8 @@
 package helper.scxml.scxml2
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.DebuggerList
-import helper.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import helper.XMLCreateHelper.writeElement
 import helper.base.LHMHelper
 import helper.base.RegexHelper.match

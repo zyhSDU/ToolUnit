@@ -1,6 +1,6 @@
 package helper.scxml.scxml2.t2_traffic
 
-import helper.DebugHelper.Debugger
+import helper.base.DebugHelper.Debugger
 import helper.base.FileHelper
 import helper.base.LHMHelper
 import helper.base.MathHelper

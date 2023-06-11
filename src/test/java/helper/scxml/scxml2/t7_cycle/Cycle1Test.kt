@@ -1,8 +1,7 @@
 package helper.scxml.scxml2.t7_cycle
 
-import helper.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
-import helper.base.LHMHelper
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper

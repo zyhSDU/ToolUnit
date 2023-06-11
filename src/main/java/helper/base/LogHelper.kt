@@ -1,7 +1,6 @@
-package helper
+package helper.base
 
-import helper.base.FileHelper
-import helper.base.TimeHelper
+import helper.MessageHelper
 import java.lang.StringBuilder
 import java.io.File as File
 
@@ -13,7 +12,9 @@ object LogHelper {
         debug1,
     }
 
-    enum class LogLabelGroup(var arrayList: ArrayList<LogLabel>) {
+    enum class LogLabelGroup(
+        var arrayList: ArrayList<LogLabel>
+    ) {
         all(ArrayList<LogLabel>().apply {
             addAll(LogLabel.values())
         }),
@@ -34,7 +35,9 @@ object LogHelper {
         }
     }
 
-    fun createLogLabelsWithTrace0(vararg label: LogLabel): ArrayList<LogLabel> {
+    fun createLogLabelsWithTrace0(
+        vararg label: LogLabel,
+    ): ArrayList<LogLabel> {
         return arrayListOf(LogLabel.trace0).apply {
             addAll(label)
         }
@@ -48,7 +51,9 @@ object LogHelper {
         fatal
     }
 
-    enum class LogOutEnum(val run: (String) -> Unit) {
+    enum class LogOutEnum(
+        val run: (String) -> Unit,
+    ) {
         print({ s ->
             println(s)
         }),
@@ -61,7 +66,9 @@ object LogHelper {
         ;
     }
 
-    enum class LogOutGroupEnum(val arr: Array<LogOutEnum>) {
+    enum class LogOutGroupEnum(
+        val arr: Array<LogOutEnum>,
+    ) {
         none(arrayOf()),
         print(arrayOf(LogOutEnum.print)),
         all(LogOutEnum.values())
@@ -104,7 +111,9 @@ object LogHelper {
     }
 
     //log
-    private fun log(logEntity: LogEntity) {
+    private fun log(
+        logEntity: LogEntity,
+    ) {
         var contains = false
         logEntity.logLabelGroup.arrayList.map {
             if (!contains) {

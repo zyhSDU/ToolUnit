@@ -1,8 +1,8 @@
 package helper.scxml.scxml2.t2_traffic.env
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.DebuggerList
-import helper.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml0.TrafficTestHelper

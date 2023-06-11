@@ -1,7 +1,7 @@
 package helper
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.DebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.DebuggerList
 import org.junit.Test
 
 internal class DebugHelperTest {

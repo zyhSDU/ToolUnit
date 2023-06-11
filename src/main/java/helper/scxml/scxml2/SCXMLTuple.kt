@@ -1,8 +1,8 @@
 package helper.scxml.scxml2
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.DebuggerList
-import helper.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.ConstraintHelper
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add

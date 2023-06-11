@@ -1,5 +1,6 @@
 package helper
 
+import helper.base.LogHelper
 import helper.base.MathHelper.modifiedSubtract
 import helper.base.TimeHelper
 import java.lang.StringBuilder

@@ -1,7 +1,7 @@
 package helper.scxml.scxml2.t4_time
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.MathHelper
 import helper.scxml.scxml0.TimeTestHelper
 import helper.scxml.scxml2.Expand.SCXMLExecutorExpand.isInState

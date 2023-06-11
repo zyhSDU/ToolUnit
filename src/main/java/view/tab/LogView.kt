@@ -1,7 +1,7 @@
 package view.tab
 
 import helper.base.CopyHelper.copyToClipboard
-import helper.LogHelper
+import helper.base.LogHelper
 import helper.base.RegexHelper
 import helper.base.StringHelper.removeEmpty
 import helper.base.StringHelper.removeEmptyLine

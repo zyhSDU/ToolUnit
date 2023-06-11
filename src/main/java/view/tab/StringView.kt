@@ -1,7 +1,7 @@
 package view.tab
 
 import helper.base.CopyHelper
-import helper.LogHelper
+import helper.base.LogHelper
 import javafx.application.Platform
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.EventHandler

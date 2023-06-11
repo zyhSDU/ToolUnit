@@ -1,4 +1,4 @@
-package helper
+package helper.base
 
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.BaseTypeHelper.toBoolean
@@ -59,14 +59,6 @@ object DebugHelper {
         fun endPln() {
             tabNum -= 1
         }
-
-        fun debug(
-            init: () -> Unit,
-        ) {
-            if (ifDebug) {
-                init()
-            }
-        }
     }
 
     class DebuggerList(
@@ -95,15 +87,6 @@ object DebugHelper {
         ) {
             indexList.map {
                 arr[it].endPln()
-            }
-        }
-
-        fun debug(
-            init: () -> Unit,
-            indexList: ArrayList<Int> = arrayListOf(0),
-        ) {
-            indexList.map {
-                arr[it].debug(init)
             }
         }
     }

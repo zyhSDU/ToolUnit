@@ -1,7 +1,7 @@
 package helper.scxml.scxml2.t2_traffic.env.to_file_test
 
-import helper.DebugHelper.Debugger
-import helper.DebugHelper.DebuggerList
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.DebuggerList
 import helper.base.FileHelper
 import helper.base.PrintHelper.StringTo.toPrintln
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper
