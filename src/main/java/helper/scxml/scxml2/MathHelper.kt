@@ -1,35 +1,49 @@
 package helper.scxml.scxml2
 
+import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.LHMHelper.A3LHM
+import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
+import helper.scxml.scxml2.MathHelper.Expand.calMean
+import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
 import kotlin.math.pow
+import kotlin.math.sqrt
 
 object MathHelper {
     object Expand {
         fun ArrayList<Double>.mathMinus(
-            a2: ArrayList<Double>,
+            other: ArrayList<Double>,
         ): ArrayList<Double> {
-            val a1 = this
-            val a3 = ArrayList<Double>()
-            (0 until a1.size).map {
-                a3.add(a1[it] - a2[it])
+            return this.zip(other) { a, b -> a - b }.toArrayList()
+        }
+
+        fun ArrayList<Double>.getEuclideanDistance(
+            other: ArrayList<Double>,
+        ): Double {
+            val squaredDifferences = this.zip(other) { a, b -> (a - b).pow(2.0) }
+            val sumOfSquaredDifferences = squaredDifferences.sum()
+            return sqrt(sumOfSquaredDifferences)
+        }
+
+        fun ArrayList<out ArrayList<Double>>.calMean(): ArrayList<Double> {
+            val mean = ArrayList<Double>()
+
+            if (isEmpty()) {
+                return mean
             }
-            return a3
+
+            val size = size.toDouble()
+            val columnSize = this[0].size
+
+            for (i in 0 until columnSize) {
+                val sum = sumOf { it[i] }
+                mean.add(sum / size)
+            }
+
+            return mean
         }
     }
 
     class ClockValuations : ArrayList<Double>() {
-        fun getEuclideanDistance(
-            v2: ClockValuations,
-        ): Double {
-            val v1 = this
-            var res = 0.0
-            (0 until v1.size).map {
-                res += (v1[it] - v2[it]).pow(2.0)
-            }
-            res = res.pow(0.5)
-            return res
-        }
-
         object Expand {
             fun ArrayList<Double>.toClockValuations(): ClockValuations {
                 val v = ClockValuations()
@@ -42,22 +56,18 @@ object MathHelper {
     }
 
     class ClockValuationsList : ArrayList<ClockValuations>() {
-        private var mean: ClockValuations? = null
-
-        fun calMean(): ClockValuations {
-            if (mean != null) return mean!!
-            val v = ClockValuations()
-            (0 until this[0].size).map { i ->
-                var d = 0.0
-                this.map { j ->
-                    d += j[i]
+        private var privateMean: ClockValuations? = null
+            get() {
+                if (field == null) {
+                    field = this.calMean().toClockValuations()
                 }
-                d /= size
-                v.add(d)
+                return field
             }
-            mean = v
-            return v
-        }
+
+        val mean: ClockValuations
+            get() {
+                return privateMean!!
+            }
 
         fun getWeightOf(v: ClockValuations): Double {
             return size * Math.E.pow(-v.getEuclideanDistance(calMean()))
@@ -68,12 +78,24 @@ object MathHelper {
         }
 
         object Expand {
-            fun ArrayList<ClockValuations>.toClockValuationsList(): ClockValuationsList {
-                val v = ClockValuationsList()
-                this.map {
-                    v.add(it)
+            object E1 {
+                fun ArrayList<ClockValuations>.toClockValuationsList(): ClockValuationsList {
+                    val v = ClockValuationsList()
+                    this.map {
+                        v.add(it)
+                    }
+                    return v
                 }
-                return v
+            }
+
+            object E2 {
+                fun ArrayList<ArrayList<Double>>.toClockValuationsList(): ClockValuationsList {
+                    val v = ClockValuationsList()
+                    this.map {
+                        v.add(it.toClockValuations())
+                    }
+                    return v
+                }
             }
         }
     }

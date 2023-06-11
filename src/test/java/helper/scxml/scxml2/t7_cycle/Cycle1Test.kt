@@ -11,6 +11,7 @@ import helper.scxml.scxml2.EnvHelper.T3BaseEnv.Companion.ifCanNextWhenOneClock
 import helper.scxml.scxml2.LearningHelper
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.ClockValuationsList
+import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
 import helper.scxml.scxml2.MathHelper.LocationEventVListLHM
 import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.Scxml2Helper
@@ -370,7 +371,7 @@ internal class Cycle1Test {
             val locationEventVListLHM = heap.toLocationEventVListLHM()
             val locationEventVMeanLHM = A3LHM<String, String, ClockValuations>()
             locationEventVListLHM.touch { a1, a2, a3 ->
-                locationEventVMeanLHM.add(a1, a2, a3.calMean())
+                locationEventVMeanLHM.add(a1, a2, a3.mean)
             }
             val oldGetIRenEventSelectorFun = env.strategyTuple.getIRenEventSelectorFun
             env.strategyTuple.getIRenEventSelectorFun = { scxmlTuple ->
