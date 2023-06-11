@@ -4,18 +4,20 @@ import helper.base.LHMHelper.A3LHM
 import kotlin.math.pow
 
 object MathHelper {
-    class ClockValuations : ArrayList<Double>() {
-        fun minus(
-            v2: ClockValuations,
-        ): ClockValuations {
-            val v1 = this
-            val v3 = ClockValuations()
-            (0 until v1.size).map {
-                v3.add(v1[it] - v2[it])
+    object Expand {
+        fun ArrayList<Double>.mathMinus(
+            a2: ArrayList<Double>,
+        ): ArrayList<Double> {
+            val a1=this
+            val a3= ArrayList<Double>()
+            (0 until a1.size).map {
+                a3.add(a1[it] - a2[it])
             }
-            return v3
+            return a3
         }
+    }
 
+    class ClockValuations : ArrayList<Double>() {
         fun getEuclideanDistance(
             v2: ClockValuations,
         ): Double {

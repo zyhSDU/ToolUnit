@@ -2,6 +2,7 @@ package helper.scxml.scxml2.t5_traffic_train.math
 
 import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
 import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.toClockValuationsList
+import helper.scxml.scxml2.MathHelper.Expand.mathMinus
 import org.junit.Test
 import kotlin.math.pow
 
@@ -21,7 +22,7 @@ internal class Test {
         val mean = vs.calMean()
         println(mean)
         vs.map {
-            val minus = it.minus(mean)
+            val minus = it.mathMinus(mean)
             println(minus)
         }
         vs.map {

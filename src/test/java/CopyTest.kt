@@ -3,7 +3,11 @@ import org.junit.Test
 internal class CopyTest {
     @Test
     fun t1() {
-        data class Person(val name: String, val age: Int, val addresses: MutableList<String>)
+        data class Person(
+            val name: String,
+            val age: Int,
+            val addresses: MutableList<String>,
+        )
 
         val person = Person("John", 30, mutableListOf("New York", "London"))
         val newPerson1 = person.copy(addresses = mutableListOf("Paris"))
