@@ -8,8 +8,8 @@ object MathHelper {
         fun ArrayList<Double>.mathMinus(
             a2: ArrayList<Double>,
         ): ArrayList<Double> {
-            val a1=this
-            val a3= ArrayList<Double>()
+            val a1 = this
+            val a3 = ArrayList<Double>()
             (0 until a1.size).map {
                 a3.add(a1[it] - a2[it])
             }
