@@ -22,4 +22,16 @@ object LearningHelper {
             )
         }
     }
+
+    class InstanceArgUnit(
+        var nowCountOfNoBetter: Int = 0,
+        var nowCountOfReset: Int = 0,
+    ){
+        companion object {
+            fun getObj1() = InstanceArgUnit(
+                nowCountOfNoBetter = 0,
+                nowCountOfReset = 0,
+            )
+        }
+    }
 }

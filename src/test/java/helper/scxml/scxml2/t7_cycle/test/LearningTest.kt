@@ -23,18 +23,17 @@ internal class LearningTest {
             0,
             0,
         )
-        val hp = LearningHelper.HyperArgUnit.getObj1()
+        val hyperArgUnit = LearningHelper.HyperArgUnit.getObj1()
+        val instanceArgUnit = LearningHelper.InstanceArgUnit.getObj1()
         var heap = ArrayList<RunResult>()
         val env = EnvObjHelper.getEnvObj1()
-        var nowCountOfNoBetter = 0
-        var nowCountOfReset = 0
         val meanList = ArrayList<Double>()
         repeat(
-            hp.maxIterations
+            hyperArgUnit.maxIterations
         ) {
             val rrs = ArrayList<RunResult>()
             println("iterations_${it}:\n")
-            repeat(hp.maxRuns) {
+            repeat(hyperArgUnit.maxRuns) {
                 env.reset()
                 env.taskRun2(
                     debuggerList = debuggerList,
@@ -45,13 +44,13 @@ internal class LearningTest {
             val mean1 = rrs.toMeanCost()
             val sorted: List<RunResult> = rrs.sortedBy {
                 it.endData["c"]!!.toInt()
-            }.take(hp.maxGood)
+            }.take(hyperArgUnit.maxGood)
             sorted.map {
                 heap.add(it)
             }
             heap = heap.sortedBy {
                 it.endData["c"]!!.toInt()
-            }.take(hp.maxBest).toArrayList()
+            }.take(hyperArgUnit.maxBest).toArrayList()
 
             val locationEventVListLHM = heap.toLocationEventVListLHM()
             val locationEventVMeanLHM = A3LHM<String, String, MathHelper.ClockValuations>()
@@ -97,7 +96,7 @@ internal class LearningTest {
 
             val evaluateResultList = ArrayList<RunResult>()
 
-            repeat(hp.evalRuns) {
+            repeat(hyperArgUnit.evalRuns) {
                 env.reset()
                 env.taskRun2(
                     debuggerList = debuggerList,
@@ -111,21 +110,21 @@ internal class LearningTest {
             println("mean3=${mean1.coerceAtMost(mean2)}")
             if (mean1 < mean2) {
                 env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun
-                nowCountOfNoBetter += 1
-                if (nowCountOfNoBetter >= hp.maxNoBetter) {
+                instanceArgUnit.nowCountOfNoBetter += 1
+                if (instanceArgUnit.nowCountOfNoBetter >= hyperArgUnit.maxNoBetter) {
                     //重置
                     env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getRenEventSelectorFunObj1()
-                    nowCountOfNoBetter = 0
-                    nowCountOfReset += 1
-                    if (nowCountOfReset >= hp.maxResets) {
-                        println("nowCountOfReset>=hp.maxResets\t\t${nowCountOfReset}>=${hp.maxResets}")
+                    instanceArgUnit.nowCountOfNoBetter = 0
+                    instanceArgUnit.nowCountOfReset += 1
+                    if (instanceArgUnit.nowCountOfReset >= hyperArgUnit.maxResets) {
+                        println("nowCountOfReset>=hp.maxResets\t\t${instanceArgUnit.nowCountOfReset}>=${hyperArgUnit.maxResets}")
                         println("minMean=${meanList.minOrNull()}")
                         return
                     }
                 }
             }
         }
-        println("nowCountOfReset=${nowCountOfReset}")
+        println("nowCountOfReset=${instanceArgUnit.nowCountOfReset}")
         println("minMean=${meanList.minOrNull()}")
     }
 }
