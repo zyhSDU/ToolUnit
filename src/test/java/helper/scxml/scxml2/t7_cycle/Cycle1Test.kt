@@ -130,7 +130,7 @@ internal class Cycle1Test {
             0,
             0,
         )
-        val hp = LearningHelper.HyperParameterUnit.getObj1()
+        val hp = LearningHelper.Type1.HyperParameterUnit.getObj1()
         var heap = ArrayList<RunResult>()
         val env = EnvObjHelper.getEnvObj1()
         var nowCountOfNoBetter = 0
