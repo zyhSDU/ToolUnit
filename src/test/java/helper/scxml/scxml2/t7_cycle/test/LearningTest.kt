@@ -23,17 +23,17 @@ internal class LearningTest {
             0,
             0,
         )
-        val hyperArgUnit = LearningHelper.HyperArgUnit.getObj1()
-        val instanceArgUnit = LearningHelper.InstanceArgUnit.getObj1()
+        val hAU = LearningHelper.HyperArgUnit.getObj1()
+        val iAU = LearningHelper.InstanceArgUnit.getObj1()
         var heap = ArrayList<RunResult>()
         val env = EnvObjHelper.getEnvObj1()
         val meanList = ArrayList<Double>()
         repeat(
-            hyperArgUnit.maxIterations
-        ) {
+            hAU.maxIterations
+        ) iteration@{
             val rrs = ArrayList<RunResult>()
-            println("iterations_${it}:\n")
-            repeat(hyperArgUnit.maxRuns) {
+            debuggerList.pln("iterations_${it}:\n")
+            repeat(hAU.maxRuns) {
                 env.reset()
                 env.taskRun2(
                     debuggerList = debuggerList,
@@ -44,13 +44,13 @@ internal class LearningTest {
             val mean1 = rrs.toMeanCost()
             val sorted: List<RunResult> = rrs.sortedBy {
                 it.endData["c"]!!.toInt()
-            }.take(hyperArgUnit.maxGood)
+            }.take(hAU.maxGood)
             sorted.map {
                 heap.add(it)
             }
             heap = heap.sortedBy {
                 it.endData["c"]!!.toInt()
-            }.take(hyperArgUnit.maxBest).toArrayList()
+            }.take(hAU.maxBest).toArrayList()
 
             val locationEventVListLHM = heap.toLocationEventVListLHM()
             val locationEventVMeanLHM = A3LHM<String, String, MathHelper.ClockValuations>()
@@ -96,7 +96,7 @@ internal class LearningTest {
 
             val evaluateResultList = ArrayList<RunResult>()
 
-            repeat(hyperArgUnit.evalRuns) {
+            repeat(hAU.evalRuns) {
                 env.reset()
                 env.taskRun2(
                     debuggerList = debuggerList,
@@ -107,24 +107,24 @@ internal class LearningTest {
             val mean2 = evaluateResultList.toMeanCost()
             meanList.add(mean1)
             meanList.add(mean2)
-            println("mean3=${mean1.coerceAtMost(mean2)}")
+            debuggerList.pln("mean3=${mean1.coerceAtMost(mean2)}")
             if (mean1 < mean2) {
                 env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun
-                instanceArgUnit.nowCountOfNoBetter += 1
-                if (instanceArgUnit.nowCountOfNoBetter >= hyperArgUnit.maxNoBetter) {
+                iAU.nowCountOfNoBetter += 1
+                if (iAU.nowCountOfNoBetter >= hAU.maxNoBetter) {
                     //重置
                     env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getRenEventSelectorFunObj1()
-                    instanceArgUnit.nowCountOfNoBetter = 0
-                    instanceArgUnit.nowCountOfReset += 1
-                    if (instanceArgUnit.nowCountOfReset >= hyperArgUnit.maxResets) {
-                        println("nowCountOfReset>=hp.maxResets\t\t${instanceArgUnit.nowCountOfReset}>=${hyperArgUnit.maxResets}")
-                        println("minMean=${meanList.minOrNull()}")
+                    iAU.nowCountOfNoBetter = 0
+                    iAU.nowCountOfReset += 1
+                    if (iAU.nowCountOfReset >= hAU.maxResets) {
+                        debuggerList.pln("nowCountOfReset>=maxResets\t\t${iAU.nowCountOfReset}>=${hAU.maxResets}")
+                        debuggerList.pln("minMean=${meanList.minOrNull()}")
                         return
                     }
                 }
             }
         }
-        println("nowCountOfReset=${instanceArgUnit.nowCountOfReset}")
-        println("minMean=${meanList.minOrNull()}")
+        debuggerList.pln("nowCountOfReset=${iAU.nowCountOfReset}")
+        debuggerList.pln("minMean=${meanList.minOrNull()}")
     }
 }
