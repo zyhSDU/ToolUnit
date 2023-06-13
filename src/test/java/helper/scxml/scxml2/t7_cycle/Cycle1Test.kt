@@ -165,8 +165,8 @@ internal class Cycle1Test {
             locationEventVListLHM.touch { a1, a2, a3 ->
                 locationEventVMeanLHM.add(a1, a2, a3.mean)
             }
-            val oldGetIRenEventSelectorFun = env.strategyTuple.getIRenEventSelectorFun
-            env.strategyTuple.getIRenEventSelectorFun = { scxmlTuple ->
+            val oldGetIRenEventSelectorFun = env.strategyTuple.getRenEventSelectorFun
+            env.strategyTuple.getRenEventSelectorFun = { scxmlTuple ->
                 object : IRenEventSelector {
                     val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
                     override fun getEvent(stateId: String): String? {
@@ -213,11 +213,11 @@ internal class Cycle1Test {
             meanList.add(mean2)
             println("mean3=${mean1.coerceAtMost(mean2)}")
             if (mean1 < mean2) {
-                env.strategyTuple.getIRenEventSelectorFun = oldGetIRenEventSelectorFun
+                env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun
                 nowCountOfNoBetter += 1
                 if (nowCountOfNoBetter >= hp.maxNoBetter) {
                     //重置
-                    env.strategyTuple.getIRenEventSelectorFun = EnvObjHelper.getIRenEventSelectorFunObj1()
+                    env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getIRenEventSelectorFunObj1()
                     nowCountOfNoBetter = 0
                     nowCountOfReset += 1
                     if (nowCountOfReset >= hp.maxResets) {

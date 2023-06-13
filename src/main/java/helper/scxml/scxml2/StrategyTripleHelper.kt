@@ -50,26 +50,26 @@ object StrategyTripleHelper {
     }
 
     interface IStrategyTuple {
-        val getIEnvEventSelectorFun: (SCXMLTuple) -> IEnvEventSelector
-        val getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector
+        val getEnvEventSelectorFun: (SCXMLTuple) -> IEnvEventSelector
+        val getRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector
     }
 
     open class Type2StrategyTuple(
-        override val getIEnvEventSelectorFun: (SCXMLTuple) -> IEnvEventSelector,
-        override var getIRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector
+        override val getEnvEventSelectorFun: (SCXMLTuple) -> IEnvEventSelector,
+        override var getRenEventSelectorFun: (SCXMLTuple) -> IRenEventSelector
     ) : IStrategyTuple {
         open fun getEnvEvent(
             scxmlTuple: SCXMLTuple,
             stateId: String,
         ): String? {
-            return getIEnvEventSelectorFun(scxmlTuple).getEvent(stateId)
+            return getEnvEventSelectorFun(scxmlTuple).getEvent(stateId)
         }
 
         open fun getRenEvent(
             scxmlTuple: SCXMLTuple,
             stateId: String,
         ): String? {
-            return getIRenEventSelectorFun(scxmlTuple).getEvent(stateId)
+            return getRenEventSelectorFun(scxmlTuple).getEvent(stateId)
         }
     }
 }

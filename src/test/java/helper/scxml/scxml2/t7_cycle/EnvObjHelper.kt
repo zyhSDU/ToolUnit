@@ -81,8 +81,8 @@ object EnvObjHelper {
         return Env(
             machineTimeMax = Int.MAX_VALUE,
             strategyTuple = Type2StrategyTuple(
-                getIEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
-                getIRenEventSelectorFun = getIRenEventSelectorFunObj1(),
+                getEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                getRenEventSelectorFun = getIRenEventSelectorFunObj1(),
             ),
         )
     }
@@ -91,8 +91,8 @@ object EnvObjHelper {
         return Env(
             machineTimeMax = 210,
             strategyTuple = Type2StrategyTuple(
-                getIEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
-                getIRenEventSelectorFun = { scxmlTuple ->
+                getEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                getRenEventSelectorFun = { scxmlTuple ->
                     object : IRenEventSelector {
                         override fun getEvent(stateId: String): String? {
                             val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
@@ -117,8 +117,8 @@ object EnvObjHelper {
         return Env(
             machineTimeMax = 210,
             strategyTuple = Type2StrategyTuple(
-                getIEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
-                getIRenEventSelectorFun = { scxmlTuple ->
+                getEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                getRenEventSelectorFun = { scxmlTuple ->
                     object : IRenEventSelector {
                         override fun getEvent(stateId: String): String? {
                             when (stateId) {
