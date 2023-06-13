@@ -1,8 +1,11 @@
 package helper.scxml.scxml2.t5_traffic_train.math
 
+import helper.base.DebugHelper
+import helper.base.DebugHelper.getDebuggerList
 import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
 import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.E1.toClockValuationsList
 import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.E2.toClockValuationsList
+import helper.scxml.scxml2.MathHelper.Expand.getCovarianceMatrix
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
 import helper.scxml.scxml2.MathHelper.Expand.mathMinus
 import org.junit.Test
@@ -85,5 +88,36 @@ internal class Test {
         ).toClockValuationsList()
 
         println(list.mean)
+    }
+
+    @Test
+    fun test_getCovarianceMatrix() {
+        val list = arrayListOf(
+            arrayListOf(1.0, 2.0, 3.0),
+            arrayListOf(4.0, 5.0, 6.0),
+            arrayListOf(7.0, 8.0, 9.0)
+        )
+
+        val covarianceMatrix = list.getCovarianceMatrix()
+        covarianceMatrix.forEach { row ->
+            println(row)
+        }
+    }
+
+    @Test
+    fun test2_getCovarianceMatrix() {
+        val list = arrayListOf(
+            arrayListOf(3.0, 1.0, 8.0),
+            arrayListOf(2.0, 6.0, 7.0),
+            arrayListOf(4.0, 9.0, 5.0),
+            arrayListOf(5.0, 4.0, 2.0),
+        )
+
+        val covarianceMatrix = list.getCovarianceMatrix(
+            getDebuggerList(0)
+        )
+        covarianceMatrix.forEach { row ->
+            println(row)
+        }
     }
 }

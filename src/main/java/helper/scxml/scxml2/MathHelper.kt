@@ -1,6 +1,9 @@
 package helper.scxml.scxml2
 
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
+import helper.base.DebugHelper
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.calMean
@@ -41,6 +44,43 @@ object MathHelper {
 
             return mean
         }
+
+        fun ArrayList<ArrayList<Double>>.getCovarianceMatrix(
+            debuggerList: DebuggerList = getDebuggerList(0),
+        ): ArrayList<ArrayList<Double>> {
+            val covarianceMatrix = ArrayList<ArrayList<Double>>()
+
+            if (isEmpty()) {
+                return covarianceMatrix
+            }
+
+            val mean = calMean()
+            debuggerList.pln("mean=\n${mean}\n")
+            val sizeMinusOne = size.toDouble() - 1.0
+            debuggerList.pln("sizeMinusOne=${sizeMinusOne}")
+            val columnSize = this[0].size
+
+            for (i in 0 until columnSize) {
+                val row = ArrayList<Double>()
+                for (j in 0 until columnSize) {
+                    var sum = 0.0
+                    for (k in this.indices) {
+                        debuggerList.pln("k=${k}")
+                        val qi = this[k][i] - mean[i]
+                        val qj = this[k][j] - mean[j]
+                        sum += qi * qj
+                        debuggerList.pln("qi=${qi},qj=${qj},qi * qj=${qi * qj}")
+                    }
+                    debuggerList.pln("sum=${sum}")
+                    val qij = sum / sizeMinusOne
+                    debuggerList.pln("i=${i},j=${j},${qij}")
+                    row.add(qij)
+                }
+                covarianceMatrix.add(row)
+            }
+
+            return covarianceMatrix
+        }
     }
 
     class ClockValuations : ArrayList<Double>() {
@@ -69,7 +109,9 @@ object MathHelper {
                 return privateMean!!
             }
 
-        fun getWeightOf(v: ClockValuations): Double {
+        fun getWeightOf(
+            v: ClockValuations,
+        ): Double {
             return size * Math.E.pow(-v.getEuclideanDistance(calMean()))
         }
 
