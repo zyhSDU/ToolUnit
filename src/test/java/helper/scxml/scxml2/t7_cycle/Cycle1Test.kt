@@ -12,14 +12,15 @@ import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t2_traffic.Res
-import helper.scxml.scxml2.t7_cycle.EnvHelper.Env.Expand.ToClockValuations.toClockValuations
-import helper.scxml.scxml2.t7_cycle.EnvHelper.Env.Expand.toLocationEventVListLHM
+import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
+import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toLocationEventVListLHM
+import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toMeanCost
 import org.junit.Test
 
 internal class Cycle1Test {
     @Test
     fun t1t1() {
-        val env = EnvHelper.getEnvObj1()
+        val env = EnvObjHelper.getEnvObj1()
         val rs = env.toStr()
         println(rs)
     }
@@ -30,7 +31,7 @@ internal class Cycle1Test {
             0,
             1,
         )
-        val env = EnvHelper.getEnvObj1()
+        val env = EnvObjHelper.getEnvObj1()
         repeat(100) {
             debuggerList.pln(
                 "${"-".repeat(10)}repeat${it}",
@@ -56,7 +57,7 @@ internal class Cycle1Test {
             0,
         )
         val rrs = ArrayList<RunResult>()
-        val env = EnvHelper.getEnvObj1()
+        val env = EnvObjHelper.getEnvObj1()
         repeat(100) {
             env.reset()
             env.taskRun(
@@ -80,7 +81,7 @@ internal class Cycle1Test {
             0,
         )
         val rrs = ArrayList<RunResult>()
-        val env = EnvHelper.getEnvObj2()
+        val env = EnvObjHelper.getEnvObj2()
         repeat(100000) {
             env.reset()
             env.taskRun(
@@ -104,7 +105,7 @@ internal class Cycle1Test {
             0,
         )
         val rrs = ArrayList<RunResult>()
-        val env = EnvHelper.getEnvObj3()
+        val env = EnvObjHelper.getEnvObj3()
         repeat(1000000) {
             println(it)
             env.reset()
@@ -123,12 +124,6 @@ internal class Cycle1Test {
         //实际203.223718
     }
 
-    fun ArrayList<RunResult>.toMeanCost(): Double {
-        return this.map {
-            it.endData["c"]!!.toInt()
-        }.average()
-    }
-
     @Test
     fun t4t1() {
         val debuggerList = getDebuggerList(
@@ -137,7 +132,7 @@ internal class Cycle1Test {
         )
         val hp = LearningHelper.HyperParameterUnit.getObj1()
         var heap = ArrayList<RunResult>()
-        val env = EnvHelper.getEnvObj1()
+        val env = EnvObjHelper.getEnvObj1()
         var nowCountOfNoBetter = 0
         var nowCountOfReset = 0
         val meanList = ArrayList<Double>()
@@ -222,7 +217,7 @@ internal class Cycle1Test {
                 nowCountOfNoBetter += 1
                 if (nowCountOfNoBetter >= hp.maxNoBetter) {
                     //重置
-                    env.strategyTuple.getIRenEventSelectorFun = EnvHelper.getIRenEventSelectorFunObj1()
+                    env.strategyTuple.getIRenEventSelectorFun = EnvObjHelper.getIRenEventSelectorFunObj1()
                     nowCountOfNoBetter = 0
                     nowCountOfReset += 1
                     if (nowCountOfReset >= hp.maxResets) {
