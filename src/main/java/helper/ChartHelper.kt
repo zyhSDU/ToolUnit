@@ -3,8 +3,10 @@ package helper
 import org.apache.commons.math3.distribution.PoissonDistribution
 import org.jfree.chart.ChartFactory
 import org.jfree.chart.ChartPanel
+import org.jfree.chart.ChartUtils
 import org.jfree.chart.plot.PlotOrientation
 import org.jfree.data.category.DefaultCategoryDataset
+import java.io.File
 import javax.swing.JFrame
 
 object ChartHelper {
@@ -13,12 +15,16 @@ object ChartHelper {
         lambda: Double,
         // 设置横坐标最大值
         xMax: Int,
+        saveFile: String? = null,
+        ifShow: Boolean = false,
     ) {
         // 创建一个包含整数 0~10 的数组
         val x = IntArray(xMax) { it }
 
         // 计算泊松分布的概率质量函数
-        val pmf = DoubleArray(xMax) { PoissonDistribution(lambda).probability(it) }
+        val pmf = DoubleArray(xMax) {
+            PoissonDistribution(lambda).probability(it)
+        }
 
         // 创建数据集
         val dataset = DefaultCategoryDataset()
@@ -38,20 +44,22 @@ object ChartHelper {
             false
         )
 
-        // 创建图表面板
-        val chartPanel = ChartPanel(chart)
+        if (saveFile != null) {
+            // 保存图表为 PNG 格式的图片文件
+            val outputFile = File(saveFile)
+            outputFile.parentFile.mkdirs()
+            ChartUtils.saveChartAsPNG(outputFile, chart, 500, 400)
+            println("Chart saved as ${outputFile.absolutePath}")
+        }
 
-        // 创建窗口并显示图表面板
-        val frame = JFrame("Poisson PMF")
-        frame.contentPane = chartPanel
-        frame.pack()
-        frame.isVisible = true
-    }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        (1..10).map {
-            getPoissonDistributionPlot(it.toDouble(), 30)
+        if (ifShow) {
+            // 创建图表面板
+            val chartPanel = ChartPanel(chart)
+            // 创建窗口并显示图表面板
+            val frame = JFrame("Poisson PMF")
+            frame.contentPane = chartPanel
+            frame.pack()
+            frame.isVisible = true
         }
     }
 }

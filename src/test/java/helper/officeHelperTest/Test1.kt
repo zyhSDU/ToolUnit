@@ -10,8 +10,8 @@ open class Test1 {
     @Test
     fun t1() {
         val filePrefix = "0092测试用例_15"
-        val file1 = File(FileRes.d_a2, "${filePrefix}.docx")
-        val file2 = File(FileRes.d_a2, "${filePrefix}.txt")
+        val file1 = File(FileRes.d_a2_File, "${filePrefix}.docx")
+        val file2 = File(FileRes.d_a2_File, "${filePrefix}.txt")
         val readOneTable = OfficeHelper.DocXPOIImpl.readOneTable(file1)
         /*
         readOneTable.withIndex().map { (i, it) ->
