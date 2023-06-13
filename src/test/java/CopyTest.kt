@@ -22,10 +22,10 @@ internal class CopyTest {
         println(rs)
         assert(
             rs == """
-Person(name=John, age=30, addresses=[New York, London, hhhh])
-Person(name=John, age=30, addresses=[Paris])
-Person(name=John, age=30, addresses=[New York, London, hhhh])
-        """.trimIndent().trim()
+                Person(name=John, age=30, addresses=[New York, London, hhhh])
+                Person(name=John, age=30, addresses=[Paris])
+                Person(name=John, age=30, addresses=[New York, London, hhhh])
+            """.trimIndent()
         )
     }
 }

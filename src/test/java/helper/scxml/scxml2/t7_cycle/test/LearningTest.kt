@@ -26,7 +26,6 @@ internal class LearningTest {
         val hAU = LearningHelper.HyperArgUnit.getObj1()
         val iAU = LearningHelper.InstanceArgUnit.getObj1()
         val env = EnvObjHelper.getEnvObj1()
-        val meanList = ArrayList<Double>()
         repeat(
             hAU.maxIterations
         ) iteration@{
@@ -104,8 +103,8 @@ internal class LearningTest {
                 }
             }
             val mean2 = evaluateResultList.toMeanCost()
-            meanList.add(mean1)
-            meanList.add(mean2)
+            iAU.meanList.add(mean1)
+            iAU.meanList.add(mean2)
             debuggerList.pln("mean3=${mean1.coerceAtMost(mean2)}")
             if (mean1 < mean2) {
                 env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun
@@ -117,13 +116,13 @@ internal class LearningTest {
                     iAU.nowCountOfReset += 1
                     if (iAU.nowCountOfReset >= hAU.maxResets) {
                         debuggerList.pln("nowCountOfReset>=maxResets\t\t${iAU.nowCountOfReset}>=${hAU.maxResets}")
-                        debuggerList.pln("minMean=${meanList.minOrNull()}")
+                        debuggerList.pln("minMean=${iAU.meanList.minOrNull()}")
                         return
                     }
                 }
             }
         }
         debuggerList.pln("nowCountOfReset=${iAU.nowCountOfReset}")
-        debuggerList.pln("minMean=${meanList.minOrNull()}")
+        debuggerList.pln("minMean=${iAU.meanList.minOrNull()}")
     }
 }

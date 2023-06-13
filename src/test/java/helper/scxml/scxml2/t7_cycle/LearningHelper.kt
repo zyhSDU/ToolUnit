@@ -29,12 +29,14 @@ object LearningHelper {
         var nowCountOfNoBetter: Int = 0,
         var nowCountOfReset: Int = 0,
         var heap: ArrayList<RunResult> = ArrayList(),
+        val meanList: ArrayList<Double> = ArrayList(),
     ) {
         companion object {
             fun getObj1() = InstanceArgUnit(
                 nowCountOfNoBetter = 0,
                 nowCountOfReset = 0,
                 heap = ArrayList(),
+                meanList = ArrayList(),
             )
         }
     }

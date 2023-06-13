@@ -1,6 +1,8 @@
-object PrintTest {
-    @JvmStatic
-    fun main(args: Array<String>) {
+import org.junit.Test
+
+internal class PrintTest {
+    @Test
+    fun t1() {
         print(1)
     }
 }
