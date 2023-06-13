@@ -13,7 +13,6 @@ import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t2_traffic.Res
 import helper.scxml.scxml2.t2_traffic.fun_strategy.FunStrategyHelper
-import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper
 import org.apache.commons.scxml2.model.Data
 import org.apache.commons.scxml2.model.TransitionTarget
 import java.io.File
@@ -236,25 +235,5 @@ object EnvHelper {
             debugPlnStatus()
             return machineTimeMax - scxmlTuple.dataSCXML.getDataInt(Res.globalTimeId)!!
         }
-    }
-
-    fun getEnvObj1(): Env {
-        return Env(
-            envStateConstraintLHM = StrategyTripleHelper.rEnvStateConstraintLHM,
-            envEventLHM = StrategyTripleHelper.envEventLHM1,
-            getIRenEventSelectorFun = {
-                StrategyTripleHelper.stateRenEventSelector1
-            },
-        )
-    }
-
-    fun getEnvObj2(): Env {
-        return Env(
-            envStateConstraintLHM = StrategyTripleHelper.dEnvStateConstraintLHM,
-            envEventLHM = StrategyTripleHelper.envEventLHM1,
-            getIRenEventSelectorFun = {
-                StrategyTripleHelper.stateRenEventSelector1
-            },
-        )
     }
 }

@@ -17,29 +17,16 @@ internal class Test {
         }
     }
 
-    private fun getTrafficEnvObj1() = Env(
-        envStateConstraintLHM = StrategyTripleHelper.dEnvStateConstraintLHM,
-        envEventLHM = getBaseEnvEventLHM().also {
-            it["Train"] = linkedMapOf(
-                "train_go" to 10.0,
-                "train_wait" to 1.0
-            )
-        },
-        getIRenEventSelectorFun = {
-            StrategyTripleHelper.stateRenEventSelector1
-        }
-    )
-
     @Test
     fun t1t1() {
-        val trafficEnvObj1 = getTrafficEnvObj1()
+        val trafficEnvObj1 = EnvObjHelper.getTrafficEnvObj1()
         val rs = trafficEnvObj1.toStr()
         println(rs)
     }
 
     @Test
     fun t1t2() {
-        getTrafficEnvObj1().taskRun(
+        EnvObjHelper.getTrafficEnvObj1().taskRun(
             debuggerList = getDebuggerList(
                 Debugger(0),
                 Debugger(1),
@@ -74,6 +61,6 @@ internal class Test {
     //再根据格局图统计期望
     @Test
     fun t3t1() {
-        val trafficEnvObj1 = getTrafficEnvObj1()
+        val trafficEnvObj1 = EnvObjHelper.getTrafficEnvObj1()
     }
 }
