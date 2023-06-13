@@ -1,8 +1,8 @@
 package helper.scxml.scxml2.t7_cycle
 
 import helper.base.LHMHelper.LHMExpand.add
-import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
+import helper.scxml.scxml2.EnvHelper.T3BaseEnv
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.ClockValuationsList
 import helper.scxml.scxml2.MathHelper.LocationEventVListLHM
@@ -42,7 +42,7 @@ object EnvHelper {
     class Env(
         override val strategyTuple: Type2StrategyTuple,
         private val machineTimeMax: Int,
-    ) : EnvHelper.T3BaseEnv() {
+    ) : T3BaseEnv() {
         override val scxmlTuple = Scxml2Helper.getSCXMLTuple("scxml2/t7_cycle/cycle1.scxml").also {
             it.initialStateList.add("s0")
             it.renStateList.add("s1")

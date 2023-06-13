@@ -10,7 +10,7 @@ import helper.scxml.scxml2.StrategyTripleHelper.Type2StrategyTuple
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Env
 
 object EnvObjHelper {
-    fun getIEnvEventSelectorFunObj1(): (SCXMLTuple) -> StrategyTripleHelper.IEnvEventSelector {
+    fun getEnvEventSelectorFunObj1(): (SCXMLTuple) -> StrategyTripleHelper.IEnvEventSelector {
         return { scxmlTuple ->
             object : StrategyTripleHelper.IEnvEventSelector {
                 override fun getEvent(stateId: String): String? {
@@ -47,7 +47,7 @@ object EnvObjHelper {
         }
     }
 
-    fun getIRenEventSelectorFunObj1(): (SCXMLTuple) -> IRenEventSelector {
+    fun getRenEventSelectorFunObj1(): (SCXMLTuple) -> IRenEventSelector {
         return { scxmlTuple ->
             object : IRenEventSelector {
                 override fun getEvent(stateId: String): String? {
@@ -81,8 +81,8 @@ object EnvObjHelper {
         return Env(
             machineTimeMax = Int.MAX_VALUE,
             strategyTuple = Type2StrategyTuple(
-                getEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
-                getRenEventSelectorFun = getIRenEventSelectorFunObj1(),
+                getEnvEventSelectorFun = getEnvEventSelectorFunObj1(),
+                getRenEventSelectorFun = getRenEventSelectorFunObj1(),
             ),
         )
     }
@@ -91,7 +91,7 @@ object EnvObjHelper {
         return Env(
             machineTimeMax = 210,
             strategyTuple = Type2StrategyTuple(
-                getEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                getEnvEventSelectorFun = getEnvEventSelectorFunObj1(),
                 getRenEventSelectorFun = { scxmlTuple ->
                     object : IRenEventSelector {
                         override fun getEvent(stateId: String): String? {
@@ -117,7 +117,7 @@ object EnvObjHelper {
         return Env(
             machineTimeMax = 210,
             strategyTuple = Type2StrategyTuple(
-                getEnvEventSelectorFun = getIEnvEventSelectorFunObj1(),
+                getEnvEventSelectorFun = getEnvEventSelectorFunObj1(),
                 getRenEventSelectorFun = { scxmlTuple ->
                     object : IRenEventSelector {
                         override fun getEvent(stateId: String): String? {
