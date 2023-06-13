@@ -1,5 +1,7 @@
 package helper.scxml.scxml2.t7_cycle
 
+import helper.scxml.scxml2.EnvHelper.RunResult
+
 object LearningHelper {
     class HyperArgUnit(
         val maxRuns: Int = 0,
@@ -26,11 +28,13 @@ object LearningHelper {
     class InstanceArgUnit(
         var nowCountOfNoBetter: Int = 0,
         var nowCountOfReset: Int = 0,
-    ){
+        var heap: ArrayList<RunResult> = ArrayList(),
+    ) {
         companion object {
             fun getObj1() = InstanceArgUnit(
                 nowCountOfNoBetter = 0,
                 nowCountOfReset = 0,
+                heap = ArrayList(),
             )
         }
     }

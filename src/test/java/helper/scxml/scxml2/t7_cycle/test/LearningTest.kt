@@ -25,7 +25,6 @@ internal class LearningTest {
         )
         val hAU = LearningHelper.HyperArgUnit.getObj1()
         val iAU = LearningHelper.InstanceArgUnit.getObj1()
-        var heap = ArrayList<RunResult>()
         val env = EnvObjHelper.getEnvObj1()
         val meanList = ArrayList<Double>()
         repeat(
@@ -46,13 +45,13 @@ internal class LearningTest {
                 it.endData["c"]!!.toInt()
             }.take(hAU.maxGood)
             sorted.map {
-                heap.add(it)
+                iAU.heap.add(it)
             }
-            heap = heap.sortedBy {
+            iAU.heap = iAU.heap.sortedBy {
                 it.endData["c"]!!.toInt()
             }.take(hAU.maxBest).toArrayList()
 
-            val locationEventVListLHM = heap.toLocationEventVListLHM()
+            val locationEventVListLHM = iAU.heap.toLocationEventVListLHM()
             val locationEventVMeanLHM = A3LHM<String, String, MathHelper.ClockValuations>()
             locationEventVListLHM.touch { a1, a2, a3 ->
                 locationEventVMeanLHM.add(a1, a2, a3.mean)
