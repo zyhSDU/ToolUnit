@@ -1,14 +1,22 @@
 package helper.scxml.scxml2.t7_cycle
 
+import helper.base.BaseTypeHelper.ListExpand.toArrayList
+import helper.base.DebugHelper
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.LHMExpand.add
+import helper.base.LHMHelper.LHMExpand.addList
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.EnvHelper.T3BaseEnv
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.ClockValuationsList
 import helper.scxml.scxml2.MathHelper.LocationEventVListLHM
 import helper.scxml.scxml2.Res
+import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.Scxml2Helper
+import helper.scxml.scxml2.StrategyTripleHelper
+import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.StrategyTripleHelper.Type2StrategyTuple
+import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toCostList
 
 object EnvHelper {
     object Expand {
@@ -32,10 +40,14 @@ object EnvHelper {
             return lhm
         }
 
-        fun ArrayList<RunResult>.toMeanCost(): Double {
+        fun ArrayList<RunResult>.toCostList(): ArrayList<Double> {
             return this.map {
-                it.endData["c"]!!.toInt()
-            }.average()
+                it.endData["c"]!!.toInt().toDouble()
+            }.toArrayList()
+        }
+
+        fun ArrayList<RunResult>.toMeanCost(): Double {
+            return this.toCostList().average()
         }
     }
 
@@ -65,5 +77,37 @@ object EnvHelper {
             get() {
                 return dataGlobalTimeInt >= machineTimeMax
             }
+
+        fun repeatRun2(
+            times: Int,
+            runResultList: ArrayList<RunResult> = ArrayList(),
+            debuggerList: DebugHelper.DebuggerList = getDebuggerList(0),
+        ) {
+            repeat(times) {
+                this.reset()
+                this.taskRun2(
+                    debuggerList = debuggerList
+                ).let {
+                    runResultList.add(it)
+                }
+            }
+        }
+
+        fun repeatRun2AndRecord(
+            times: Int,
+            lhm: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>,
+            runResultList: ArrayList<RunResult> = ArrayList(),
+            debuggerList: DebugHelper.DebuggerList = getDebuggerList(0),
+        ) {
+            repeatRun2(
+                times,
+                runResultList,
+                debuggerList,
+            )
+            lhm.addList(
+                this.strategyTuple.getRenEventSelectorFun,
+                runResultList.toCostList(),
+            )
+        }
     }
 }

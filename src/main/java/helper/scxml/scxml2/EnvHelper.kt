@@ -3,6 +3,7 @@ package helper.scxml.scxml2
 import helper.base.DebugHelper.DebuggerList
 import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
+import helper.base.LHMHelper.LHMExpand.addList
 import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.RandomHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
@@ -159,7 +160,6 @@ object EnvHelper {
         }
 
         abstract val strategyTuple: Type2StrategyTuple
-        abstract val scxmlTuple: SCXMLTuple
 
         fun getEnvEvent(
             stateId: String,
@@ -173,8 +173,11 @@ object EnvHelper {
             return strategyTuple.getRenEvent(scxmlTuple, stateId)
         }
 
+        abstract val scxmlTuple: SCXMLTuple
+
         val executor: SCXMLExecutor
             get() = scxmlTuple.executor
+
         val dataSCXML: DataSCXML
             get() = scxmlTuple.dataSCXML
 

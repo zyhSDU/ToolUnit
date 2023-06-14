@@ -37,6 +37,14 @@ object LHMHelper {
                 this[a1] = a2
             }
         }
+
+        fun <A1, A2> LinkedHashMap<A1, ArrayList<A2>>.addList(
+            a1: A1,
+            a2: ArrayList<A2>,
+        ) {
+            this.add(a1, ArrayList())
+            this[a1]!!.addAll(a2)
+        }
     }
 
     open class A3LHM<A1, A2, A3> : LinkedHashMap<A1, LinkedHashMap<A2, A3>>() {

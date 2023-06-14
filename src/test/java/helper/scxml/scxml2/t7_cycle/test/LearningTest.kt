@@ -6,12 +6,11 @@ import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
 import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
-import helper.scxml.scxml2.MathHelper
+import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
-import helper.scxml.scxml2.StrategyTripleHelper
+import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toLocationEventVListLHM
-import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toMeanCost
 import helper.scxml.scxml2.t7_cycle.EnvObjHelper
 import helper.scxml.scxml2.t7_cycle.LearningHelper
 import org.junit.Test
@@ -29,17 +28,16 @@ internal class LearningTest {
         repeat(
             hAU.maxIterations
         ) iteration@{
-            val rrs = ArrayList<RunResult>()
             debuggerList.pln("iterations_${it}:\n")
-            repeat(hAU.maxRuns) {
-                env.reset()
-                env.taskRun2(
-                    debuggerList = debuggerList,
-                ).let {
-                    rrs.add(it)
-                }
-            }
-            val mean1 = rrs.toMeanCost()
+            val rrs = ArrayList<RunResult>()
+            env.repeatRun2AndRecord(
+                times = hAU.maxRuns,
+                lhm = iAU.renEventSelectorCostListLHM,
+                runResultList = rrs,
+                debuggerList = debuggerList,
+            )
+            val mean1 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()
+            iAU.meanList.add(mean1)
             val sorted: List<RunResult> = rrs.sortedBy {
                 it.endData["c"]!!.toInt()
             }.take(hAU.maxGood)
@@ -51,13 +49,13 @@ internal class LearningTest {
             }.take(hAU.maxBest).toArrayList()
 
             val locationEventVListLHM = iAU.heap.toLocationEventVListLHM()
-            val locationEventVMeanLHM = A3LHM<String, String, MathHelper.ClockValuations>()
+            val locationEventVMeanLHM = A3LHM<String, String, ClockValuations>()
             locationEventVListLHM.touch { a1, a2, a3 ->
                 locationEventVMeanLHM.add(a1, a2, a3.mean)
             }
             val oldGetIRenEventSelectorFun = env.strategyTuple.getRenEventSelectorFun
             env.strategyTuple.getRenEventSelectorFun = { scxmlTuple ->
-                object : StrategyTripleHelper.IRenEventSelector {
+                object : IRenEventSelector {
                     val dataXInt = scxmlTuple.dataSCXML.getDataInt("x")!!
                     override fun getEvent(stateId: String): String? {
                         when (stateId) {
@@ -92,19 +90,13 @@ internal class LearningTest {
                 }
             }
 
-            val evaluateResultList = ArrayList<RunResult>()
+            env.repeatRun2AndRecord(
+                times = hAU.evalRuns,
+                lhm = iAU.renEventSelectorCostListLHM,
+                debuggerList = debuggerList,
+            )
 
-            repeat(hAU.evalRuns) {
-                env.reset()
-                env.taskRun2(
-                    debuggerList = debuggerList,
-                ).let {
-                    evaluateResultList.add(it)
-                }
-            }
-            val mean2 = evaluateResultList.toMeanCost()
-            iAU.meanList.add(mean1)
-            iAU.meanList.add(mean2)
+            val mean2 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()
             debuggerList.pln("mean3=${mean1.coerceAtMost(mean2)}")
             if (mean1 < mean2) {
                 env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun

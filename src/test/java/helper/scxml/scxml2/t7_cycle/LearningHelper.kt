@@ -1,6 +1,9 @@
 package helper.scxml.scxml2.t7_cycle
 
 import helper.scxml.scxml2.EnvHelper.RunResult
+import helper.scxml.scxml2.SCXMLTuple
+import helper.scxml.scxml2.StrategyTripleHelper
+import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 
 object LearningHelper {
     class HyperArgUnit(
@@ -30,6 +33,7 @@ object LearningHelper {
         var nowCountOfReset: Int = 0,
         var heap: ArrayList<RunResult> = ArrayList(),
         val meanList: ArrayList<Double> = ArrayList(),
+        val renEventSelectorCostListLHM: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>> = LinkedHashMap(),
     ) {
         companion object {
             fun getObj1() = InstanceArgUnit(
@@ -37,6 +41,7 @@ object LearningHelper {
                 nowCountOfReset = 0,
                 heap = ArrayList(),
                 meanList = ArrayList(),
+                renEventSelectorCostListLHM = LinkedHashMap(),
             )
         }
     }
