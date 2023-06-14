@@ -100,7 +100,7 @@ internal class LearningTest {
             val mean2 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()
             if (mean2 < iAU.lastMinCost) {
                 iAU.nowCountOfNoBetter = 0
-                iAU.updateLastMinCost(mean2)
+                iAU.lastMinCost = mean2
             } else {
                 env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun
                 iAU.nowCountOfNoBetter += 1
