@@ -21,6 +21,7 @@ internal class LearningTest {
         val debuggerList = getDebuggerList(
             0,
             0,
+            1,
         )
         val hAU = LearningHelper.HyperArgUnit.getObj1()
         val iAU = LearningHelper.InstanceArgUnit.getObj1()
@@ -103,18 +104,40 @@ internal class LearningTest {
                 iAU.nowCountOfNoBetter += 1
                 if (iAU.nowCountOfNoBetter >= hAU.maxNoBetter) {
                     //重置
+                    iAU.renEventSelectorCostListLHMList.add(iAU.renEventSelectorCostListLHM)
+                    iAU.renEventSelectorCostListLHM = LinkedHashMap()
                     env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getRenEventSelectorFunObj1()
                     iAU.nowCountOfNoBetter = 0
                     iAU.nowCountOfReset += 1
                     if (iAU.nowCountOfReset >= hAU.maxResets) {
-                        debuggerList.pln("nowCountOfReset>=maxResets\t\t${iAU.nowCountOfReset}>=${hAU.maxResets}")
-                        debuggerList.pln("minMean=${iAU.meanList.minOrNull()}")
+                        debuggerList.pln(
+                            "nowCountOfReset>=maxResets\t\t${iAU.nowCountOfReset}>=${hAU.maxResets}",
+                            arrayListOf(0, 1, 2),
+                        )
+                        debuggerList.pln(
+                            "minMean=${iAU.meanList.minOrNull()}",
+                            arrayListOf(0, 1, 2),
+                        )
                         return
                     }
                 }
             }
         }
-        debuggerList.pln("nowCountOfReset=${iAU.nowCountOfReset}")
-        debuggerList.pln("minMean=${iAU.meanList.minOrNull()}")
+        debuggerList.pln(
+            "nowCountOfReset=${iAU.nowCountOfReset}",
+            arrayListOf(0, 1, 2),
+        )
+
+        iAU.renEventSelectorCostListLHMList.withIndex().map {(k,v)->
+            println("k=${k}")
+            v.map { (_, v) ->
+                v.average()
+            }.map {
+                debuggerList.pln(
+                    it.toString(),
+                    arrayListOf(0, 1, 2),
+                )
+            }
+        }
     }
 }
