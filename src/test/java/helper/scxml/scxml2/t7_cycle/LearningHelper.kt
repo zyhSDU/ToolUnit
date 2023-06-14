@@ -59,13 +59,5 @@ object LearningHelper {
         fun resetLastMinCost() {
             lastMinCost = Double.MAX_VALUE
         }
-
-        fun updateLastMinCost(
-            cost: Double,
-        ) {
-            if (cost < lastMinCost) {
-                lastMinCost = cost
-            }
-        }
     }
 }

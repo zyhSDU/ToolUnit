@@ -1,9 +1,11 @@
 package helper.scxml.scxml2.t7_cycle.test
 
+import helper.ChartHelper
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
+import helper.base.TimeHelper
 import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.MathHelper.ClockValuations
@@ -14,6 +16,7 @@ import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toLocationEventVListLHM
 import helper.scxml.scxml2.t7_cycle.EnvObjHelper
 import helper.scxml.scxml2.t7_cycle.LearningHelper
 import org.junit.Test
+import res.FileRes
 
 internal class LearningTest {
     @Test
@@ -131,14 +134,24 @@ internal class LearningTest {
             arrayListOf(0, 1, 2),
         )
 
+        val nowTimeStr=TimeHelper.now(TimeHelper.TimePattern.p4)
         iAU.renEventSelectorCostListLHMList.withIndex().map { (k, v) ->
             println("k=${k}")
             v.map { (_, v) ->
                 v.average()
-            }.map {
-                debuggerList.pln(
-                    it.toString(),
-                    arrayListOf(0, 1, 2),
+            }.let {
+                it.map {
+                    debuggerList.pln(
+                        it.toString(),
+                        arrayListOf(0, 1, 2),
+                    )
+                }
+                ChartHelper.taskDrawLineChart(
+                    it.toArrayList(),
+                    "${FileRes.out_chart_file}" +
+                            "/LearningTest_t1" +
+                            "/t_${nowTimeStr}" +
+                            "/chart${k}.png"
                 )
             }
         }

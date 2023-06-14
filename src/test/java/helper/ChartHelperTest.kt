@@ -9,7 +9,7 @@ internal class ChartHelperTest {
     fun t_2023_0613_221615_() {
         val nowTimeStr=TimeHelper.now(TimeHelper.TimePattern.p4)
         (1..10).map {
-            ChartHelper.getPoissonDistributionPlot(
+            ChartHelper.taskPoissonDistributionChart(
                 it.toDouble(),
                 30,
                 "$out_chart_file" +
