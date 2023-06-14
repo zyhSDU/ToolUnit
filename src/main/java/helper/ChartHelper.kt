@@ -12,6 +12,13 @@ import java.io.File
 import javax.swing.JFrame
 
 object ChartHelper {
+    fun ArrayList<Double>.toXYData(): Array<DoubleArray> {
+        return arrayOf(
+            this.indices.map { it.toDouble() }.toDoubleArray(),
+            this.toDoubleArray(),
+        )
+    }
+
     fun taskChart(
         chart: JFreeChart,
         saveFile: String? = null,
@@ -42,10 +49,7 @@ object ChartHelper {
     ): JFreeChart {
         // 创建数据集
         val dataset = DefaultXYDataset()
-        val xData = DoubleArray(yData.size) { it.toDouble() }
-        val seriesData = DoubleArray(yData.size) { yData[it] }
-        val data = arrayOf(xData, seriesData)
-        dataset.addSeries("Series 1", data)
+        dataset.addSeries("Series 1", yData.toXYData())
 
         // 创建图表并设置样式
         return ChartFactory.createXYLineChart(
