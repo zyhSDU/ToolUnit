@@ -1,17 +1,20 @@
 package helper.base
 
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import java.net.URL
 
 object ResourceHelper {
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     fun getResource(
         string: String,
+        debuggerList: DebuggerList = getDebuggerList(0),
     ): URL {
-        println("getResource():${string}")
+        debuggerList.pln("getResource():${string}")
         val resource = ResourceHelper::class.java.classLoader.getResource(
             string,
         )
-        println("res:${resource}")
+        debuggerList.pln("res:${resource}")
         return resource
     }
 

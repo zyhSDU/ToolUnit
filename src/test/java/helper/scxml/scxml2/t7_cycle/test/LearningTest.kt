@@ -98,14 +98,17 @@ internal class LearningTest {
             )
 
             val mean2 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()
-            debuggerList.pln("mean3=${mean1.coerceAtMost(mean2)}")
-            if (mean1 < mean2) {
+            if (mean2 < iAU.lastMinCost) {
+                iAU.nowCountOfNoBetter = 0
+                iAU.updateLastMinCost(mean2)
+            } else {
                 env.strategyTuple.getRenEventSelectorFun = oldGetIRenEventSelectorFun
                 iAU.nowCountOfNoBetter += 1
                 if (iAU.nowCountOfNoBetter >= hAU.maxNoBetter) {
                     //重置
-                    iAU.renEventSelectorCostListLHMList.add(iAU.renEventSelectorCostListLHM)
                     iAU.renEventSelectorCostListLHM = LinkedHashMap()
+                    iAU.renEventSelectorCostListLHMList.add(iAU.renEventSelectorCostListLHM)
+                    iAU.resetLastMinCost()
                     env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getRenEventSelectorFunObj1()
                     iAU.nowCountOfNoBetter = 0
                     iAU.nowCountOfReset += 1
@@ -118,7 +121,7 @@ internal class LearningTest {
                             "minMean=${iAU.meanList.minOrNull()}",
                             arrayListOf(0, 1, 2),
                         )
-                        return
+                        return@iteration
                     }
                 }
             }
@@ -128,7 +131,7 @@ internal class LearningTest {
             arrayListOf(0, 1, 2),
         )
 
-        iAU.renEventSelectorCostListLHMList.withIndex().map {(k,v)->
+        iAU.renEventSelectorCostListLHMList.withIndex().map { (k, v) ->
             println("k=${k}")
             v.map { (_, v) ->
                 v.average()

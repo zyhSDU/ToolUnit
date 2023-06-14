@@ -36,6 +36,7 @@ object LearningHelper {
         val meanList: ArrayList<Double> = ArrayList(),
         var renEventSelectorCostListLHM: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>> = LinkedHashMap(),
         val renEventSelectorCostListLHMList: ArrayList<LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>> = ArrayList(),
+        var lastMinCost: Double = Double.MAX_VALUE,
     ) {
         companion object {
             fun getObj1(): InstanceArgUnit {
@@ -46,7 +47,24 @@ object LearningHelper {
                     meanList = ArrayList(),
                     renEventSelectorCostListLHM = LinkedHashMap(),
                     renEventSelectorCostListLHMList = ArrayList(),
+                    lastMinCost = Double.MAX_VALUE,
                 )
+            }
+        }
+
+        init {
+            renEventSelectorCostListLHMList.add(renEventSelectorCostListLHM)
+        }
+
+        fun resetLastMinCost() {
+            lastMinCost = Double.MAX_VALUE
+        }
+
+        fun updateLastMinCost(
+            cost: Double,
+        ) {
+            if (cost < lastMinCost) {
+                lastMinCost = cost
             }
         }
     }

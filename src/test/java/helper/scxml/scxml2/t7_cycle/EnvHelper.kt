@@ -2,6 +2,7 @@ package helper.scxml.scxml2.t7_cycle
 
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.DebugHelper
+import helper.base.DebugHelper.DebuggerList
 import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.LHMHelper.LHMExpand.addList
@@ -81,7 +82,7 @@ object EnvHelper {
         fun repeatRun2(
             times: Int,
             runResultList: ArrayList<RunResult> = ArrayList(),
-            debuggerList: DebugHelper.DebuggerList = getDebuggerList(0),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             repeat(times) {
                 this.reset()
@@ -97,7 +98,7 @@ object EnvHelper {
             times: Int,
             lhm: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>,
             runResultList: ArrayList<RunResult> = ArrayList(),
-            debuggerList: DebugHelper.DebuggerList = getDebuggerList(0),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             repeatRun2(
                 times,

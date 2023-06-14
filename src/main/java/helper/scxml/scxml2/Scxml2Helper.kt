@@ -1,6 +1,9 @@
 package helper.scxml.scxml2
 
 import helper.XMLCreateHelper
+import helper.base.DebugHelper
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.getDebuggerList
 import helper.base.ResourceHelper
 import helper.scxml.IDataExpandHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
@@ -330,7 +333,10 @@ object Scxml2Helper {
         }
     }
 
-    fun getSCXMLTuple(scxmlPath: String): SCXMLTuple {
+    fun getSCXMLTuple(
+        scxmlPath: String,
+        debuggerList: DebuggerList = getDebuggerList(0),
+    ): SCXMLTuple {
         //实例化数据模型解析器
         val evaluator: Evaluator = JexlEvaluator()
 
@@ -338,7 +344,12 @@ object Scxml2Helper {
         val executor = SCXMLExecutor(evaluator, null, SimpleErrorReporter())
 
         //加载资源文件,实例化到一个SCXML对象，两者之间一一对应
-        val scxml = SCXMLReader.read(ResourceHelper.getResource(scxmlPath))
+        val scxml = SCXMLReader.read(
+            ResourceHelper.getResource(
+                scxmlPath,
+
+            )
+        )
 
         //将这样的一个SCXML实例，作为状态机对象，传入到引擎里面。
         executor.stateMachine = scxml
