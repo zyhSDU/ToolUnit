@@ -5,7 +5,10 @@ import org.jfree.chart.ChartFactory
 import org.jfree.chart.ChartPanel
 import org.jfree.chart.ChartUtils
 import org.jfree.chart.JFreeChart
+import org.jfree.chart.annotations.XYTextAnnotation
 import org.jfree.chart.plot.PlotOrientation
+import org.jfree.chart.ui.Layer
+import org.jfree.chart.ui.RectangleAnchor
 import org.jfree.data.category.DefaultCategoryDataset
 import org.jfree.data.xy.DefaultXYDataset
 import java.io.File
@@ -52,7 +55,7 @@ object ChartHelper {
         dataset.addSeries("Series 1", yData.toXYData())
 
         // 创建图表并设置样式
-        return ChartFactory.createXYLineChart(
+        val chart = ChartFactory.createXYLineChart(
             "lineChart",
             "x",
             "y",
@@ -62,6 +65,25 @@ object ChartHelper {
             true,
             false
         )
+
+        // 获取绘图区域的域轴和值轴
+        val plot = chart.xyPlot
+        val domainAxis = plot.domainAxis
+        val rangeAxis = plot.rangeAxis
+
+        // 添加数据纵坐标展示
+        for ((x, y) in yData.withIndex()) {
+            val annotation = XYTextAnnotation(
+                y.toString(),
+                x.toDouble(),
+                y
+            )
+            annotation.font = java.awt.Font("SansSerif", java.awt.Font.PLAIN, 10)
+            annotation.textAnchor = org.jfree.chart.ui.TextAnchor.TOP_CENTER
+            plot.addAnnotation(annotation)
+        }
+
+        return chart
     }
 
     fun taskDrawLineChart(
