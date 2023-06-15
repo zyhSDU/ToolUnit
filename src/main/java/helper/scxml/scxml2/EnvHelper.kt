@@ -1,5 +1,6 @@
 package helper.scxml.scxml2
 
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.DebugHelper.DebuggerList
 import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.A3LHM
@@ -131,6 +132,10 @@ object EnvHelper {
         val endStateList: ArrayList<String> = ArrayList(),
         val endData: LinkedHashMap<String, String> = LinkedHashMap(),
     ) : IToStr {
+        companion object {
+            val debugger = getDebuggerByInt()
+        }
+
         fun updateWhenRunEnd(scxmlTuple: SCXMLTuple) {
             scxmlTuple.activeStates.map {
                 it.id

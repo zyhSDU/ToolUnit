@@ -24,7 +24,7 @@ object DebugHelper {
     ) {
         companion object {
             fun getDebuggerByInt(
-                ifDebug: Int,
+                ifDebug: Int = 1,
                 tabNum: Int = 0,
                 tabNumMax: Int = Int.MAX_VALUE,
             ): Debugger {

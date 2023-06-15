@@ -30,6 +30,7 @@ internal class LearningTest {
             0,
             1,
         )
+//        debuggerList.arr.add(RunResult.debugger)
         val ifDeterminingDetermining = true
         val hAU = LearningHelper.HyperArgUnit.getObj1()
         val iAU = LearningHelper.InstanceArgUnit.getObj1()
@@ -37,6 +38,7 @@ internal class LearningTest {
         repeat(
             hAU.maxIterations
         ) iteration@{
+            if (iAU.nowCountOfReset >= hAU.maxResets) return@iteration
             debuggerList.pln("iterations_${it}:\n")
             val rrs = ArrayList<RunResult>()
             env.repeatRun2AndRecord(
