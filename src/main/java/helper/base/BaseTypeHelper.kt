@@ -55,6 +55,18 @@ object BaseTypeHelper {
         }
 
         object StringDoubleExpand {
+            fun LinkedHashMap<String, Double>.getMinKey(): String? {
+                var minKey: String? = null
+                var minValue = Double.MAX_VALUE
+                for ((key, value) in this) {
+                    if (value <= minValue) {
+                        minKey = key
+                        minValue = value
+                    }
+                }
+                return minKey
+            }
+
             fun LinkedHashMap<String, Double>.getMaxKey(): String? {
                 var maxKey: String? = null
                 var maxValue = Double.MIN_VALUE

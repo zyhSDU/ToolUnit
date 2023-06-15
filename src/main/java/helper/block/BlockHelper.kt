@@ -521,7 +521,6 @@ object BlockHelper {
         }
 
         object LHMExpand {
-
             fun LinkedHashMap<String, Double>.toBlock(): BlockHelper.Block {
                 return this.map { (k, v) ->
                     "${k}: $v".toBlock()
