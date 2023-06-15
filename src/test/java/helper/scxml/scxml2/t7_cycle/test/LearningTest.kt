@@ -14,7 +14,6 @@ import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
-import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toLocationEventVListLHM
@@ -44,6 +43,8 @@ internal class LearningTest {
         ) iteration@{
             if (iAU.nowCountOfReset >= hAU.maxResets) return@iteration
             debuggerList.pln("iterations_${it}:\n")
+            println("indexAfterReset=${iAU.indexAfterReset}")
+            iAU.indexAfterReset += 1
             val rrs = ArrayList<RunResult>()
 
             env.repeatRun2AndRecord(
@@ -132,6 +133,12 @@ internal class LearningTest {
             )
 
             val mean2 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()
+            iAU.renEventSelectorCostMean2LHM[env.strategyTuple.getRenEventSelectorFun] = mean2
+
+            println("before compare")
+            println("\tmean2=${mean2}")
+            println("\tiAU.lastMinCost=${iAU.lastMinCost}")
+
             if (mean2 < iAU.lastMinCost) {
                 iAU.nowCountOfNoBetter = 0
                 iAU.lastMinCost = mean2
@@ -140,8 +147,12 @@ internal class LearningTest {
                 iAU.nowCountOfNoBetter += 1
                 if (iAU.nowCountOfNoBetter >= hAU.maxNoBetter) {
                     //重置
+                    println("重置")
+                    iAU.indexAfterReset = 0
                     iAU.renEventSelectorCostListLHM = LinkedHashMap()
+                    iAU.renEventSelectorCostMean2LHM = LinkedHashMap()
                     iAU.renEventSelectorCostListLHMList.add(iAU.renEventSelectorCostListLHM)
+                    iAU.renEventSelectorCostMean2LHMList.add(iAU.renEventSelectorCostMean2LHM)
                     iAU.resetLastMinCost()
                     env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getRenEventSelectorFunObj1()
                     iAU.nowCountOfNoBetter = 0
@@ -165,26 +176,25 @@ internal class LearningTest {
             arrayListOf(0, 1, 2),
         )
 
-        iAU.renEventSelectorCostListLHMList.withIndex()
-            .map { (index: Int, lhm: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>) ->
-                println("index=${index}")
-                val averages = lhm.map { (_: (SCXMLTuple) -> IRenEventSelector, v: ArrayList<Double>) ->
-                    v.average()
-                }
-                averages.map {
-                    //打印均值
-                    debuggerList.pln(
-                        it.toString(),
-                        arrayListOf(0, 1, 2),
-                    )
-                }
-                ChartHelper.taskDrawLineChart(
-                    averages.toArrayList(),
-                    "${FileRes.out_chart_file}" +
-                            "/LearningTest_t1" +
-                            "/t_${nowTimeStr}" +
-                            "/chart${index}.png"
+        iAU.renEventSelectorCostMean2LHMList.withIndex().map { (index: Int, lhm) ->
+            println("index=${index}")
+            val averages = lhm.map { (_, v) ->
+                v
+            }
+            averages.map {
+                //打印均值
+                debuggerList.pln(
+                    it.toString(),
+                    arrayListOf(0, 1, 2),
                 )
             }
+            ChartHelper.taskDrawLineChart(
+                averages.toArrayList(),
+                "${FileRes.out_chart_file}" +
+                        "/LearningTest_t1" +
+                        "/t_${nowTimeStr}" +
+                        "/chart${index}.png"
+            )
+        }
     }
 }
