@@ -3,9 +3,11 @@ package helper.scxml.scxml2.t7_cycle.test
 import helper.ChartHelper
 import helper.base.BaseTypeHelper.LHMExpand.StringDoubleExpand.getMaxKey
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
+import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.MathHelper
 import helper.base.TimeHelper
 import helper.scxml.scxml2.EnvHelper
@@ -24,6 +26,7 @@ import res.FileRes
 internal class LearningTest {
     @Test
     fun t1() {
+        val debugger_renEventSelectorCostListLHM = getDebuggerByInt()
         val nowTimeStr = TimeHelper.now(TimeHelper.TimePattern.p4)
         val debuggerList = getDebuggerList(
             0,
@@ -31,6 +34,7 @@ internal class LearningTest {
             1,
         )
 //        debuggerList.arr.add(RunResult.debugger)
+//        debuggerList.arr.add(debugger_renEventSelectorCostListLHM)
         val ifDeterminingDetermining = true
         val hAU = LearningHelper.HyperArgUnit.getObj1()
         val iAU = LearningHelper.InstanceArgUnit.getObj1()
@@ -41,11 +45,19 @@ internal class LearningTest {
             if (iAU.nowCountOfReset >= hAU.maxResets) return@iteration
             debuggerList.pln("iterations_${it}:\n")
             val rrs = ArrayList<RunResult>()
+
             env.repeatRun2AndRecord(
                 times = hAU.maxRuns,
                 lhm = iAU.renEventSelectorCostListLHM,
                 runResultList = rrs,
                 debuggerList = debuggerList,
+            )
+            debuggerList.pln2(
+                "after run\n" +
+                        "${iAU.renEventSelectorCostListLHM.toStr()}\n",
+                arrayListOf(
+                    debugger_renEventSelectorCostListLHM,
+                ),
             )
             val mean1 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()
             iAU.meanList.add(mean1)
@@ -109,6 +121,14 @@ internal class LearningTest {
                 times = hAU.evalRuns,
                 lhm = iAU.renEventSelectorCostListLHM,
                 debuggerList = debuggerList,
+            )
+
+            debuggerList.pln2(
+                "after eval\n" +
+                        "${iAU.renEventSelectorCostListLHM.toStr()}\n",
+                arrayListOf(
+                    debugger_renEventSelectorCostListLHM,
+                ),
             )
 
             val mean2 = iAU.renEventSelectorCostListLHM[env.strategyTuple.getRenEventSelectorFun]!!.average()

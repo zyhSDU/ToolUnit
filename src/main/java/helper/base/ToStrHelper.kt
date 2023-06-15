@@ -22,8 +22,8 @@ object ToStrHelper {
                 }
             }
 
-            object StringE {
-                fun List<String>.toStr(
+            object EE {
+                fun <E> List<E>.toStr(
                     tabNum: Int = 0,
                 ): String {
                     val tabNumStr = "\t".repeat(tabNum)
@@ -35,15 +35,16 @@ object ToStrHelper {
                 }
             }
         }
-        object LHME{
-            fun LinkedHashMap<String,String>.toStr(
+
+        object LHME {
+            fun LinkedHashMap<String, String>.toStr(
                 tabNum: Int = 0,
             ): String {
                 val tabNum1 = tabNum + 1
                 val tabNumStr = "\t".repeat(tabNum)
                 val tabNumStr1 = "\t".repeat(tabNum1)
                 val sb = StringBuilder()
-                this.map {(k,v)->
+                this.map { (k, v) ->
                     sb.append("${tabNumStr}${k}\n")
                     sb.append("${tabNumStr1}${v}\n")
                 }
