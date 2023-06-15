@@ -16,7 +16,6 @@ import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
-import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toCostList
@@ -197,6 +196,7 @@ internal class LearningTest {
                 saveFile = "${FileRes.out_chart_file}" +
                         "/LearningTest_t1" +
                         "/t_${nowTimeStr}" +
+                        "/chart_" +
                         "/chart${index}.png"
             )
         }
@@ -217,6 +217,7 @@ internal class LearningTest {
             saveFile = "${FileRes.out_chart_file}" +
                     "/LearningTest_t1" +
                     "/t_${nowTimeStr}" +
+                    "/min" +
                     "/chart_min.png"
         )
 
