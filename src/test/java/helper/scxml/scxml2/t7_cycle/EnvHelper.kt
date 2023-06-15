@@ -89,6 +89,10 @@ object EnvHelper {
                 this.taskRun2(
                     debuggerList = debuggerList
                 ).let {
+                    debuggerList.pln(
+                        it.toStr(0),
+                        arrayListOf(0, 1, 2),
+                    )
                     runResultList.add(it)
                 }
             }

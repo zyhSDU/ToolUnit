@@ -3,9 +3,11 @@ package helper.scxml.scxml2
 import helper.base.DebugHelper.DebuggerList
 import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
-import helper.base.LHMHelper.LHMExpand.addList
 import helper.base.LHMHelper.LHMExpand.toStr
 import helper.base.RandomHelper
+import helper.base.ToStrHelper.Expand.ListE.IToStrE.toStr
+import helper.base.ToStrHelper.Expand.ListE.StringE.toStr
+import helper.base.ToStrHelper.IToStr
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.Expand.DataExpand.exprToInt
 import helper.scxml.scxml2.Expand.DataExpand.setExprAddIncrement
@@ -116,8 +118,10 @@ object EnvHelper {
         val location: String,
         val action: String,
         val data: LinkedHashMap<String, String> = LinkedHashMap()
-    ) {
-        fun toStr(): String {
+    ) : IToStr {
+        override fun toStr(
+            tabNum: Int,
+        ): String {
             return "(${location},${action},${data})"
         }
     }
@@ -126,7 +130,7 @@ object EnvHelper {
         val us: ArrayList<LocationActionClockUnit> = ArrayList(),
         val endStateList: ArrayList<String> = ArrayList(),
         val endData: LinkedHashMap<String, String> = LinkedHashMap(),
-    ) {
+    ) : IToStr {
         fun updateWhenRunEnd(scxmlTuple: SCXMLTuple) {
             scxmlTuple.activeStates.map {
                 it.id
@@ -134,6 +138,24 @@ object EnvHelper {
                 this.endStateList.add(it)
             }
             scxmlTuple.toData(this.endData)
+        }
+
+        override fun toStr(
+            tabNum: Int,
+        ): String {
+            val tabNum1 = tabNum + 1
+            val tabNum2 = tabNum + 2
+            val tabNumStr = "\t".repeat(tabNum)
+            val tabNumStr1 = "\t".repeat(tabNum1)
+            val sb = StringBuilder()
+            sb.append("${tabNumStr}RunResult:\n")
+            sb.append("${tabNumStr1}us:\n")
+            sb.append(us.toStr(tabNum2))
+            sb.append("${tabNumStr1}endStateList:\n")
+            sb.append(endStateList.toStr(tabNum2))
+            sb.append("${tabNumStr1}endData:\n")
+            sb.append(endData.toStr(tabNum2))
+            return sb.toString()
         }
     }
 

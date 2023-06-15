@@ -144,9 +144,9 @@ internal class LearningTest {
         )
 
         iAU.renEventSelectorCostListLHMList.withIndex()
-            .map { (k: Int, v: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>) ->
-                println("k=${k}")
-                val averages = v.map { (_: (SCXMLTuple) -> IRenEventSelector, v: ArrayList<Double>) ->
+            .map { (index: Int, lhm: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>) ->
+                println("index=${index}")
+                val averages = lhm.map { (_: (SCXMLTuple) -> IRenEventSelector, v: ArrayList<Double>) ->
                     v.average()
                 }
                 averages.map {
@@ -161,7 +161,7 @@ internal class LearningTest {
                     "${FileRes.out_chart_file}" +
                             "/LearningTest_t1" +
                             "/t_${nowTimeStr}" +
-                            "/chart${k}.png"
+                            "/chart${index}.png"
                 )
             }
     }

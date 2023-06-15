@@ -1,7 +1,5 @@
 package helper.scxml
 
-import org.apache.commons.scxml.model.Data
-
 object IDataExpandHelper {
     interface IDataExpand {
         fun touchData(
