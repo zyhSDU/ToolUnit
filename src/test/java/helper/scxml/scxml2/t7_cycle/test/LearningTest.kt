@@ -23,6 +23,7 @@ import res.FileRes
 internal class LearningTest {
     @Test
     fun t1() {
+        val nowTimeStr = TimeHelper.now(TimeHelper.TimePattern.p4)
         val debuggerList = getDebuggerList(
             0,
             0,
@@ -141,7 +142,6 @@ internal class LearningTest {
             arrayListOf(0, 1, 2),
         )
 
-        val nowTimeStr = TimeHelper.now(TimeHelper.TimePattern.p4)
         iAU.renEventSelectorCostListLHMList.withIndex().map { (k, v) ->
             println("k=${k}")
             v.map { (_, v) ->
