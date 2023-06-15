@@ -177,6 +177,7 @@ internal class LearningTest {
         )
 
         iAU.renEventSelectorCostMean2LHMList.withIndex().map { (index: Int, lhm) ->
+            if (lhm.size <= 0) return@map
             println("index=${index}")
             val averages = lhm.map { (_, v) ->
                 v
@@ -196,5 +197,24 @@ internal class LearningTest {
                         "/chart${index}.png"
             )
         }
+        val renEventSelectorCostMean2MinList = ArrayList<Double>()
+        var if_break_renEventSelectorCostMean2LHMList = false
+        iAU.renEventSelectorCostMean2LHMList.map {
+            if (if_break_renEventSelectorCostMean2LHMList) return@map
+            val mean2Min = it.values.minOrNull()
+            if (mean2Min == null) {
+                if_break_renEventSelectorCostMean2LHMList = true
+                return@map
+            }
+            renEventSelectorCostMean2MinList.add(mean2Min)
+
+        }
+        ChartHelper.taskDrawLineChart(
+            renEventSelectorCostMean2MinList,
+            "${FileRes.out_chart_file}" +
+                    "/LearningTest_t1" +
+                    "/t_${nowTimeStr}" +
+                    "/chart_min.png"
+        )
     }
 }
