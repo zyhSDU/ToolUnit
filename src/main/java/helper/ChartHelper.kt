@@ -49,6 +49,7 @@ object ChartHelper {
 
     fun drawLineChart(
         yData: ArrayList<Double>,
+        ifShowY: Boolean,
     ): JFreeChart {
         // 创建数据集
         val dataset = DefaultXYDataset()
@@ -66,32 +67,32 @@ object ChartHelper {
             false
         )
 
-        // 获取绘图区域的域轴和值轴
-        val plot = chart.xyPlot
-        val domainAxis = plot.domainAxis
-        val rangeAxis = plot.rangeAxis
+        if (ifShowY) {
+            // 获取绘图区域的域轴和值轴
+            val plot = chart.xyPlot
 
-        // 添加数据纵坐标展示
-        for ((x, y) in yData.withIndex()) {
-            val annotation = XYTextAnnotation(
-                y.toString(),
-                x.toDouble(),
-                y
-            )
-            annotation.font = java.awt.Font("SansSerif", java.awt.Font.PLAIN, 10)
-            annotation.textAnchor = org.jfree.chart.ui.TextAnchor.TOP_CENTER
-            plot.addAnnotation(annotation)
+            // 添加数据纵坐标展示
+            for ((x, y) in yData.withIndex()) {
+                val annotation = XYTextAnnotation(
+                    y.toString(),
+                    x.toDouble(),
+                    y
+                )
+                annotation.font = java.awt.Font("SansSerif", java.awt.Font.PLAIN, 10)
+                annotation.textAnchor = org.jfree.chart.ui.TextAnchor.TOP_CENTER
+                plot.addAnnotation(annotation)
+            }
         }
-
         return chart
     }
 
     fun taskDrawLineChart(
         yData: ArrayList<Double>,
+        ifShowY: Boolean = true,
         saveFile: String? = null,
         ifShow: Boolean = false,
     ) {
-        val chart: JFreeChart = drawLineChart(yData)
+        val chart: JFreeChart = drawLineChart(yData, ifShowY)
         taskChart(
             chart,
             saveFile,

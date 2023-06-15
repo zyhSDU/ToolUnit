@@ -193,8 +193,8 @@ internal class LearningTest {
                 )
             }
             ChartHelper.taskDrawLineChart(
-                averages.toArrayList(),
-                "${FileRes.out_chart_file}" +
+                yData = averages.toArrayList(),
+                saveFile = "${FileRes.out_chart_file}" +
                         "/LearningTest_t1" +
                         "/t_${nowTimeStr}" +
                         "/chart${index}.png"
@@ -212,24 +212,25 @@ internal class LearningTest {
             renEventSelectorCostMean2MinList.add(mean2Min)
         }
         ChartHelper.taskDrawLineChart(
-            renEventSelectorCostMean2MinList,
-            "${FileRes.out_chart_file}" +
+            yData = renEventSelectorCostMean2MinList,
+            ifShowY = false,
+            saveFile = "${FileRes.out_chart_file}" +
                     "/LearningTest_t1" +
                     "/t_${nowTimeStr}" +
                     "/chart_min.png"
         )
 
+        assert(renEventSelectorCostMean2MinList.size > 0)
         println("test")
-        if (renEventSelectorCostMean2MinList.size > 0) {
-            val getMinValueKey = renEventSelectorCostMean2MinList.getMinValueKey()!!
-            env.strategyTuple.getRenEventSelectorFun = iAU.renEventSelectorCostMean2LHMList[getMinValueKey].getMinKey()!!
-
-            env.repeatRun2AndRecord(
-                times = 100,
-                debuggerList = debuggerList,
-            ).toCostList().let {
-                println(it)
-            }
+        val getMinValueKey = renEventSelectorCostMean2MinList.getMinValueKey()!!
+        println("getMinValueKey=${getMinValueKey}")
+        println("getMinValue=${renEventSelectorCostMean2MinList[getMinValueKey]}")
+        env.strategyTuple.getRenEventSelectorFun = iAU.renEventSelectorCostMean2LHMList[getMinValueKey].getMinKey()!!
+        env.repeatRun2AndRecord(
+            times = hAU.evalRuns * 10,
+            debuggerList = debuggerList,
+        ).toCostList().let {
+            println("average=${it.average()}")
         }
     }
 
