@@ -116,5 +116,40 @@ object DebugHelper {
                 arr[it].endPln()
             }
         }
+
+        fun pln2(
+            string: String,
+            ds: ArrayList<Debugger> = arrayListOf(debugger_all),
+        ) {
+            ds.map {
+                if (arr.contains(it)) {
+                    it.pln(string)
+                    return
+                }
+            }
+        }
+
+        fun startPln2(
+            string: String,
+            ds: ArrayList<Debugger> = arrayListOf(debugger_all),
+        ) {
+            ds.map {
+                if (arr.contains(it)) {
+                    it.startPln(string)
+                    return
+                }
+            }
+        }
+
+        fun endPln2(
+            ds: ArrayList<Debugger> = arrayListOf(debugger_all),
+        ) {
+            ds.map {
+                if (arr.contains(it)) {
+                    it.endPln()
+                    return
+                }
+            }
+        }
     }
 }
