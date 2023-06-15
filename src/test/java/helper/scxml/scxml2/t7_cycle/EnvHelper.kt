@@ -100,19 +100,20 @@ object EnvHelper {
 
         fun repeatRun2AndRecord(
             times: Int,
-            lhm: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>,
+            lhm: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>?=null,
             runResultList: ArrayList<RunResult> = ArrayList(),
             debuggerList: DebuggerList = getDebuggerList(0),
-        ) {
+        ): ArrayList<RunResult>{
             repeatRun2(
                 times,
                 runResultList,
                 debuggerList,
             )
-            lhm.addList(
+            lhm?.addList(
                 this.strategyTuple.getRenEventSelectorFun,
                 runResultList.toCostList(),
             )
+            return runResultList
         }
     }
 }

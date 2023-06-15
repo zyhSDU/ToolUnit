@@ -37,6 +37,18 @@ object BaseTypeHelper {
         fun <E> Array<out E>.toArrayList(): ArrayList<E> {
             return this.toList().toArrayList()
         }
+
+        fun ArrayList<Double>.getMinValueKey(): Int? {
+            var minValue = Double.MAX_VALUE
+            var minIndex: Int? = null
+            for ((index, value) in this.withIndex()) {
+                if (value <= minValue) {
+                    minValue = value
+                    minIndex = index
+                }
+            }
+            return minIndex
+        }
     }
 
     object LHMExpand {
@@ -55,8 +67,8 @@ object BaseTypeHelper {
         }
 
         object StringDoubleExpand {
-            fun LinkedHashMap<String, Double>.getMinKey(): String? {
-                var minKey: String? = null
+            fun <E> LinkedHashMap<E, Double>.getMinKey(): E? {
+                var minKey: E? = null
                 var minValue = Double.MAX_VALUE
                 for ((key, value) in this) {
                     if (value <= minValue) {

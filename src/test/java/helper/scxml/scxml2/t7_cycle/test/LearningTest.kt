@@ -2,6 +2,8 @@ package helper.scxml.scxml2.t7_cycle.test
 
 import helper.ChartHelper
 import helper.base.BaseTypeHelper.LHMExpand.StringDoubleExpand.getMaxKey
+import helper.base.BaseTypeHelper.LHMExpand.StringDoubleExpand.getMinKey
+import helper.base.BaseTypeHelper.ListExpand.getMinValueKey
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
@@ -14,8 +16,10 @@ import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
+import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
+import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toCostList
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toLocationEventVListLHM
 import helper.scxml.scxml2.t7_cycle.EnvObjHelper
 import helper.scxml.scxml2.t7_cycle.LearningHelper
@@ -200,13 +204,12 @@ internal class LearningTest {
         var if_break_renEventSelectorCostMean2LHMList = false
         iAU.renEventSelectorCostMean2LHMList.map {
             if (if_break_renEventSelectorCostMean2LHMList) return@map
-            val mean2Min = it.values.minOrNull()
-            if (mean2Min == null) {
+            if (it.size <= 0) {
                 if_break_renEventSelectorCostMean2LHMList = true
                 return@map
             }
+            val mean2Min = it.values.minOrNull()!!
             renEventSelectorCostMean2MinList.add(mean2Min)
-
         }
         ChartHelper.taskDrawLineChart(
             renEventSelectorCostMean2MinList,
@@ -215,6 +218,19 @@ internal class LearningTest {
                     "/t_${nowTimeStr}" +
                     "/chart_min.png"
         )
+
+        println("test")
+        if (renEventSelectorCostMean2MinList.size > 0) {
+            val getMinValueKey = renEventSelectorCostMean2MinList.getMinValueKey()!!
+            env.strategyTuple.getRenEventSelectorFun = iAU.renEventSelectorCostMean2LHMList[getMinValueKey].getMinKey()!!
+
+            env.repeatRun2AndRecord(
+                times = 100,
+                debuggerList = debuggerList,
+            ).toCostList().let {
+                println(it)
+            }
+        }
     }
 
     @Test
