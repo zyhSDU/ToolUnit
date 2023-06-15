@@ -1,6 +1,6 @@
 package helper.scxml.scxml2.t7_cycle.test
 
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.t2_traffic.Res
 import helper.scxml.scxml2.t7_cycle.EnvObjHelper

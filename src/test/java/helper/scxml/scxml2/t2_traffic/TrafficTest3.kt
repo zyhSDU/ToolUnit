@@ -1,7 +1,7 @@
 package helper.scxml.scxml2.t2_traffic
 
-import helper.base.DebugHelper.Debugger
 import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.FileHelper.toFile
 import helper.base.ProgressBarHelper
 import helper.base.RegexHelper.match
@@ -37,7 +37,7 @@ internal class TrafficTest3 {
             stateEnvConstraintLHM: LinkedHashMap<String, ClockConstraint> = rEnvStateConstraintLHM,
             IRenEventSelector: IRenEventSelector = stateRenEventSelector1,
             repeatNum: Int = 10000,
-            debuggerList: DebuggerList = DebuggerList(arrayListOf(Debugger(0))),
+            debuggerList: DebuggerList = getDebuggerList(0),
             ifBar: Boolean = true,
         ) {
             val modelTrainDirString = "${modelDirString}/train"
@@ -87,7 +87,7 @@ internal class TrafficTest3 {
             index: Int? = null,
             stateEnvConstraintLHM: LinkedHashMap<String, ClockConstraint> = rEnvStateConstraintLHM,
             repeatNum: Int = 1,
-            debuggerList: DebuggerList = DebuggerList(arrayListOf(Debugger(0))),
+            debuggerList: DebuggerList = getDebuggerList(0),
             ifBar: Boolean = true,
         ) {
             //index为null，以冒号后面内容为取值内容
@@ -145,7 +145,7 @@ internal class TrafficTest3 {
 
         fun model1(
             stateEnvConstraintLHM: LinkedHashMap<String, ClockConstraint> = rEnvStateConstraintLHM,
-            debuggerList: DebuggerList = DebuggerList(arrayListOf(Debugger(0))),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             val modelDirString = "out/log/model/traffic/model1"
             trainModel(
@@ -168,7 +168,7 @@ internal class TrafficTest3 {
 
         fun model2(
             stateEnvConstraintLHM: LinkedHashMap<String, ClockConstraint> = rEnvStateConstraintLHM,
-            debuggerList: DebuggerList = DebuggerList(arrayListOf(Debugger(0))),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             val modelDirString = "out/log/model/traffic/model2"
             trainModel(
@@ -189,7 +189,7 @@ internal class TrafficTest3 {
 
         fun model3(
             stateEnvConstraintLHM: LinkedHashMap<String, ClockConstraint> = dEnvStateConstraintLHM,
-            debuggerList: DebuggerList = DebuggerList(arrayListOf(Debugger(0))),
+            debuggerList: DebuggerList = getDebuggerList(0),
             ifBar: Boolean = true,
         ) {
             val modelDirString = "out/log/model/traffic/model3"

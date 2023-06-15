@@ -1,14 +1,15 @@
 package helper.scxml.strategy
 
 import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.LHMHelper.LHMExpand.toLinkedHashMap
-import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
-import helper.scxml.IDataExpandHelper.Expand.ifMeet2
 import helper.block.BlockHelper
 import helper.block.BlockHelper.Expand.BlockTo.toLineBlock
 import helper.block.BlockHelper.Expand.LHMExpand.toBlock
 import helper.block.BlockHelper.Expand.ToBlock.toBlock
 import helper.scxml.IDataExpandHelper
+import helper.scxml.IDataExpandHelper.Expand.ifMeet2
+import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
 import helper.scxml.scxml1.Scxml1Helper
 
 object ScxmlOneStrategyHelper {
@@ -317,7 +318,7 @@ object ScxmlOneStrategyHelper {
         IDataExpand: IDataExpandHelper.IDataExpand,
         //用于过滤状态结点
         filterStateFun: (HashSet<String>) -> Boolean,
-        debugger: Debugger= Debugger(0)
+        debugger: Debugger = getDebuggerByInt(0)
     ): SNode? {
         var esn: SNode? = null
         envStrategyNode.touch { node ->
@@ -343,7 +344,7 @@ object ScxmlOneStrategyHelper {
                 }
             }
             if (node.isLeafNode()) {
-                debugger.pln( "\t\tisLeafNode")
+                debugger.pln("\t\tisLeafNode")
                 esn = node
                 //不再继续往下找结点
                 return@touch false

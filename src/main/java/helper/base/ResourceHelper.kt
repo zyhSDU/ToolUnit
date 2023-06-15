@@ -1,7 +1,7 @@
 package helper.base
 
 import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import java.net.URL
 
 object ResourceHelper {

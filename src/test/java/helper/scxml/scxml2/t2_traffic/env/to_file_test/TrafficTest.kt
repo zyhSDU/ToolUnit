@@ -1,14 +1,14 @@
 package helper.scxml.scxml2.t2_traffic.env.to_file_test
 
-import helper.base.DebugHelper.Debugger
 import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.FileHelper
 import helper.base.PrintHelper.StringTo.toPrintln
+import helper.scxml.scxml2.t2_traffic.env.EnvHelper.Env
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.envEventLHM1
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.rEnvStateConstraintLHM
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.stateRenEventSelector1
-import helper.scxml.scxml2.t2_traffic.env.EnvHelper.Env
 import java.io.File
 import kotlin.math.pow
 
@@ -76,7 +76,7 @@ object TrafficTest {
                 repeatTaskRun(
                     getEnvFun = Test1::getTrafficEnv,
                     repeatTaskDirString = newMaxIndexDirFileString,
-                    debuggerList = DebuggerList(arrayListOf(Debugger(0))),
+                    debuggerList = getDebuggerList(0),
                 )
             }
         }
@@ -114,7 +114,7 @@ object TrafficTest {
                     repeatTaskRun(
                         getEnvFun = Test2T1::getTrafficEnv,
                         repeatTaskDirString = newMaxIndexDirFileString,
-                        debuggerList = DebuggerList(arrayListOf(Debugger(0))),
+                        debuggerList = getDebuggerList(0),
                     )
                 }
             }
@@ -196,7 +196,7 @@ object TrafficTest {
                     repeatTaskRun(
                         getEnvFun = Test3T1::getTrafficEnv,
                         repeatTaskDirString = newMaxIndexDirFileString,
-                        debuggerList = DebuggerList(arrayListOf(Debugger(0))),
+                        debuggerList = getDebuggerList(0),
                     )
                 }
             }
@@ -259,7 +259,7 @@ object TrafficTest {
                     repeatTaskRun(
                         getEnvFun = T1::getTrafficEnv,
                         repeatTaskDirString = newMaxIndexDirFileString,
-                        debuggerList = DebuggerList(arrayListOf(Debugger(0))),
+                        debuggerList = getDebuggerList(0),
                     )
                 }
             }

@@ -1,7 +1,6 @@
 package helper.scxml.scxml2.t4_time
 
-import helper.base.DebugHelper.Debugger
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.MathHelper
 import helper.scxml.scxml0.TimeTestHelper
 import helper.scxml.scxml2.Expand.SCXMLExecutorExpand.isInState
@@ -85,7 +84,7 @@ internal class TimeTest2 {
             }
             scxmlTuple.fireEvent(
                 event = "time",
-                debuggerList = getDebuggerList(Debugger(0)),
+                debuggerList = getDebuggerList(0),
             )
         }
         scxmlTuple.statusPrintln()

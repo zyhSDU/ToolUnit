@@ -1,9 +1,8 @@
 package helper.scxml.scxml2
 
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
-import helper.base.DebugHelper
 import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.calMean

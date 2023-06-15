@@ -1,9 +1,10 @@
 package helper.scxml.scxml2
 
-import helper.base.DebugHelper.Debugger
-import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
 import helper.base.ConstraintHelper
+import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.MathHelper
@@ -313,7 +314,7 @@ class SCXMLTuple(
         //资源在这，统计结果也在这
         myDataList: Scxml2Helper.MyDataList,
         activeActiveStateTreeNode: Scxml2Helper.ActiveStateTreeNode = Scxml2Helper.ActiveStateTreeNode.getRootStateTreeNode(),
-        debugger: Debugger = Debugger(1, 0),
+        debugger: Debugger = getDebuggerByInt(1, 0),
     ) {
         debugger.startPln("calculateCostConsiderInOut")
         debugger.pln("考虑进出状态")
@@ -375,7 +376,7 @@ class SCXMLTuple(
         //用资源来约束
         stopConstraint: ConstraintHelper.CompositeConstraint,
         rootActiveStateTreeNode: Scxml2Helper.ActiveStateTreeNode = Scxml2Helper.ActiveStateTreeNode.getRootStateTreeNode(),
-        debugger: Debugger = Debugger(1, 0),
+        debugger: Debugger = getDebuggerByInt(1, 0),
     ) {
         debugger.startPln("calculateCostConsiderStrategy")
         debugger.pln("考虑变迁")
@@ -423,7 +424,7 @@ class SCXMLTuple(
         //用资源来约束
         stopConstraint: ConstraintHelper.CompositeConstraint,
         rootActiveStateTreeNode: Scxml2Helper.ActiveStateTreeNode = Scxml2Helper.ActiveStateTreeNode.getRootStateTreeNode(),
-        debugger: Debugger = Debugger(1, 0, 11),
+        debugger: Debugger = getDebuggerByInt(1, 0, 11),
         diGuiNum: Int = 0,
     ) {
         if (diGuiNum == 10) {

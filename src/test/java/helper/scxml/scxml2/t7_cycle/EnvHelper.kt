@@ -1,9 +1,8 @@
 package helper.scxml.scxml2.t7_cycle
 
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
-import helper.base.DebugHelper
 import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.LHMExpand.add
 import helper.base.LHMHelper.LHMExpand.addList
 import helper.scxml.scxml2.EnvHelper.RunResult
@@ -14,7 +13,6 @@ import helper.scxml.scxml2.MathHelper.LocationEventVListLHM
 import helper.scxml.scxml2.Res
 import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.Scxml2Helper
-import helper.scxml.scxml2.StrategyTripleHelper
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.StrategyTripleHelper.Type2StrategyTuple
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toCostList

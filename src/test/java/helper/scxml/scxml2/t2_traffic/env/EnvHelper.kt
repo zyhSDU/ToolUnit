@@ -1,8 +1,7 @@
 package helper.scxml.scxml2.t2_traffic.env
 
-import helper.base.DebugHelper.Debugger
 import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml0.TrafficTestHelper
@@ -192,7 +191,7 @@ object EnvHelper {
             outTransitionFile: File? = null,
             countStateSet: HashSet<String>? = null,
             countClockValueFun: (SCXMLTuple, String) -> Unit = { _, _ -> },
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ): Int {
             val rlTransition = RLTransition()
 

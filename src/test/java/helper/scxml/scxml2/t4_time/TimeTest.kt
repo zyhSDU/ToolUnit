@@ -1,13 +1,13 @@
 package helper.scxml.scxml2.t4_time
 
-import helper.base.ConstraintHelper.N1Constraint
-import helper.base.DebugHelper.Debugger
 import helper.base.ConstraintHelper.CompareOperator.Companion.eOp
 import helper.base.ConstraintHelper.CompositeConstraint.Expand.toCompositeConstraint
+import helper.base.ConstraintHelper.N1Constraint
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
+import helper.scxml.scxml0.TimeTestHelper
 import helper.scxml.scxml2.Res
 import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.Scxml2Helper
-import helper.scxml.scxml0.TimeTestHelper
 import org.junit.Test
 
 internal class TimeTest {
@@ -33,7 +33,7 @@ internal class TimeTest {
                 eOp,
                 60.0,
             ).toCompositeConstraint(),
-            debugger = Debugger(1, 0, 11),
+            debugger = getDebuggerByInt(1, 0, 11),
         )
     }
 

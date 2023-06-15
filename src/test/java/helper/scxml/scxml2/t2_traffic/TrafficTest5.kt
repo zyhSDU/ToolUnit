@@ -1,14 +1,13 @@
 package helper.scxml.scxml2.t2_traffic
 
-import helper.base.DebugHelper.Debugger
-import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.FileHelper.mkdirs
 import helper.base.PrintHelper.StringTo.toPrintln
-import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.StateDataRenEventSelector.Expand.toLearnedRenEventSelector
 import helper.scxml.scxml2.t2_traffic.fun_strategy.FunStrategyHelper.StrIntStrIntLHM
-import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.rEnvStateConstraintLHM
 import helper.scxml.scxml2.t2_traffic.fun_strategy.FunStrategyHelper.taskRun
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper
+import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.StateDataRenEventSelector.Expand.toLearnedRenEventSelector
+import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.rEnvStateConstraintLHM
 import java.io.File
 import kotlin.random.Random
 
@@ -62,7 +61,7 @@ object TrafficTest5 {
                     getIRenEventSelectorFun = { scxmlTuple ->
                         a4LHM.toLearnedRenEventSelector(scxmlTuple)
                     },
-                    debuggerList = DebuggerList(arrayListOf(Debugger(0))),
+                    debuggerList = getDebuggerList(0),
                 )
                 totalValue += value
             }

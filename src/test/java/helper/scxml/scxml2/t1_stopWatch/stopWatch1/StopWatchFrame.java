@@ -100,7 +100,7 @@ public class StopWatchFrame extends JFrame implements ActionListener {
             //加载资源文件,实例化到一个SCXML对象，两者之间一一对应
             SCXML scxml = SCXMLReader.read(ResourceHelper.INSTANCE.getResource(
                     "scxml2/stopwatch1.scxml",
-                    DebugHelper.INSTANCE.getDebuggerList(0)
+                    DebugHelper.DebuggerList.Companion.getDebuggerList(0)
             ));
 
             //将这样的一个SCXML实例，作为状态机对象，传入到引擎里面。

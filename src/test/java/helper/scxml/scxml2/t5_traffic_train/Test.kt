@@ -1,7 +1,6 @@
 package helper.scxml.scxml2.t5_traffic_train
 
-import helper.base.DebugHelper.Debugger
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.scxml.scxml2.Expand.ToStr.toStr
 //t2不对
 import helper.scxml.scxml2.t2_traffic.fun_strategy.StrategyTripleHelper.getBaseEnvEventLHM
@@ -28,8 +27,8 @@ internal class Test {
     fun t1t2() {
         EnvObjHelper.getTrafficEnvObj1().taskRun(
             debuggerList = getDebuggerList(
-                Debugger(0),
-                Debugger(1),
+                0,
+                1,
             ),
         )
     }
@@ -51,8 +50,8 @@ internal class Test {
     fun t2t1() {
         getTrafficEnvObj2().taskRun(
             debuggerList = getDebuggerList(
-                Debugger(1),
-                Debugger(0),
+                1,
+                0,
             ),
         )
     }

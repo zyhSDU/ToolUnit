@@ -3,6 +3,7 @@ package helper.base
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.BaseTypeHelper.toBoolean
 import helper.base.BaseTypeHelper.toInt
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.MathHelper.modifiedSubtract
 import helper.base.PrintHelper.StringTo.toPrintln
 
@@ -21,15 +22,19 @@ object DebugHelper {
         val tabNumMax: Int = Int.MAX_VALUE,
         val debuggerPlnType: DebuggerPlnType = dPlnType1
     ) {
-        constructor(
-            ifDebug: Int,
-            tabNum: Int = 0,
-            tabNumMax: Int = Int.MAX_VALUE,
-        ) : this(
-            ifDebug.toBoolean(),
-            tabNum,
-            tabNumMax,
-        )
+        companion object {
+            fun getDebuggerByInt(
+                ifDebug: Int,
+                tabNum: Int = 0,
+                tabNumMax: Int = Int.MAX_VALUE,
+            ): Debugger {
+                return Debugger(
+                    ifDebug.toBoolean(),
+                    tabNum,
+                    tabNumMax,
+                )
+            }
+        }
 
         fun pln(
             string: String,
@@ -61,9 +66,31 @@ object DebugHelper {
         }
     }
 
+    val debugger_all = getDebuggerByInt(1)
+
     class DebuggerList(
         val arr: ArrayList<Debugger> = ArrayList(),
     ) {
+        companion object {
+            fun getDebuggerList(
+                vararg debugger: Debugger,
+            ): DebuggerList {
+                return DebuggerList(
+                    debugger.toArrayList()
+                )
+            }
+
+            fun getDebuggerList(
+                vararg ifDebug: Int,
+            ): DebuggerList {
+                return DebuggerList(
+                    ifDebug.map {
+                        getDebuggerByInt(it)
+                    }.toArrayList()
+                )
+            }
+        }
+
         fun pln(
             string: String,
             indexList: ArrayList<Int> = arrayListOf(0),
@@ -89,23 +116,5 @@ object DebugHelper {
                 arr[it].endPln()
             }
         }
-    }
-
-    fun getDebuggerList(
-        vararg debugger: Debugger,
-    ): DebuggerList {
-        return DebuggerList(
-            debugger.toArrayList()
-        )
-    }
-
-    fun getDebuggerList(
-        vararg ifDebug: Int,
-    ): DebuggerList {
-        return DebuggerList(
-            ifDebug.map {
-                Debugger(it)
-            }.toArrayList()
-        )
     }
 }

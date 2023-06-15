@@ -1,9 +1,8 @@
 package helper.scxml.scxml2
 
-import helper.base.DebugHelper.Debugger
-import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
 import helper.XMLCreateHelper.writeElement
+import helper.base.DebugHelper.DebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper
 import helper.base.RegexHelper.match
 import helper.base.RegexHelper.matchPrefix
@@ -76,7 +75,7 @@ object Expand {
     object ExecutableExpand {
         fun Executable.doExecutable(
             IDataExpand: IDataExpand,
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             this.actions.filterNotNull().map { action ->
                 if (action is Assign) {
@@ -133,7 +132,7 @@ object Expand {
         private fun TransitionTarget.doEAssign(
             scxml: IDataExpand,
             es: List<Executable>,
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             if (this !is EnterableState) return
             es.map {
@@ -143,7 +142,7 @@ object Expand {
 
         fun TransitionTarget.doExitsAssign(
             scxml: IDataExpand,
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             if (this !is EnterableState) return
             this.doEAssign(scxml, this.onExits, debuggerList)
@@ -151,7 +150,7 @@ object Expand {
 
         fun TransitionTarget.doEntriesAssign(
             scxml: IDataExpand,
-            debuggerList: DebuggerList = getDebuggerList(Debugger(0)),
+            debuggerList: DebuggerList = getDebuggerList(0),
         ) {
             if (this !is EnterableState) return
             this.doEAssign(scxml, this.onEntries, debuggerList)

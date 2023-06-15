@@ -1,14 +1,15 @@
 package helper.scxml.strategy
 
 import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.LHMHelper.LHMExpand.toLinkedHashMap
-import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
-import helper.scxml.IDataExpandHelper.Expand.ifMeet2
 import helper.block.BlockHelper
 import helper.block.BlockHelper.Expand.BlockTo.toLineBlock
 import helper.block.BlockHelper.Expand.LHMExpand.toBlock
 import helper.block.BlockHelper.Expand.ToBlock.toBlock
 import helper.scxml.IDataExpandHelper
+import helper.scxml.IDataExpandHelper.Expand.ifMeet2
+import helper.scxml.ScxmlVarHelper.ClockConstraint.ToClockConstraint.toClockConstraint
 import helper.scxml.scxml1.Scxml1Helper
 
 object ScxmlMultiStrategyHelper {
@@ -244,7 +245,7 @@ object ScxmlMultiStrategyHelper {
         dataExpand: IDataExpandHelper.IDataExpand,
         //用于过滤状态结点
         filterStateFun: (String) -> Boolean,
-        debugger: Debugger = Debugger(0)
+        debugger: Debugger = getDebuggerByInt(0)
     ): SNode? {
         var esn: SNode? = null
         envStrategyNode.touch { node ->

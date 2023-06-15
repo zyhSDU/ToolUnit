@@ -1,6 +1,7 @@
 package helper.scxml.scxml2.t2_traffic
 
 import helper.base.DebugHelper.Debugger
+import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
 import helper.base.FileHelper
 import helper.base.LHMHelper
 import helper.base.MathHelper
@@ -157,7 +158,7 @@ internal class TrafficTest {
 
     @Test
     fun testCE4_randomTrace() {
-        val debugger = Debugger(1)
+        val debugger = getDebuggerByInt(1)
 
         val pathIndex = 2
         val ifPrintEveryOne = false

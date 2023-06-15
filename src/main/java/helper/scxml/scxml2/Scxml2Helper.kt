@@ -1,9 +1,8 @@
 package helper.scxml.scxml2
 
 import helper.XMLCreateHelper
-import helper.base.DebugHelper
 import helper.base.DebugHelper.DebuggerList
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.ResourceHelper
 import helper.scxml.IDataExpandHelper
 import helper.scxml.ScxmlVarHelper.ClockConstraint
@@ -348,7 +347,7 @@ object Scxml2Helper {
             ResourceHelper.getResource(
                 scxmlPath,
 
-            )
+                )
         )
 
         //将这样的一个SCXML实例，作为状态机对象，传入到引擎里面。

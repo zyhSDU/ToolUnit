@@ -1,6 +1,6 @@
 package helper.scxml.scxml2.t5_traffic_train.math
 
-import helper.base.DebugHelper.getDebuggerList
+import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
 import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.E1.toClockValuationsList
 import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.E2.toClockValuationsList
