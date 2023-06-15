@@ -12,6 +12,7 @@ import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.MathHelper.ClockValuations
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
+import helper.scxml.scxml2.SCXMLTuple
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toLocationEventVListLHM
@@ -142,25 +143,26 @@ internal class LearningTest {
             arrayListOf(0, 1, 2),
         )
 
-        iAU.renEventSelectorCostListLHMList.withIndex().map { (k, v) ->
-            println("k=${k}")
-            v.map { (_, v) ->
-                v.average()
-            }.let {
-                it.map {
+        iAU.renEventSelectorCostListLHMList.withIndex()
+            .map { (k: Int, v: LinkedHashMap<(SCXMLTuple) -> IRenEventSelector, ArrayList<Double>>) ->
+                println("k=${k}")
+                val averages = v.map { (_: (SCXMLTuple) -> IRenEventSelector, v: ArrayList<Double>) ->
+                    v.average()
+                }
+                averages.map {
+                    //打印均值
                     debuggerList.pln(
                         it.toString(),
                         arrayListOf(0, 1, 2),
                     )
                 }
                 ChartHelper.taskDrawLineChart(
-                    it.toArrayList(),
+                    averages.toArrayList(),
                     "${FileRes.out_chart_file}" +
                             "/LearningTest_t1" +
                             "/t_${nowTimeStr}" +
                             "/chart${k}.png"
                 )
             }
-        }
     }
 }
