@@ -221,7 +221,7 @@ internal class LearningTest {
         )
 
         assert(renEventSelectorCostMean2MinList.size > 0)
-        println("test")
+        println("last_test")
         val getMinValueKey = renEventSelectorCostMean2MinList.getMinValueKey()!!
         println("getMinValueKey=${getMinValueKey}")
         println("getMinValue=${renEventSelectorCostMean2MinList[getMinValueKey]}")
