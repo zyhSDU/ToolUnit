@@ -1,10 +1,12 @@
 package helper.scxml.scxml2.t7_cycle.test
 
 import helper.ChartHelper
+import helper.base.BaseTypeHelper.LHMExpand.StringDoubleExpand.getMaxKey
 import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.DebugHelper.getDebuggerList
 import helper.base.LHMHelper.A3LHM
 import helper.base.LHMHelper.LHMExpand.add
+import helper.base.MathHelper
 import helper.base.TimeHelper
 import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
@@ -26,6 +28,7 @@ internal class LearningTest {
             0,
             1,
         )
+        val ifDeterminingDetermining = true
         val hAU = LearningHelper.HyperArgUnit.getObj1()
         val iAU = LearningHelper.InstanceArgUnit.getObj1()
         val env = EnvObjHelper.getEnvObj1()
@@ -72,7 +75,7 @@ internal class LearningTest {
                                         //为了均匀
                                         if (!EnvHelper.T3BaseEnv.ifCanNextWhenOneClock(
                                                 dataXInt,
-                                                0 until 100
+                                                0 until 100,
                                             )
                                         ) return null
                                         val lhm = LinkedHashMap<String, Double>()
@@ -84,7 +87,11 @@ internal class LearningTest {
                                                 ),
                                             )
                                         }
-                                        return helper.base.MathHelper.getRandomString(lhm)
+                                        return if (ifDeterminingDetermining) {
+                                            lhm.getMaxKey()
+                                        } else {
+                                            MathHelper.getRandomString(lhm)
+                                        }
                                     }
                                 }
                             }
@@ -134,7 +141,7 @@ internal class LearningTest {
             arrayListOf(0, 1, 2),
         )
 
-        val nowTimeStr=TimeHelper.now(TimeHelper.TimePattern.p4)
+        val nowTimeStr = TimeHelper.now(TimeHelper.TimePattern.p4)
         iAU.renEventSelectorCostListLHMList.withIndex().map { (k, v) ->
             println("k=${k}")
             v.map { (_, v) ->

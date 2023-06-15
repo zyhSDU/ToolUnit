@@ -83,10 +83,10 @@ object ChartHelper {
         lambda: Double
     ): JFreeChart {
         // 创建一个包含整数 0~10 的数组
-        val x: IntArray = IntArray(xMax) { it }
+        val x = IntArray(xMax) { it }
 
         // 计算泊松分布的概率质量函数
-        val pmf: DoubleArray = DoubleArray(xMax) {
+        val pmf = DoubleArray(xMax) {
             PoissonDistribution(lambda).probability(it)
         }
 

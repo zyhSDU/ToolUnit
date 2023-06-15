@@ -40,16 +40,32 @@ object BaseTypeHelper {
     }
 
     object LHMExpand {
-        fun LinkedHashMap<String, Int>.getMaxKey(): String? {
-            var maxKey: String? = null
-            var maxValue = Int.MIN_VALUE
-            for ((key, value) in this) {
-                if (value > maxValue) {
-                    maxKey = key
-                    maxValue = value
+        object StringIntExpand {
+            fun LinkedHashMap<String, Int>.getMaxKey(): String? {
+                var maxKey: String? = null
+                var maxValue = Int.MIN_VALUE
+                for ((key, value) in this) {
+                    if (value >= maxValue) {
+                        maxKey = key
+                        maxValue = value
+                    }
                 }
+                return maxKey
             }
-            return maxKey
+        }
+
+        object StringDoubleExpand {
+            fun LinkedHashMap<String, Double>.getMaxKey(): String? {
+                var maxKey: String? = null
+                var maxValue = Double.MIN_VALUE
+                for ((key, value) in this) {
+                    if (value >= maxValue) {
+                        maxKey = key
+                        maxValue = value
+                    }
+                }
+                return maxKey
+            }
         }
     }
 }

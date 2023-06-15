@@ -26,6 +26,17 @@ object LearningHelper {
                     maxResets = 10,
                 )
             }
+            fun getObj2(): HyperArgUnit {
+                return HyperArgUnit(
+                    maxRuns = 2,
+                    maxGood = 2,
+                    maxBest = 2,
+                    evalRuns = 2,
+                    maxNoBetter = 2,
+                    maxIterations = 2,
+                    maxResets = 2,
+                )
+            }
         }
     }
 

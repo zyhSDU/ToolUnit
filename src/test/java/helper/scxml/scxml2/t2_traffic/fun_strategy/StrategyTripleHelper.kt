@@ -1,6 +1,6 @@
 package helper.scxml.scxml2.t2_traffic.fun_strategy
 
-import helper.base.BaseTypeHelper.LHMExpand.getMaxKey
+import helper.base.BaseTypeHelper.LHMExpand.StringIntExpand.getMaxKey
 import helper.base.LHMHelper.A3LHM
 import helper.scxml.ScxmlVarHelper.ClockConstraint
 import helper.scxml.scxml2.SCXMLTuple
