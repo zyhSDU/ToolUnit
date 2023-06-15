@@ -23,7 +23,6 @@ import org.junit.Test
 import res.FileRes
 
 internal class LearningTest {
-    @Test
     fun t1() {
         val debugger_renEventSelectorCostListLHM = getDebuggerByInt()
         val nowTimeStr = TimeHelper.now(TimeHelper.TimePattern.p4)
@@ -216,5 +215,10 @@ internal class LearningTest {
                     "/t_${nowTimeStr}" +
                     "/chart_min.png"
         )
+    }
+
+    @Test
+    fun t1t1() {
+        t1()
     }
 }
