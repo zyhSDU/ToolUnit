@@ -15,6 +15,7 @@ import helper.base.TimeHelper
 import helper.scxml.scxml2.EnvHelper
 import helper.scxml.scxml2.EnvHelper.RunResult
 import helper.scxml.scxml2.MathHelper.ClockValuations
+import helper.scxml.scxml2.MathHelper.ClockValuationsList
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
 import helper.scxml.scxml2.StrategyTripleHelper.IRenEventSelector
 import helper.scxml.scxml2.t7_cycle.EnvHelper.Expand.toClockValuations
@@ -26,7 +27,9 @@ import org.junit.Test
 import res.FileRes
 
 internal class LearningTest {
-    fun t1() {
+    fun t1(
+        getDFunType: Int
+    ) {
         val debugger_renEventSelectorCostListLHM = getDebuggerByInt()
         val nowTimeStr = TimeHelper.now(TimeHelper.TimePattern.p4)
         val debuggerList = getDebuggerList(
@@ -75,10 +78,6 @@ internal class LearningTest {
             }.take(hAU.maxBest).toArrayList()
 
             val locationEventVListLHM = iAU.heap.toLocationEventVListLHM()
-            val locationEventVMeanLHM = A3LHM<String, String, ClockValuations>()
-            locationEventVListLHM.touch { a1, a2, a3 ->
-                locationEventVMeanLHM.add(a1, a2, a3.mean)
-            }
             val oldGetIRenEventSelectorFun = env.strategyTuple.getRenEventSelectorFun
             env.strategyTuple.getRenEventSelectorFun = { scxmlTuple ->
                 object : IRenEventSelector {
@@ -98,12 +97,24 @@ internal class LearningTest {
                                             )
                                         ) return null
                                         val lhm = LinkedHashMap<String, Double>()
-                                        locationEventVMeanLHM[stateId]!!.map { (event, mean) ->
+                                        locationEventVListLHM[stateId]!!.map { (event, v) ->
+                                            val nowV = scxmlTuple.toData().toClockValuations()
+                                            var d = 0.0
+                                            when (getDFunType) {
+                                                1 -> {
+                                                    d = v.getWeightOf(
+                                                        nowV,
+                                                    )
+                                                }
+                                                2 -> {
+                                                    d = v.getDistanceToCovarianceMatrix(
+                                                        nowV,
+                                                    )
+                                                }
+                                            }
                                             lhm.add(
                                                 event,
-                                                mean.getEuclideanDistance(
-                                                    scxmlTuple.toData().toClockValuations(),
-                                                ),
+                                                d,
                                             )
                                         }
                                         return if (ifDeterminingDetermining) {
@@ -156,6 +167,8 @@ internal class LearningTest {
                     iAU.renEventSelectorCostListLHMList.add(iAU.renEventSelectorCostListLHM)
                     iAU.renEventSelectorCostMean2LHMList.add(iAU.renEventSelectorCostMean2LHM)
                     iAU.resetLastMinCost()
+                    //堆，也重置？
+//                    iAU.heap=ArrayList()
                     env.strategyTuple.getRenEventSelectorFun = EnvObjHelper.getRenEventSelectorFunObj1()
                     iAU.nowCountOfNoBetter = 0
                     iAU.nowCountOfReset += 1
@@ -237,6 +250,15 @@ internal class LearningTest {
 
     @Test
     fun t1t1() {
-        t1()
+        t1(
+            1
+        )
+    }
+
+    @Test
+    fun t1t2() {
+        t1(
+            2
+        )
     }
 }

@@ -4,9 +4,18 @@ import helper.base.BaseTypeHelper.ListExpand.toArrayList
 import helper.base.DebugHelper.DebuggerList
 import helper.base.DebugHelper.DebuggerList.Companion.getDebuggerList
 import helper.base.LHMHelper.A3LHM
+import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toArrayRealVector
 import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toClockValuations
+import helper.scxml.scxml2.MathHelper.ClockValuations.Expand.toDoubleArrayList
+import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.E2.toClockValuationsList
+import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.toArray2DRowRealMatrix
+import helper.scxml.scxml2.MathHelper.ClockValuationsList.Expand.toDoubleArrayListArrayList
 import helper.scxml.scxml2.MathHelper.Expand.calMean
+import helper.scxml.scxml2.MathHelper.Expand.getCovarianceMatrix
 import helper.scxml.scxml2.MathHelper.Expand.getEuclideanDistance
+import org.apache.commons.math3.linear.Array2DRowRealMatrix
+import org.apache.commons.math3.linear.ArrayRealVector
+import org.apache.commons.math3.linear.LUDecomposition
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -91,6 +100,22 @@ object MathHelper {
                 }
                 return v
             }
+
+            fun ArrayList<Double>.toArrayRealVector(): ArrayRealVector {
+                return ArrayRealVector(this.toDoubleArray())
+            }
+
+            fun ClockValuations.toDoubleArrayList(): ArrayList<Double> {
+                val v = ArrayList<Double>()
+                this.map {
+                    v.add(it)
+                }
+                return v
+            }
+
+            fun ClockValuations.toArrayRealVector(): ArrayRealVector {
+                return this.toDoubleArrayList().toArrayRealVector()
+            }
         }
     }
 
@@ -108,14 +133,40 @@ object MathHelper {
                 return privateMean!!
             }
 
+        private var privateCovarianceMatrix: ClockValuationsList? = null
+            get() {
+                if (field == null) {
+                    field = this.toDoubleArrayListArrayList().getCovarianceMatrix().toClockValuationsList()
+                }
+                return field
+            }
+        val covarianceMatrix: ClockValuationsList
+            get() {
+                return privateCovarianceMatrix!!
+            }
+
         fun getWeightOf(
             v: ClockValuations,
         ): Double {
-            return size * Math.E.pow(-v.getEuclideanDistance(calMean()))
+            return size * Math.E.pow(-v.getEuclideanDistance(mean))
         }
 
-        fun getCovarianceMatrix() {
+        fun getDistanceToCovarianceMatrix(
+            clockValuations: ClockValuations,
+        ): Double {
+            val u = clockValuations.toArrayRealVector()
+            val v = mean.toArrayRealVector()
+            val q = covarianceMatrix.toArray2DRowRealMatrix()
 
+            // 计算矩阵 Q 的逆矩阵 Q^{-1}
+            val luDecomposition = LUDecomposition(q)
+            val qInverse = luDecomposition.solver.inverse
+
+            // 计算 (u-\bar{v})^{T} Q^{-1}(u-\bar{v})
+            val diff = u.subtract(v)
+            val result = diff.dotProduct(qInverse.operate(diff))
+
+            return result.pow(0.5)
         }
 
         object Expand {
@@ -138,10 +189,26 @@ object MathHelper {
                     return v
                 }
             }
+
+            fun ClockValuationsList.toArray2DRowRealMatrix(): Array2DRowRealMatrix {
+                val dss = ArrayList<DoubleArray>()
+
+                this.map {
+                    dss.add(it.toDoubleArray())
+                }
+
+                return Array2DRowRealMatrix(dss.toTypedArray())
+            }
+
+            fun ClockValuationsList.toDoubleArrayListArrayList(): ArrayList<ArrayList<Double>> {
+                val dss = ArrayList<ArrayList<Double>>()
+                this.map {
+                    dss.add(it.toDoubleArrayList())
+                }
+                return dss
+            }
         }
     }
 
-    class LocationEventVListLHM : A3LHM<String, String, ClockValuationsList>() {
-
-    }
+    class LocationEventVListLHM : A3LHM<String, String, ClockValuationsList>()
 }
