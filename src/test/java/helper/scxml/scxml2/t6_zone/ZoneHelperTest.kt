@@ -1,10 +1,10 @@
 package helper.scxml.scxml2.t6_zone
 
-import helper.base.ConstraintHelper.CompareOperator.Companion.eOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.gOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.geOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.lOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.leOp
+import helper.base.ConstraintHelper.CompareOp.Companion.eOp
+import helper.base.ConstraintHelper.CompareOp.Companion.gOp
+import helper.base.ConstraintHelper.CompareOp.Companion.geOp
+import helper.base.ConstraintHelper.CompareOp.Companion.lOp
+import helper.base.ConstraintHelper.CompareOp.Companion.leOp
 import helper.base.ConstraintHelper.N1N2ConstraintHelper.getXConstraint
 import helper.base.ConstraintHelper.N1N2ConstraintHelper.getXYConstraint
 import helper.base.ConstraintHelper.N1N2ConstraintHelper.getYConstraint

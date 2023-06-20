@@ -20,8 +20,8 @@ object LearningHelper {
                     maxRuns = 100,
                     maxGood = 10,
                     maxBest = 100,
-                    evalRuns = 100,
-                    maxNoBetter = 10,
+                    evalRuns = 10,
+                    maxNoBetter = 40,
                     maxIterations = Int.MAX_VALUE,
                     maxResets = 100,
                 )

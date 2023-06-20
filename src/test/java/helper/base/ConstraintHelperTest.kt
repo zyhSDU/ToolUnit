@@ -1,14 +1,14 @@
 package helper.base
 
-import helper.base.ConstraintHelper.CompareOperator.Companion.eOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.geOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.lOp
-import helper.base.ConstraintHelper.CompareOperator.Companion.leOp
+import helper.base.ConstraintHelper.CompareOp.Companion.eOp
+import helper.base.ConstraintHelper.CompareOp.Companion.geOp
+import helper.base.ConstraintHelper.CompareOp.Companion.lOp
+import helper.base.ConstraintHelper.CompareOp.Companion.leOp
 import helper.base.ConstraintHelper.CompositeConstraint
 import helper.base.ConstraintHelper.CompositeConstraint.Companion.getCompositeConstraint
 import helper.base.ConstraintHelper.CompositeConstraint.Expand.toCompositeConstraint
-import helper.base.ConstraintHelper.JoinOperator.Companion.andOp
-import helper.base.ConstraintHelper.JoinOperator.Companion.orOp
+import helper.base.ConstraintHelper.JoinOp.Companion.andOp
+import helper.base.ConstraintHelper.JoinOp.Companion.orOp
 import helper.base.ConstraintHelper.N1Constraint
 import helper.base.ConstraintHelper.N2Constraint
 import helper.base.ConstraintHelperTest.OneOrTwoConstraintHelper.getOneConstraintObj1

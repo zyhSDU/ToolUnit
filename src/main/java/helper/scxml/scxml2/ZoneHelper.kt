@@ -6,6 +6,7 @@ import helper.scxml.scxml2.ZoneHelper.StateEventPLHM.Expand.toP1StateEventPLHM
 
 object ZoneHelper {
     class ZoneState(
+        //内部具体结构可以按照实际具体例子固定
         val locations: ArrayList<String>,
         val cons: ArrayList<N1N2Constraint>,
         var reward: Double = 0.0,
