@@ -1,11 +1,53 @@
 package helper.base
 
 import helper.base.ConstraintHelper.CompositeConstraint.Expand.toCompositeConstraint
-import helper.base.ConstraintHelper.Expand.StringListExpand.toDiffDouble
-import helper.base.ConstraintHelper.Expand.StringListExpand.toDiffString
+import helper.base.ConstraintHelper.DiffHelper.Expand.toDiffDouble
+import helper.base.ConstraintHelper.DiffHelper.Expand.toDiffString
 import helper.base.ConstraintHelper.JoinOp.Companion.andOp
 
 object ConstraintHelper {
+    object DiffHelper {
+        object Expand {
+            fun ArrayList<String>.toDiffString(): String {
+                return this.joinToString(separator = "-")
+            }
+
+            fun ArrayList<String>.toDoubleList(
+                vars: LinkedHashMap<String, Double>,
+            ): ArrayList<Double> {
+                val convertedList = ArrayList<Double>()
+
+                for (item in this) {
+                    if (!vars.containsKey(item)) throw IllegalArgumentException()
+                    convertedList.add(vars[item]!!)
+                }
+
+                return convertedList
+            }
+
+            fun ArrayList<Double>.toDiffDouble(): Double {
+                if (this.size == 0) throw IllegalArgumentException()
+
+                var totalD = 0.0
+
+                for ((i, d) in this.withIndex()) {
+                    if (i == 0) {
+                        totalD += d
+                    } else {
+                        totalD -= d
+                    }
+                }
+                return totalD
+            }
+
+            fun ArrayList<String>.toDiffDouble(
+                vars: LinkedHashMap<String, Double>,
+            ): Double {
+                return this.toDoubleList(vars).toDiffDouble()
+            }
+        }
+    }
+
     class CompareOp(
         val name: String,
         val meetFun: (Double, Double) -> Boolean,
@@ -388,31 +430,6 @@ object ConstraintHelper {
             d2: Double,
         ): N2Constraint {
             return getV2Constraint("x", "y", c1, d1, c2, d2)
-        }
-    }
-
-    object Expand {
-        object StringListExpand {
-            fun ArrayList<String>.toDiffString(): String {
-                return this.joinToString(separator = "-")
-            }
-
-            fun ArrayList<String>.toDiffDouble(
-                vars: LinkedHashMap<String, Double>,
-            ): Double {
-                if (this.size == 0) throw IllegalArgumentException()
-                var totalD = 0.0
-                this.withIndex().map { (i, k) ->
-                    if (!vars.containsKey(k)) throw IllegalArgumentException()
-                    val d = vars[k]!!
-                    if (i == 0) {
-                        totalD += d
-                    } else {
-                        totalD -= d
-                    }
-                }
-                return totalD
-            }
         }
     }
 }
