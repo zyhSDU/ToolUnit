@@ -1,6 +1,6 @@
 package helper.scxml.scxml2.t4_time
 
-import helper.base.ConstraintHelper.CompareOperator.Companion.eOp
+import helper.base.ConstraintHelper.CompareOp.Companion.eOp
 import helper.base.ConstraintHelper.CompositeConstraint.Expand.toCompositeConstraint
 import helper.base.ConstraintHelper.N1Constraint
 import helper.base.DebugHelper.Debugger.Companion.getDebuggerByInt
