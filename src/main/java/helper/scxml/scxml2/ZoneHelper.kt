@@ -1,8 +1,12 @@
 package helper.scxml.scxml2
 
 import helper.base.ConstraintHelper.N1N2Constraint
-import helper.base.ZoneHelper
-import helper.scxml.scxml2.ZoneHelper.StateEventPLHM.Expand.toP1StateEventPLHM
+import helper.base.TransitionHelper
+import helper.base.TransitionHelper.EventPLHM
+import helper.base.TransitionHelper.EventTransitionLHM
+import helper.base.TransitionHelper.Path
+import helper.base.TransitionHelper.Transition
+import helper.scxml.scxml2.ZoneHelper.ZoneEventPLHM.Expand.toP1StateEventPLHM
 
 object ZoneHelper {
     class ZoneState(
@@ -73,7 +77,7 @@ object ZoneHelper {
         override val start: ZoneState,
         override var event: String,
         override val end: ZoneState,
-    ) : ZoneHelper.ZoneTransition<ZoneState>(
+    ) : Transition<ZoneState>(
         start,
         event,
         end,
@@ -92,7 +96,7 @@ object ZoneHelper {
         }
     }
 
-    class StateEventTransitionLHM : ZoneHelper.StateEventTransitionLHM<ZoneState, ZoneTransition>() {
+    class ZoneEventTransitionLHM : EventTransitionLHM<ZoneState, ZoneTransition>() {
         fun touchPrintlnType1(
             sb: StringBuilder = StringBuilder(),
         ): String {
@@ -116,7 +120,7 @@ object ZoneHelper {
         }
     }
 
-    class StateEventPLHM : ZoneHelper.StateEventPLHM<ZoneState>() {
+    class ZoneEventPLHM : EventPLHM<ZoneState>() {
         fun touchPrintlnType1(
             sb: StringBuilder = StringBuilder(),
         ): StringBuilder {
@@ -127,8 +131,8 @@ object ZoneHelper {
         }
 
         object Expand {
-            fun StateEventTransitionLHM.toP1StateEventPLHM(): StateEventPLHM {
-                return StateEventPLHM().also {
+            fun ZoneEventTransitionLHM.toP1StateEventPLHM(): ZoneEventPLHM {
+                return ZoneEventPLHM().also {
                     this.touch { zoneState, s, _ ->
                         it.add(zoneState, s, 1.0)
                     }
@@ -139,7 +143,7 @@ object ZoneHelper {
 
     class ZonePath(
         pReward: Double = 1.0,
-    ) : ZoneHelper.ZonePath<ZoneTransition>(pReward) {
+    ) : Path<ZoneTransition>(pReward) {
         override fun clone(): ZonePath {
             val newPath = ZonePath(this.pReward)
             this.map {
@@ -167,8 +171,8 @@ object ZoneHelper {
         val finalStates: LinkedHashSet<ZoneState> = LinkedHashSet(),
     ) {
         val stateLHS = LinkedHashSet<ZoneState>()
-        val stateEventTLHM = StateEventTransitionLHM()
-        var stateEventPLHM = StateEventPLHM()
+        val stateEventTLHM = ZoneEventTransitionLHM()
+        var stateEventPLHM = ZoneEventPLHM()
 
         init {
             ts.map {

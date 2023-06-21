@@ -16,7 +16,7 @@ import helper.scxml.scxml2.ZoneHelper.ZoneState.Companion.getL1C2ZoneState
 import helper.scxml.scxml2.ZoneHelper.ZoneTransition.Companion.getEmptyEventZoneTransition
 import org.junit.Test
 
-internal class ZoneHelperTest {
+internal class TransitionHelperTest {
     private fun getZSList(): ArrayList<ZoneState> {
         val zone0 = getL1C1ZoneState(
             "l0",

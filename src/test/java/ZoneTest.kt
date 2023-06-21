@@ -1,8 +1,9 @@
-package uppaal_test
-
-import helper.base.ZoneHelper
+import helper.base.TransitionHelper.EventPLHM
+import helper.base.TransitionHelper.EventTransitionLHM
+import helper.base.TransitionHelper.Path
+import helper.base.TransitionHelper.Transition
 import org.junit.Test
-import uppaal_test.ZoneTest.StateEventPLHM.Expand.toP1StateEventPLHM
+import ZoneTest.ZoneEventPLHM.Expand.toP1StateEventPLHM
 
 internal class ZoneTest {
     data class ZoneState(
@@ -16,7 +17,7 @@ internal class ZoneTest {
         override val start: ZoneState,
         override val event: String,
         override val end: ZoneState,
-    ) : ZoneHelper.ZoneTransition<ZoneState>(
+    ) : Transition<ZoneState>(
         start,
         event,
         end,
@@ -26,12 +27,7 @@ internal class ZoneTest {
         }
     }
 
-    class StateEventTransitionLHM :
-        ZoneHelper.StateEventTransitionLHM<
-                ZoneState,
-                ZoneTransition,
-                >(
-        ) {
+    class ZoneEventTransitionLHM : EventTransitionLHM<ZoneState, ZoneTransition>() {
         fun touchPrintlnType1(
             sb: StringBuilder = StringBuilder(),
         ): String {
@@ -42,7 +38,7 @@ internal class ZoneTest {
         }
     }
 
-    class StateEventPLHM : ZoneHelper.StateEventPLHM<ZoneState>() {
+    class ZoneEventPLHM : EventPLHM<ZoneState>() {
         fun touchPrintlnType1(
             sb: StringBuilder = StringBuilder(),
         ): StringBuilder {
@@ -53,8 +49,8 @@ internal class ZoneTest {
         }
 
         object Expand {
-            fun StateEventTransitionLHM.toP1StateEventPLHM(): StateEventPLHM {
-                return StateEventPLHM().also {
+            fun ZoneEventTransitionLHM.toP1StateEventPLHM(): ZoneEventPLHM {
+                return ZoneEventPLHM().also {
                     this.touch { zoneState, s, _ ->
                         it.add(zoneState, s, 1.0)
                     }
@@ -65,7 +61,9 @@ internal class ZoneTest {
 
     class ZonePath(
         pReward: Double = 1.0,
-    ) : ZoneHelper.ZonePath<ZoneTransition>(pReward) {
+    ) : Path<ZoneTransition>(
+        pReward,
+    ) {
         override fun clone(): ZonePath {
             val newPath = ZonePath(this.pReward)
             this.map {
@@ -96,8 +94,8 @@ internal class ZoneTest {
         val finalStates: LinkedHashSet<ZoneState> = LinkedHashSet(),
     ) {
         val stateLHS = LinkedHashSet<ZoneState>()
-        val stateEventTLHM = StateEventTransitionLHM()
-        var stateEventPLHM = StateEventPLHM()
+        val stateEventTLHM = ZoneEventTransitionLHM()
+        var stateEventPLHM = ZoneEventPLHM()
 
         init {
             ts.map {
