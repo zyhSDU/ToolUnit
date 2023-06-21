@@ -63,9 +63,7 @@ object ConstraintHelper {
             val leOp = CompareOp("<=") { v1, v2 -> v1 <= v2 }
             val geOp = CompareOp(">=") { v1, v2 -> v1 >= v2 }
 
-            //theCompareOperatorOppositeDirectionStringLHM
-            @Suppress("SpellCheckingInspection")
-            val oppositeCompareOperatorLHM = LinkedHashMap<CompareOp, CompareOp>().also {
+            private val oppositeCompareOperatorLHM = LinkedHashMap<CompareOp, CompareOp>().also {
                 it[eOp] = eOp
                 it[lOp] = gOp
                 it[gOp] = lOp
@@ -73,9 +71,7 @@ object ConstraintHelper {
                 it[geOp] = leOp
             }
 
-            fun getOppositeCompareOpName(
-                compareOp: CompareOp
-            ): String {
+            fun getOppositeCompareOpName(compareOp: CompareOp): String {
                 return oppositeCompareOperatorLHM[compareOp]!!.name
             }
         }
@@ -87,7 +83,7 @@ object ConstraintHelper {
             CompositeConstraint,
             CompositeConstraint,
             LinkedHashMap<String, Double>,
-        ) -> Boolean
+        ) -> Boolean,
     ) {
         companion object {
             val andOp = JoinOp("and") { c1, c2, vars ->
@@ -108,7 +104,9 @@ object ConstraintHelper {
 
     //1or2
     //其中var相同
-    interface N1N2Constraint
+    interface N1N2Constraint {
+        fun getDiffString(): String
+    }
 
     class N0Constraint(
         val boolean: Boolean,
@@ -138,6 +136,10 @@ object ConstraintHelper {
                 vs.toDiffDouble(vars),
                 d,
             )
+        }
+
+        override fun getDiffString(): String {
+            return vs.toDiffString()
         }
 
         override fun toString(): String {
@@ -217,7 +219,9 @@ object ConstraintHelper {
         val op: JoinOp? = null,
         val cc2: CompositeConstraint? = null,
     ) {
-        fun meet(vars: LinkedHashMap<String, Double>?): Boolean {
+        fun meet(
+            vars: LinkedHashMap<String, Double>?,
+        ): Boolean {
             return if (cc0 != null) {
                 cc0.meet(vars)
             } else {
@@ -251,12 +255,14 @@ object ConstraintHelper {
                 cc1: CompositeConstraint? = null,
                 op: JoinOp? = null,
                 cc2: CompositeConstraint? = null,
-            ) = CompositeConstraint(
-                null,
-                cc1,
-                op,
-                cc2,
-            )
+            ): CompositeConstraint {
+                return CompositeConstraint(
+                    null,
+                    cc1,
+                    op,
+                    cc2,
+                )
+            }
         }
 
         object Expand {
@@ -284,6 +290,10 @@ object ConstraintHelper {
         andOp,
         N1Constraint(vs, c2, d2).toCompositeConstraint(),
     ), N1N2Constraint {
+        override fun getDiffString(): String {
+            return vs.toDiffString()
+        }
+
         override fun toString(): String {
             val sb = StringBuilder()
             sb.append(d1)
