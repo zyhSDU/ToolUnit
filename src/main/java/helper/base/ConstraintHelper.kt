@@ -1,8 +1,8 @@
 package helper.base
 
 import helper.base.ConstraintHelper.CompositeConstraint.Expand.toCompositeConstraint
-import helper.base.ConstraintHelper.Expand.StringListExpand.toVar0Double
-import helper.base.ConstraintHelper.Expand.StringListExpand.toVar0String
+import helper.base.ConstraintHelper.Expand.StringListExpand.toDiffDouble
+import helper.base.ConstraintHelper.Expand.StringListExpand.toDiffString
 import helper.base.ConstraintHelper.JoinOp.Companion.andOp
 
 object ConstraintHelper {
@@ -44,7 +44,7 @@ object ConstraintHelper {
         val meetFun: (
             CompositeConstraint,
             CompositeConstraint,
-            LinkedHashMap<String, Double>
+            LinkedHashMap<String, Double>,
         ) -> Boolean
     ) {
         companion object {
@@ -71,30 +71,37 @@ object ConstraintHelper {
     class N0Constraint(
         val boolean: Boolean,
     ) : N0N1Constraint {
-        override fun meet(vars: LinkedHashMap<String, Double>?): Boolean {
+        fun meet(
+        ): Boolean {
             return boolean
+        }
+
+        override fun meet(
+            vars: LinkedHashMap<String, Double>?
+        ): Boolean {
+            return meet()
         }
     }
 
     class N1Constraint(
         val vs: ArrayList<String>,
-        val c: CompareOp,
+        val cp: CompareOp,
         val d: Double,
     ) : N0N1Constraint, N1N2Constraint {
         override fun meet(
             vars: LinkedHashMap<String, Double>?
         ): Boolean {
             if (vars == null) throw IllegalArgumentException()
-            return c.meetFun(
-                vs.toVar0Double(vars),
+            return cp.meetFun(
+                vs.toDiffDouble(vars),
                 d,
             )
         }
 
         override fun toString(): String {
             val sb = StringBuilder()
-            sb.append(vs.toVar0String())
-            sb.append(this.c)
+            sb.append(vs.toDiffString())
+            sb.append(this.cp)
             sb.append(this.d)
             return sb.toString()
         }
@@ -239,7 +246,7 @@ object ConstraintHelper {
             val sb = StringBuilder()
             sb.append(d1)
             sb.append(CompareOp.getOppositeCompareOpName(c1))
-            sb.append(vs.toVar0String())
+            sb.append(vs.toDiffString())
             sb.append(c2)
             sb.append(d2)
             return sb.toString()
@@ -386,18 +393,11 @@ object ConstraintHelper {
 
     object Expand {
         object StringListExpand {
-            fun ArrayList<String>.toVar0String(): String {
-                val sb = StringBuilder()
-                this.withIndex().map { (i, k) ->
-                    if (i != 0) {
-                        sb.append("-")
-                    }
-                    sb.append(k)
-                }
-                return sb.toString()
+            fun ArrayList<String>.toDiffString(): String {
+                return this.joinToString(separator = "-")
             }
 
-            fun ArrayList<String>.toVar0Double(
+            fun ArrayList<String>.toDiffDouble(
                 vars: LinkedHashMap<String, Double>,
             ): Double {
                 if (this.size == 0) throw IllegalArgumentException()
